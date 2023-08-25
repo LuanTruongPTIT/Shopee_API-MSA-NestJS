@@ -1,0 +1,23 @@
+FROM node:16.19-slim
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+
+RUN apt-get update && apt-get install -y procps
+
+RUN rm -rf yarn.lock
+RUN rm /usr/local/bin/yarnpkg
+RUN rm /usr/local/bin/yarn
+RUN npm install -g yarn
+
+RUN yarn && yarn workspace @apps/users install
+RUN yarn build @apps/users
+RUN yarn -W install
+
+RUN printf "#!/bin/sh \n\
+  yarn start @apps/users \n\
+  " > /usr/src/app/run.sh
+RUN chmod +x /usr/src/app/run.sh
+CMD [ "/usr/src/app/run.sh" ]

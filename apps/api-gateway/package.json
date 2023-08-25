@@ -1,0 +1,42 @@
+{
+  "name": "@apps/api-gateway",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "29.2.4",
+    "jest": "29.3.1",
+    "ts-jest": "29.0.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": ".",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^libs/(.*)": "<rootDir>../../libs/$1",
+      "@app/infra": "<rootDir>../../libs/infra/src/index",
+      "^apps/(.*)": "<rootDir>../../apps/$1",
+      "@libs/infra/(.*)": "<rootDir>/../../libs/infra/src/$1",
+      "@libs/common": "<rootDir>../../libs/common/src",
+      "@libs/core": "<rootDir>../../libs/common/src"
+    }
+  }
+}

@@ -1,0 +1,173 @@
+version: '3.9'
+
+networks:
+  app-net:
+    driver: bridge
+
+services:
+  # services
+  users:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.users
+    command: yarn start:dev:users
+    env_file:
+      - ./apps/users/.env.docker
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '8001:8001'
+    depends_on:
+      - 'db_user'
+      - kafka
+    networks:
+      - app-net
+
+  tokens:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.tokens
+    command: yarn start:dev:tokens
+    env_file:
+      - ./apps/tokens/.env.docker
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+    ports:
+      - '8002:8002'
+    networks:
+      - app-net
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.api_gateway
+    command: yarn start:dev:apigateway
+    env_file:
+      - ./apps/tokens/.env.docker
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - kafka
+    ports:
+      - '8000:8000'
+    networks:
+      - app-net
+  adminer:
+    image: adminer:standalone
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - app-net
+
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.8.1
+    ports:
+      - 2181:2181
+    volumes:
+      - zookeeper_data:/bitnami:z
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - app-net
+
+  kafka:
+    image: bitnami/kafka:3.4.0
+    ports:
+      - 9092:9092
+      - 9094:9094
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      # https://developer.confluent.io/learn/kraft/
+      - KAFKA_ENABLE_KRAFT=no
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=INTERNAL://:9092,EXTERNAL://:9094
+      # https://www.confluent.io/blog/kafka-listeners-explained/
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+      # https://github.com/wurstmeister/kafka-docker#broker-ids
+      - KAFKA_BROKER_ID=101
+    volumes:
+      - kafka_data:/bitnami:z
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: kafka-topics.sh --bootstrap-server localhost:9092 --list
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    networks:
+      - app-net
+
+  kafka-admin:
+    image: 'docker.redpanda.com/vectorized/console:latest'
+    ports:
+      - 8082:8080
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+    volumes:
+      - kafka_admin_data:/kafka-admin:z
+    depends_on:
+      - zookeeper
+      - kafka
+    networks:
+      - app-net
+  db_user:
+    # pull image from docker hub
+    image: mongo
+    # container name
+    container_name: nestmongo
+    # always restart the container if it stops.
+    restart: always
+    # database credentials, this is take value from env file
+    environment:
+      MONGO_INITDB_ROOT_DATABASE: admin
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    # save (persist) data and also to share data between containers
+    volumes:
+      - db_data:/data/db
+    # database port
+    ports:
+      - '27020:27017'
+    # application network, each container for a service joins this network
+    networks:
+      - app-net
+
+  eventstore.db:
+    image: eventstore/eventstore
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_EXT_TCP_PORT=1113
+      - EVENTSTORE_HTTP_PORT=2113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - '1113:1113'
+      - '2113:2113'
+    volumes:
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
+    networks:
+      - app-net
+volumes:
+  docker_data:
+  db_data:
+  zookeeper_data:
+  kafka_data:
+  kafka_admin_data:
+  eventstore-volume-data:
+  eventstore-volume-logs:
