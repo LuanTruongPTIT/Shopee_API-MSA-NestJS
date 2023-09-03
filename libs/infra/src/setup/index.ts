@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import _ from 'lodash';
 export const setUpApplication = (app: INestApplication) => {
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api/v1');
   app.enableCors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],

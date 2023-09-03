@@ -20,6 +20,11 @@ const clientKafkaConfig: IClientKafkaConfig[] = [
     clientId: EMicroservice.GATEWAY_TOKEN_SERVICE,
     groupId: EKafkaGroup.TOKEN_GROUP,
   },
+  {
+    name: EMicroservice.GATEWAY_AUTH_SERVICE,
+    clientId: EMicroservice.GATEWAY_AUTH_SERVICE,
+    groupId: EKafkaGroup.AUTH_GROUP,
+  },
 ];
 export const clientModuleOptions: ClientsModuleOptions = clientKafkaConfig.map(
   (config) => {

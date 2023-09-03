@@ -6,6 +6,9 @@ import {
 import { ClientKafka, RpcException } from '@nestjs/microservices';
 import { UserDto } from 'apps/users/src/user/database/entities/users.dto';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+@ApiSecurity('basic')
+@ApiTags('Users')
 @Controller('/users')
 export class UserController implements OnModuleInit {
   constructor(
@@ -25,7 +28,9 @@ export class UserController implements OnModuleInit {
         .send(EKafkaMessage.REQUEST_CREATE_USER, JSON.stringify(data))
         .pipe(
           catchError((error) =>
-            throwError(() => new RpcException(error.response)),
+            throwError(() => {
+              return error.response;
+            }),
           ),
         ),
     );

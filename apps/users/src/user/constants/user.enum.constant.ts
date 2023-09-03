@@ -7,3 +7,14 @@ export enum USER_GENDER {
   FEMALE = 'female',
   OTHER = 'other',
 }
+export enum UserVerifyStatus {
+  Unverified,
+  Verified,
+  Banned,
+}
+export enum TokenType {
+  AccessToken,
+  RefreshToken,
+  ForgotPasswordToken,
+  EmailVerifyToken,
+}

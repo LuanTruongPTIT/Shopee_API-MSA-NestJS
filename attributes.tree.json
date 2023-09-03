@@ -1,0 +1,279 @@
+{
+    "error": "",
+    "message": "",
+    "warning": "",
+    "request_id": "0fdd3dcb219b3f69d334b6d9fe603c23",
+    "response": {
+        "list": [
+            {
+                "category_id": 100021,
+                "attribute_tree": [
+                    {
+                        "attribute_id": 201236,
+                        "mandatory": true,
+                        "name": "Is TV Box?",
+                        "attribute_value_list": [
+                            {
+                                "value_id": 107285,
+                                "name": "Yes",
+                                "child_attribute_list": [
+                                    {
+                                        "attribute_id": 201234,
+                                        "mandatory": true,
+                                        "name": "BSMI",
+                                        "attribute_info": {
+                                            "input_type": 3,
+                                            "input_validation_type": 2,
+                                            "format_type": 1
+                                        },
+                                        "multi_lang": [
+                                            {
+                                                "language": "zh-Hant",
+                                                "value": "BSMI"
+                                            },
+                                            {
+                                                "language": "zh-Hans",
+                                                "value": "BSMI"
+                                            },
+                                            {
+                                                "language": "en",
+                                                "value": "BSMI"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "multi_lang": [
+                                    {
+                                        "language": "zh-Hant",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "language": "zh-Hans",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "language": "en",
+                                        "value": "Yes"
+                                    }
+                                ]
+                            },
+                            {
+                                "value_id": 107286,
+                                "name": "No",
+                                "multi_lang": [
+                                    {
+                                        "language": "zh-Hant",
+                                        "value": "No"
+                                    },
+                                    {
+                                        "language": "zh-Hans",
+                                        "value": "No"
+                                    },
+                                    {
+                                        "language": "en",
+                                        "value": "No"
+                                    }
+                                ]
+                            }
+                        ],
+                        "attribute_info": {
+                            "input_type": 1,
+                            "input_validation_type": 0,
+                            "format_type": 1
+                        },
+                        "multi_lang": [
+                            {
+                                "language": "zh-Hant",
+                                "value": "Is TV Box?"
+                            },
+                            {
+                                "language": "zh-Hans",
+                                "value": "Is TV Box?"
+                            },
+                            {
+                                "language": "en",
+                                "value": "Is TV Box?"
+                            }
+                        ]
+                    },
+                    {
+                        "attribute_id": 201239,
+                        "mandatory": true,
+                        "name": "TW Connection Type",
+                        "attribute_value_list": [
+                            {
+                                "value_id": 107292,
+                                "name": "non Wireless(TW)",
+                                "multi_lang": [
+                                    {
+                                        "language": "zh-Hant",
+                                        "value": "non Wireless(TW)"
+                                    },
+                                    {
+                                        "language": "zh-Hans",
+                                        "value": "non Wireless(TW)"
+                                    },
+                                    {
+                                        "language": "en",
+                                        "value": "non Wireless(TW)"
+                                    }
+                                ]
+                            },
+                            {
+                                "value_id": 107291,
+                                "name": "Wireless(TW)",
+                                "child_attribute_list": [
+                                    {
+                                        "attribute_id": 100282,
+                                        "mandatory": true,
+                                        "name": "NCC",
+                                        "attribute_info": {
+                                            "input_type": 3,
+                                            "input_validation_type": 2,
+                                            "format_type": 1
+                                        },
+                                        "multi_lang": [
+                                            {
+                                                "language": "zh-Hant",
+                                                "value": "NCC"
+                                            },
+                                            {
+                                                "language": "zh-Hans",
+                                                "value": "NCC"
+                                            },
+                                            {
+                                                "language": "en",
+                                                "value": "NCC"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "multi_lang": [
+                                    {
+                                        "language": "zh-Hant",
+                                        "value": "Wireless(TW)"
+                                    },
+                                    {
+                                        "language": "zh-Hans",
+                                        "value": "Wireless(TW)"
+                                    },
+                                    {
+                                        "language": "en",
+                                        "value": "Wireless(TW)"
+                                    }
+                                ]
+                            }
+                        ],
+                        "attribute_info": {
+                            "input_type": 1,
+                            "input_validation_type": 0,
+                            "format_type": 1
+                        },
+                        "multi_lang": [
+                            {
+                                "language": "zh-Hant",
+                                "value": "TW Connection Type"
+                            },
+                            {
+                                "language": "zh-Hans",
+                                "value": "TW Connection Type"
+                            },
+                            {
+                                "language": "en",
+                                "value": "TW Connection Type"
+                            }
+                        ]
+                    },
+                    {
+                        "attribute_id": 201240,
+                        "mandatory": true,
+                        "name": "TW Smart Equipment",
+                        "attribute_value_list": [
+                            {
+                                "value_id": 107294,
+                                "name": "No(TW)",
+                                "multi_lang": [
+                                    {
+                                        "language": "zh-Hant",
+                                        "value": "No(TW)"
+                                    },
+                                    {
+                                        "language": "zh-Hans",
+                                        "value": "No(TW)"
+                                    },
+                                    {
+                                        "language": "en",
+                                        "value": "No(TW)"
+                                    }
+                                ]
+                            },
+                            {
+                                "value_id": 107293,
+                                "name": "Yes(TW)",
+                                "child_attribute_list": [
+                                    {
+                                        "attribute_id": 100282,
+                                        "mandatory": false,
+                                        "name": "NCC",
+                                        "attribute_info": {
+                                            "input_type": 3,
+                                            "input_validation_type": 2,
+                                            "format_type": 1
+                                        },
+                                        "multi_lang": [
+                                            {
+                                                "language": "zh-Hant",
+                                                "value": "NCC"
+                                            },
+                                            {
+                                                "language": "zh-Hans",
+                                                "value": "NCC"
+                                            },
+                                            {
+                                                "language": "en",
+                                                "value": "NCC"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "multi_lang": [
+                                    {
+                                        "language": "zh-Hant",
+                                        "value": "Yes(TW)"
+                                    },
+                                    {
+                                        "language": "zh-Hans",
+                                        "value": "Yes(TW)"
+                                    },
+                                    {
+                                        "language": "en",
+                                        "value": "Yes(TW)"
+                                    }
+                                ]
+                            }
+                        ],
+                        "attribute_info": {
+                            "input_type": 1,
+                            "input_validation_type": 0,
+                            "format_type": 1
+                        },
+                        "multi_lang": [
+                            {
+                                "language": "en",
+                                "value": "TW Smart Equipment"
+                            },
+                            {
+                                "language": "zh-Hant",
+                                "value": "TW Smart Equipment"
+                            },
+                            {
+                                "language": "zh-Hans",
+                                "value": "TW Smart Equipment"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

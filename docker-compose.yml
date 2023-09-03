@@ -6,55 +6,55 @@ networks:
 
 services:
   # services
-  users:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.users
-    command: yarn start:dev:users
-    env_file:
-      - ./apps/users/.env.docker
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - '8001:8001'
-    depends_on:
-      - 'db_user'
-      - kafka
-    networks:
-      - app-net
+  # users:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile.users
+  #   command: yarn start:dev:users
+  #   env_file:
+  #     - ./apps/users/.env.docker
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   ports:
+  #     - '8001:8001'
+  #   depends_on:
+  #     - 'db_user'
+  #     - kafka
+  #   networks:
+  #     - app-net
 
-  tokens:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.tokens
-    command: yarn start:dev:tokens
-    env_file:
-      - ./apps/tokens/.env.docker
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+  # tokens:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile.tokens
+  #   command: yarn start:dev:tokens
+  #   env_file:
+  #     - ./apps/tokens/.env.docker
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
 
-    ports:
-      - '8002:8002'
-    networks:
-      - app-net
-  api-gateway:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.api_gateway
-    command: yarn start:dev:apigateway
-    env_file:
-      - ./apps/tokens/.env.docker
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - kafka
-    ports:
-      - '8000:8000'
-    networks:
-      - app-net
+  #   ports:
+  #     - '8002:8002'
+  #   networks:
+  #     - app-net
+  # api-gateway:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile.api_gateway
+  #   command: yarn start:dev:apigateway
+  #   env_file:
+  #     - ./apps/tokens/.env.docker
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     - kafka
+  #   ports:
+  #     - '8000:8000'
+  #   networks:
+  #     - app-net
   adminer:
     image: adminer:standalone
     restart: always
@@ -139,7 +139,16 @@ services:
     # application network, each container for a service joins this network
     networks:
       - app-net
-
+  redis:
+    image: redislabs/redismod:latest
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+  redisinsight:
+    image: redislabs/redisinsight
+    ports:
+      - '8001:8001'
   eventstore.db:
     image: eventstore/eventstore
     environment:
@@ -171,3 +180,4 @@ volumes:
   kafka_admin_data:
   eventstore-volume-data:
   eventstore-volume-logs:
+  redis_data:

@@ -16,15 +16,26 @@ import { EventStore } from '@libs/core/event-store/lib/event-store';
 import { Repository } from 'typeorm';
 import { ProjectionDto } from '@libs/core/event-store/lib/adapter/projection.dto';
 import { UserService } from './services/users.service';
-import { UserCreatedEvent } from './events/impl/user-created.event';
+import {
+  UserCreatedEvent,
+  UserCreatedSuccessEvent,
+} from './events/impl/user-created.event';
 import { EventStoreSubscriptionType } from '@libs/core/event-store/lib/contract';
 import { UserRepository } from './repository/user.repository';
 import { EventsHandlers } from './events/handlers/index';
 import { MongoStore } from '@libs/core/event-store/lib/adapter/mongo-store';
+import { CacheConfigModule } from '@libs/infra/redis.module';
+import { AuthModule } from 'apps/auth/src/auth.module';
+import { AuthService } from 'apps/auth/src/auth.service';
+import { JwtModule } from '@nestjs/jwt';
+import { config } from 'apps/auth/src/config';
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserDto, ProjectionDto]),
+    JwtModule.register(config.JWT),
     CqrsModule,
+    CacheConfigModule,
+    AuthModule,
     EventStoreModule.registerFeature({
       featureStreamName: CONSTANTS.STREAM_NAME.USER,
       subscriptions: [
@@ -60,6 +71,7 @@ import { MongoStore } from '@libs/core/event-store/lib/adapter/mongo-store';
     ...EventsHandlers,
     MongoStore,
     EventPublisher,
+    AuthService,
   ],
   exports: [UserService],
 })
@@ -101,6 +113,9 @@ export class UserModule implements OnModuleInit {
   }
 
   public static eventHandlers = {
-    UserCreatedEvent: (streamId, data) => new UserCreatedEvent(streamId, data),
+    UserCreatedEvent: (streamId, data, tokenEmail) =>
+      new UserCreatedEvent(streamId, data, tokenEmail),
+    UserCreatedSuccessEvent: (streamId, data, tokenEmail) =>
+      new UserCreatedSuccessEvent(streamId, data, tokenEmail),
   };
 }

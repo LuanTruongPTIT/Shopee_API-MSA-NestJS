@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BaseEntityDto } from '@libs/common/base/base-entity.dto';
 import {
   IsArray,
+  IsDate,
   IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsStrongPassword,
+  IsMobilePhone,
 } from 'class-validator';
 import { Column, Entity, BeforeInsert } from 'typeorm';
 import { ErrorUtils } from '@libs/common/utils/errorUtils';
@@ -13,7 +15,10 @@ import { ERR } from '@libs/common/constants/error';
 import bcrypt from 'bcryptjs';
 import { ApiProperty } from '@nestjs/swagger';
 import { USER_GENDER } from '../../constants/user.enum.constant';
-interface AddressType {
+import { IsStrongPassword } from '../../decorator/check-password.decorator';
+import { RoleDto } from './roles.dto';
+
+export interface AddressType {
   street: string;
   city: string;
   country: string;
@@ -34,7 +39,11 @@ export class UserDto extends BaseEntityDto {
     address: AddressType[],
     avatar: string,
     lock_expries: number,
-    // store: store[],
+    failures_num: number,
+    email_verify_token: boolean,
+    shop_name: string,
+    phone_number: string,
+    roles: RoleDto[],
   ) {
     super();
     this.firstName = firstName;
@@ -43,13 +52,14 @@ export class UserDto extends BaseEntityDto {
     this.email = email;
     this.password = password;
     this.address = address;
-    // this.birthday = birthday;
-    // this.bio = bio;
-    // this.isActive = isActive;
-    // this.avatar = avatar;
-    // this.lock_expries = lock_expries;
-    // this.gender = gender;
-    // this.store = store;
+    this.birthday = birthday;
+    this.bio = bio;
+    this.isActive = isActive;
+    this.avatar = avatar;
+    this.lock_expries = lock_expries;
+    this.gender = gender;
+    this.phone_number = phone_number;
+    this.roles = roles;
   }
 
   @IsString(ErrorUtils.getMessage('firstName', ERR.IsString))
@@ -70,8 +80,12 @@ export class UserDto extends BaseEntityDto {
   })
   lastName: string;
 
-  @IsStrongPassword()
+  @IsStrongPassword(ErrorUtils.getMessage('password', ERR.IsPasswordStrong))
   @IsString(ErrorUtils.getMessage('password', ERR.IsString))
+  @ApiProperty({
+    type: 'string',
+    example: '0822036246luanvy@L',
+  })
   @Column({
     select: false,
     nullable: false,
@@ -98,15 +112,59 @@ export class UserDto extends BaseEntityDto {
 
   @IsArray(ErrorUtils.getMessage('Address', ERR.IsArray))
   @ApiProperty({
-    example: {
-      street: '50 man thien',
-      city: 'HO CHI MINH',
-      country: 'Viet Nam',
-      code: '7002',
-    },
+    example: [
+      {
+        street: '50 man thien',
+        city: 'HO CHI MINH',
+        country: 'Viet Nam',
+        code: '7002',
+      },
+    ],
   })
+  @IsOptional()
   @Column()
   address: AddressType[];
+
+  @IsDate()
+  @ApiProperty({
+    example: '12-2-2019',
+  })
+  @IsOptional()
+  @Column()
+  birthday: Date;
+
+  @IsMobilePhone()
+  @IsOptional()
+  @Column()
+  phone_number: string;
+
+  @IsString()
+  @ApiProperty({
+    example: 'Shop Dev sell clothing',
+  })
+  @IsOptional()
+  @Column()
+  avatar: string;
+
+  @IsOptional()
+  @Column()
+  bio: string;
+
+  @IsOptional()
+  @Column()
+  gender: USER_GENDER;
+
+  @Column()
+  isActive: boolean;
+
+  @IsOptional()
+  @Column()
+  lock_expries: number;
+
+  @IsArray()
+  @IsOptional()
+  @Column((type) => RoleDto)
+  roles: RoleDto[];
 
   @BeforeInsert()
   async hashPassword() {
