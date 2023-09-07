@@ -43,7 +43,8 @@
       "^apps/(.*)": "<rootDir>../../apps/$1",
       "@libs/infra/(.*)": "<rootDir>/../../libs/infra/src/$1",
       "@libs/common": "<rootDir>../../libs/common/src",
-      "@libs/core": "<rootDir>../../libs/common/src"
+      "@libs/core": "<rootDir>../../libs/core/src",
+      "@libs/redis": "<rootDir>../../libs/redis/src"
     }
   }
 }

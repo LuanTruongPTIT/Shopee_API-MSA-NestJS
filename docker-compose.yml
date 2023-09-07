@@ -55,13 +55,13 @@ services:
   #     - '8000:8000'
   #   networks:
   #     - app-net
-  adminer:
-    image: adminer:standalone
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - app-net
+  # adminer:
+  #   image: adminer:standalone
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - app-net
 
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.8.1
@@ -104,7 +104,25 @@ services:
       retries: 10
     networks:
       - app-net
-
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+    user: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    networks:
+      - app-net
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
   kafka-admin:
     image: 'docker.redpanda.com/vectorized/console:latest'
     ports:
@@ -181,3 +199,4 @@ volumes:
   eventstore-volume-data:
   eventstore-volume-logs:
   redis_data:
+  postgresql_data:

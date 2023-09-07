@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
 import { clientModuleOptions } from '../config/kafka';
-import { UserController } from './user.controller';
+import { UserController } from './user/user.controller';
 @Module({
   imports: [ClientsModule.register(clientModuleOptions)],
   controllers: [UserController],

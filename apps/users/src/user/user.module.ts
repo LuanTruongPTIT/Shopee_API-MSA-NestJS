@@ -24,17 +24,36 @@ import { EventStoreSubscriptionType } from '@libs/core/event-store/lib/contract'
 import { UserRepository } from './repository/user.repository';
 import { EventsHandlers } from './events/handlers/index';
 import { MongoStore } from '@libs/core/event-store/lib/adapter/mongo-store';
-import { CacheConfigModule } from '@libs/infra/redis.module';
 import { AuthModule } from 'apps/auth/src/auth.module';
 import { AuthService } from 'apps/auth/src/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { config } from 'apps/auth/src/config';
+import { RedisModule } from 'libs/redis/src/redis.module';
+import { UsersSagas } from './sagas/user.saga';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
+import { EMicroserviceName } from './config/kafka.interfaces';
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserDto, ProjectionDto]),
     JwtModule.register(config.JWT),
     CqrsModule,
-    CacheConfigModule,
+    ClientsModule.register([
+      {
+        name: EMicroservice.GATEWAY_AUTH_SERVICE,
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: EMicroservice.GATEWAY_AUTH_SERVICE,
+            brokers: [process.env.KAFKA_HOST],
+          },
+          consumer: {
+            groupId: EKafkaGroup.AUTH_GROUP,
+          },
+        },
+      },
+    ]),
+    RedisModule,
     AuthModule,
     EventStoreModule.registerFeature({
       featureStreamName: CONSTANTS.STREAM_NAME.USER,
@@ -72,6 +91,7 @@ import { config } from 'apps/auth/src/config';
     MongoStore,
     EventPublisher,
     AuthService,
+    UsersSagas,
   ],
   exports: [UserService],
 })
@@ -88,6 +108,7 @@ export class UserModule implements OnModuleInit {
   async onModuleInit() {
     this.command$.register(CommandHandlers);
     this.event$.register(EventsHandlers);
+    this.event$.registerSagas([UsersSagas]);
     this.event$.publisher = this.eventStore;
     await this.seedProjection();
   }

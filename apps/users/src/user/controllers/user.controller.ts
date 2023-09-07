@@ -1,4 +1,4 @@
-import { Body, Controller, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Inject, UseInterceptors } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { EKafkaMessage } from '@libs/common/interfaces/kafka.interface';
 import { UserDto } from '../database/entities/users.dto';
@@ -7,10 +7,11 @@ import { ResourceSerialization } from '@libs/infra/serialization/resource.serial
 @Controller()
 export class UserController {
   constructor(private readonly usersService: UserService) {}
+
   @UseInterceptors(ResourceSerialization)
   @MessagePattern(EKafkaMessage.REQUEST_CREATE_USER)
   async createUser(@Body() data: UserDto): Promise<UserDto> {
     const streamId = data._id;
-   return await this.usersService.createUser(streamId, data);
-}
+    return await this.usersService.createUser(streamId, data);
+  }
 }

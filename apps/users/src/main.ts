@@ -9,6 +9,7 @@ async function bootstrap() {
   console.log(process.env.JWT_SECRET_EMAIL_VERIFY_TOKEN);
   await kafkaInit(app);
   logger.log('==========================================================');
+  console.log(process.env.PORT);
   await app.listen(8003);
 }
 bootstrap();

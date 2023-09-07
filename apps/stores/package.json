@@ -64,6 +64,15 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+       "moduleNameMapper": {
+      "^libs/(.*)": "<rootDir>../../libs/$1",
+      "@app/infra": "<rootDir>../../libs/infra/src/index",
+      "^apps/(.*)": "<rootDir>../../apps/$1",
+      "@libs/infra/(.*)": "<rootDir>/../../libs/infra/src/$1",
+      "@libs/common": "<rootDir>../../libs/common/src",
+      "@libs/core": "<rootDir>../../libs/core/src",
+      "@libs/redis": "<rootDir>../../libs/redis/src"
+    }
   }
 }

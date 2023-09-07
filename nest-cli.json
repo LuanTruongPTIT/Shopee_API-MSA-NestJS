@@ -46,6 +46,15 @@
         "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     },
+    "@apps/roles": {
+      "type": "application",
+      "root": "apps/roles",
+      "entryFile": "main",
+      "sourceRoot": "apps/roles/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/roles/tsconfig.app.json"
+      }
+    },
     "@libs/infra": {
       "type": "library",
       "root": "libs/infra",
@@ -71,6 +80,15 @@
       "sourceRoot": "libs/core/src",
       "compilerOptions": {
         "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
+    },
+    "@libs/redis": {
+      "type": "library",
+      "root": "libs/redis",
+      "entryFile": "index",
+      "sourceRoot": "libs/redis/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redis/tsconfig.lib.json"
       }
     }
   }

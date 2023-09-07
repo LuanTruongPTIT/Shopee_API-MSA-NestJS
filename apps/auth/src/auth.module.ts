@@ -4,6 +4,8 @@ import { config } from './config';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from 'apps/api-gateway/src/config';
 import { AuthService } from './auth.service';
+import { AwsModule } from './aws/aws.module';
+import { AuthController } from './auth.controller';
 @Module({
   imports: [
     JwtModule.register(config.JWT),
@@ -11,7 +13,9 @@ import { AuthService } from './auth.service';
       isGlobal: true,
       validate,
     }),
+    AwsModule,
   ],
+  controllers: [AuthController],
   providers: [AuthService],
 })
 export class AuthModule {}
