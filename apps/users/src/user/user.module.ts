@@ -33,10 +33,11 @@ import { UsersSagas } from './sagas/user.saga';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
 import { EMicroserviceName } from './config/kafka.interfaces';
+import { TokenDto } from './database/entities/token.dto';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserDto, ProjectionDto]),
-    JwtModule.register(config.JWT),
+    TypeOrmModule.forFeature([UserDto, ProjectionDto, TokenDto]),
+    JwtModule.register({}),
     CqrsModule,
     ClientsModule.register([
       {
@@ -135,7 +136,7 @@ export class UserModule implements OnModuleInit {
 
   public static eventHandlers = {
     UserCreatedEvent: (streamId, data, tokenEmail) =>
-      new UserCreatedEvent(streamId, data, tokenEmail),
+      new UserCreatedEvent(streamId, data),
     UserCreatedSuccessEvent: (streamId, data, tokenEmail) =>
       new UserCreatedSuccessEvent(streamId, data, tokenEmail),
   };

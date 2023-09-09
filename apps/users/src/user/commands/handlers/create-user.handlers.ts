@@ -40,14 +40,8 @@ export class CreatedUserHandler implements ICommandHandler<CreateUserCommand> {
         message: 'user.error.mobileNumberExist',
       });
     }
-    const email_verify_token = this.authService.signEmailVerifyToken({
-      user_id: userId,
-      verify: UserVerifyStatus.Unverified,
-    });
-
-    // console.log('userId', userId, 'email_verify_token', email_verify_token);
     const user = await this.publisher.mergeObjectContext(
-      await this.repository.createUser(streamId, userDto, email_verify_token),
+      await this.repository.createUser(streamId, userDto),
     );
     user.commit();
   }

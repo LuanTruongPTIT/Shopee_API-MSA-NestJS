@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { validate } from './user/config/index';
+import { validate } from './index';
 import { TypeormModule } from './user/database/datasource/typeorm.module';
 import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
 @Module({

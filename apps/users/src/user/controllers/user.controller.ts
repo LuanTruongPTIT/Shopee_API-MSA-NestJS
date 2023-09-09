@@ -1,4 +1,10 @@
-import { Body, Controller, Inject, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Inject,
+  Param,
+  UseInterceptors,
+} from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { EKafkaMessage } from '@libs/common/interfaces/kafka.interface';
 import { UserDto } from '../database/entities/users.dto';
@@ -13,5 +19,10 @@ export class UserController {
   async createUser(@Body() data: UserDto): Promise<UserDto> {
     const streamId = data._id;
     return await this.usersService.createUser(streamId, data);
+  }
+
+  @MessagePattern(EKafkaMessage.REQUEST_VERIFY_EMAIL)
+  async VerifyEmai(@Body() token: string): Promise<any> {
+    console.log(token);
   }
 }

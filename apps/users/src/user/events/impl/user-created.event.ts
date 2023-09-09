@@ -5,7 +5,6 @@ export class UserCreatedEvent implements IEvent {
   constructor(
     public readonly streamId: string,
     public readonly userDto: UserDto,
-    public readonly tokenEmail: string,
   ) {}
 }
 export class UserCreatedSuccessEvent implements IEvent {

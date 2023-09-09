@@ -3,8 +3,7 @@ import { plainToInstance, Transform } from 'class-transformer';
 import { IsNotEmpty, validateSync } from 'class-validator';
 import _ from 'lodash';
 import dotenv from 'dotenv';
-
-export const envPath = './apps/users/.env';
+export const envPath = './apps/auth/.env';
 dotenv.config({ path: envPath });
 
 export class EnvironmentVariables {

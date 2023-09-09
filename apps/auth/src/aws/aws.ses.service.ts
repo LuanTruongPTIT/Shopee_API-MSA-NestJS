@@ -46,7 +46,7 @@ export class AwsSesService {
         .replace('{{titleLink}}', 'Verify')
         .replace(
           '{{link}}',
-          `${process.env.CLIENT_URL}/email-verifications?token=${email_verify_token}`,
+          `${process.env.CLIENT_URL}/email-verifications/token=${email_verify_token}`,
         ),
     );
   }

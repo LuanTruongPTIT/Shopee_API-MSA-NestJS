@@ -12,7 +12,7 @@ export class User extends AggregateRoot {
     this.data = data;
   }
 
-  createUser(streamId: string, tokenEmail: string) {
-    this.apply(new UserCreatedEvent(streamId, this.data, tokenEmail));
+  createUser(streamId: string) {
+    return this.apply(new UserCreatedEvent(streamId, this.data));
   }
 }
