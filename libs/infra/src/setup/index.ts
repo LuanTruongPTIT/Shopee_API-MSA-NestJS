@@ -6,6 +6,11 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import _ from 'lodash';
+import {
+  // AllExceptionFilter,
+  RpcExceptionFilter,
+  // ExceptionFilter,
+} from '../exception/all-exceptions.filter';
 export const setUpApplication = (app: INestApplication) => {
   app.setGlobalPrefix('api/v1');
   app.enableCors({
@@ -28,6 +33,7 @@ export const setUpApplication = (app: INestApplication) => {
       },
     }),
   );
+  app.useGlobalFilters(new RpcExceptionFilter());
   const configService = app.get(ConfigService);
   const port = _.parseInt(configService.get('PORT'), 10);
   return {

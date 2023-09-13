@@ -25,4 +25,9 @@ export class UserController {
   async VerifyEmai(@Body() token: string): Promise<any> {
     console.log(token);
   }
+
+  @MessagePattern(EKafkaMessage.REQUEST_USER_BY_ID)
+  async findUserById(@Body() userId: string) {
+    console.log(userId);
+  }
 }

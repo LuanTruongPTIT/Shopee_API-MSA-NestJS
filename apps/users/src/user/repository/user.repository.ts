@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { TokenType, UserVerifyStatus } from '../constants/user.enum.constant';
 import { envConfig } from '../config/config';
+
 @Injectable()
 export class UserRepository {
   constructor(
@@ -68,7 +69,7 @@ export class UserRepository {
           exp,
         },
         {
-          privateKey: envConfig.jwtSecretRefreshToken,
+          secret: envConfig.jwtSecretRefreshToken,
         },
       );
     } else {
@@ -78,7 +79,7 @@ export class UserRepository {
         verify,
       };
       return this.jwtService.sign(payload, {
-        privateKey: envConfig.jwtSecretRefreshToken,
+        secret: envConfig.jwtSecretRefreshToken,
         expiresIn: parseInt(envConfig.refreshTokenExpiresIn),
       });
     }

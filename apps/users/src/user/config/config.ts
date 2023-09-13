@@ -6,4 +6,5 @@ export const envConfig = {
   jwtSecretAccessToken: process.env.JWT_SECRET_ACCESS_TOKEN as string,
   jwtSecretRefreshToken: process.env.JWT_SECRET_REFRESH_TOKEN as string,
   refreshTokenExpiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
+  tokenRedisExpiresIn: process.env.ACCESS_TOKEN_REDIS_EXPIRES_IN,
 };

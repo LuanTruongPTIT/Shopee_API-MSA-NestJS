@@ -6,7 +6,6 @@ async function bootstrap() {
   const logger = new Logger();
   const app: NestApplication = await NestFactory.create(AppModule);
   await kafkaInit(app);
-  logger.log('==========================================================');
   await app.listen(8003);
 }
 bootstrap();

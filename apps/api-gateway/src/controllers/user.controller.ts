@@ -6,6 +6,7 @@ import {
   Post,
   Get,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import {
   EMicroservice,
@@ -25,8 +26,9 @@ import {
   ApiBody,
   ApiOkResponse,
   ApiConflictResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
-
+import { AuthJwtAccessProtected } from '../decorators/user.decorator';
 @ApiTags('Users')
 @Controller('/users')
 export class UserController implements OnModuleInit {
@@ -56,7 +58,7 @@ export class UserController implements OnModuleInit {
           properties: {
             message: {
               type: 'string',
-              example: 'Email is exist , Mobile number is exist',
+              example: ['Email is exist', 'Mobile number is exist'],
             },
           },
         },
@@ -88,9 +90,7 @@ export class UserController implements OnModuleInit {
         .send(EKafkaMessage.REQUEST_CREATE_USER, JSON.stringify(data))
         .pipe(
           catchError((error) =>
-            throwError(() => {
-              return error.response;
-            }),
+            throwError(() => new RpcException(error.response)),
           ),
         ),
     );
@@ -101,6 +101,12 @@ export class UserController implements OnModuleInit {
     description: 'Verify email when user click',
     operationId: 'Verify email user',
   })
+  // @ApiHeader({
+  //   name: 'Authorization',
+  //   description: 'Bearer access token',
+  //   required: true,
+  // })
+  @ApiBearerAuth('token')
   @ApiNotFoundResponse({
     status: 400,
     description: 'Token is not valid',
@@ -135,6 +141,8 @@ export class UserController implements OnModuleInit {
       },
     },
   })
+  // @UseGuards(TokenPayloadCheckExist, AuthJwtAccessGuard)
+  @AuthJwtAccessProtected()
   @Get('/email-verifications/:token')
   async sendVervifyEmail(@Param('token') token: string) {
     return firstValueFrom(

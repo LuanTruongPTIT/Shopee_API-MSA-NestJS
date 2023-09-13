@@ -136,24 +136,69 @@ services:
       - kafka
     networks:
       - app-net
-  db_user:
+  mongo1:
     # pull image from docker hub
     image: mongo
     # container name
-    container_name: nestmongo
+    container_name: mongo1
     # always restart the container if it stops.
     restart: always
     # database credentials, this is take value from env file
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
     environment:
-      MONGO_INITDB_ROOT_DATABASE: admin
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_ROOT_DATABASE: test
+      MONGO_INITDB_REPLICASET: rs0
     # save (persist) data and also to share data between containers
     volumes:
       - db_data:/data/db
     # database port
     ports:
       - '27020:27017'
+    links:
+      - mongo2
+      - mongo3
+    # application network, each container for a service joins this network
+    networks:
+      - app-net
+  mongo2:
+    # pull image from docker hub
+    image: mongo
+    # container name
+    container_name: mongo2
+    # always restart the container if it stops.
+    restart: always
+    # database credentials, this is take value from env file
+    # command: mongod --replSet "rs0"
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
+    environment:
+      MONGO_INITDB_REPLICASET: rs0
+    # save (persist) data and also to share data between containers
+    volumes:
+      - db_data2:/data/db
+    # database port
+    ports:
+      - '27021:27017'
+    # application network, each container for a service joins this network
+    networks:
+      - app-net
+  mongo3:
+    # pull image from docker hub
+    image: mongo
+    # container name
+    container_name: mongo3
+    # always restart the container if it stops.
+    restart: always
+    # database credentials, this is take value from env file
+    # command: mongod --replSet "rs0"
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']
+    environment:
+      MONGO_INITDB_REPLICASET: rs0
+    # save (persist) data and also to share data between containers
+    volumes:
+      - db_data3:/data/db
+    # database port
+    ports:
+      - '27022:27017'
     # application network, each container for a service joins this network
     networks:
       - app-net
@@ -193,6 +238,8 @@ services:
 volumes:
   docker_data:
   db_data:
+  db_data2:
+  db_data3:
   zookeeper_data:
   kafka_data:
   kafka_admin_data:

@@ -27,12 +27,10 @@ import { MongoStore } from '@libs/core/event-store/lib/adapter/mongo-store';
 import { AuthModule } from 'apps/auth/src/auth.module';
 import { AuthService } from 'apps/auth/src/auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { config } from 'apps/auth/src/config';
 import { RedisModule } from 'libs/redis/src/redis.module';
 import { UsersSagas } from './sagas/user.saga';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
-import { EMicroserviceName } from './config/kafka.interfaces';
 import { TokenDto } from './database/entities/token.dto';
 @Module({
   imports: [
@@ -135,8 +133,7 @@ export class UserModule implements OnModuleInit {
   }
 
   public static eventHandlers = {
-    UserCreatedEvent: (streamId, data, tokenEmail) =>
-      new UserCreatedEvent(streamId, data),
+    UserCreatedEvent: (streamId, data) => new UserCreatedEvent(streamId, data),
     UserCreatedSuccessEvent: (streamId, data, tokenEmail) =>
       new UserCreatedSuccessEvent(streamId, data, tokenEmail),
   };

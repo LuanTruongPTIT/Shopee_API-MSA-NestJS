@@ -4,7 +4,6 @@ import { Saga, ofType } from '@nestjs/cqrs';
 import { Observable, map } from 'rxjs';
 import { UserCreatedSuccessEvent } from '../events/impl/user-created.event';
 import { ClientKafka } from '@nestjs/microservices';
-import { EMicroserviceName } from '../config/kafka.interfaces';
 import {
   EKafkaMessage,
   EMicroservice,
@@ -24,7 +23,7 @@ export class UsersSagas {
   }
 
   @Saga()
-  userCreatedSuccerss = (event$: Observable<any>): Observable<void> => {
+  userCreatedSuccess = (event$: Observable<any>): Observable<void> => {
     return event$.pipe(
       ofType(UserCreatedSuccessEvent),
       map((event: UserCreatedSuccessEvent) => {

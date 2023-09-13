@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { plainToInstance, Transform } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { IsNotEmpty, validateSync } from 'class-validator';
 import _ from 'lodash';
 import dotenv from 'dotenv';

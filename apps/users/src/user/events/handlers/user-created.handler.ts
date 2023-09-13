@@ -11,6 +11,7 @@ import { UserRepository } from '../../repository/user.repository';
 import { UserVerifyStatus } from '../../constants/user.enum.constant';
 import { AuthService } from 'apps/auth/src/auth.service';
 import { TokenDto } from '../../database/entities/token.dto';
+
 @EventsHandler(UserCreatedEvent)
 export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
   constructor(
@@ -29,18 +30,21 @@ export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
     const userId = userDto._id;
     const user = JSON.parse(JSON.stringify(userDto));
 
+    /**
+     * Create email verify token
+     */
     const email_verify_token = this.authService.signEmailVerifyToken({
       user_id: userId,
       verify: UserVerifyStatus.Unverified,
     });
     await this.userRepository.save(user);
-
     const [access_token, refresh_token] =
       await this.repository.signAccessAndRefreshToken({
         userId,
         verify: UserVerifyStatus.Unverified,
       });
-    console.log(access_token);
+
+    console.log(access_token, refresh_token);
     const decode = await this.repository.decodeRefreshToken(refresh_token);
     const { iat, exp } = decode;
     await this.tokenRepository.save({
@@ -52,7 +56,6 @@ export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
     this.eventBus.publish(
       new UserCreatedSuccessEvent(streamId, userDto, email_verify_token),
     );
-    return { access_token, refresh_token };
   }
 }
 

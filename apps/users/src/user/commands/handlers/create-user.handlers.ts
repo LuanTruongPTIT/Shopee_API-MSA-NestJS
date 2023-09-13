@@ -1,11 +1,18 @@
 import { UserRepository } from '../../repository/user.repository';
 import { CreateUserCommand } from '../impl/create-user.command';
 import { ICommandHandler, EventPublisher, CommandHandler } from '@nestjs/cqrs';
-import { Logger, ConflictException, Inject } from '@nestjs/common';
+import {
+  Logger,
+  ConflictException,
+  NotFoundException,
+  BadRequestException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { AuthService } from 'apps/auth/src/auth.service';
 import { UserVerifyStatus } from '../../constants/user.enum.constant';
 import { ERR } from '@libs/common/constants/error';
 import { RedisService } from 'libs/redis/src/redis.service';
+import { RpcException } from '@nestjs/microservices';
 @CommandHandler(CreateUserCommand)
 export class CreatedUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(
@@ -30,15 +37,11 @@ export class CreatedUserHandler implements ICommandHandler<CreateUserCommand> {
     const [emailExist, mobileNumberExist] = await Promise.all(promises);
 
     if (emailExist) {
-      throw new ConflictException({
-        status_Code: ERR.USER_EMAIL_EXIST_ERROR,
-        message: 'user.error.emailExist',
-      });
+      throw new RpcException(new ForbiddenException('user.error.emailExist'));
     } else if (mobileNumberExist) {
-      throw new ConflictException({
-        status_cdode: ERR.USER_MOBILE_NUMBER_EXIST_EROR,
-        message: 'user.error.mobileNumberExist',
-      });
+      throw new RpcException(
+        new ForbiddenException('user.error.mobileNumberExist'),
+      );
     }
     const user = await this.publisher.mergeObjectContext(
       await this.repository.createUser(streamId, userDto),

@@ -13,6 +13,6 @@ export class User extends AggregateRoot {
   }
 
   createUser(streamId: string) {
-    return this.apply(new UserCreatedEvent(streamId, this.data));
+    this.apply(new UserCreatedEvent(streamId, this.data));
   }
 }

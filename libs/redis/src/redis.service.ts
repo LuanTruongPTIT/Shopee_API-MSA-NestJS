@@ -48,7 +48,11 @@ export class RedisService {
     return (await JSON.parse(res)) as T;
   }
 
-  public async hset(key: RedisKey, value: string, expires: number) {
-    return await this.pubClient.hset(key, value, expires);
+  public async hset(key: RedisKey, field: string, value: string) {
+    return await this.pubClient.hset(key, field, value);
+  }
+
+  public async set(key: RedisKey, value: unknown, expire?: number) {
+    return await this.pubClient.set(key, JSON.stringify(value), 'EX', expire);
   }
 }

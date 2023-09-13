@@ -6,14 +6,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { validate } from './index';
 import { TypeormModule } from './user/database/datasource/typeorm.module';
 import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
+import { ormConfig } from './user/database/datasource/orm.config';
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
-      useClass: TypeOrmService,
-    }),
+    // TypeOrmModule.forRootAsync({
+    //   useClass: TypeOrmService,
+    // }),
+    TypeOrmModule.forRoot(ormConfig()),
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
+      // envFilePath:
+      //   process.env.NODE_ENV === 'development' ? '.env.dev' : '.env',
     }),
     EventStoreModule.register({
       tcpEndpoint: {
