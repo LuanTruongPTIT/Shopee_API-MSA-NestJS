@@ -10,6 +10,7 @@ import { EKafkaMessage } from '@libs/common/interfaces/kafka.interface';
 import { UserDto } from '../database/entities/users.dto';
 import { UserService } from '../services/users.service';
 import { ResourceSerialization } from '@libs/infra/serialization/resource.serialization';
+import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
 @Controller()
 export class UserController {
   constructor(private readonly usersService: UserService) {}
@@ -27,7 +28,12 @@ export class UserController {
   }
 
   @MessagePattern(EKafkaMessage.REQUEST_USER_BY_ID)
-  async findUserById(@Body() userId: string) {
+  async FindUserById(@Body() userId: string) {
     console.log(userId);
+  }
+
+  @MessagePattern(EKafkaMessage.REQUEST_LOGIN)
+  async SignIn(@Body() data: UserLoginDto) {
+    console.log(data);
   }
 }

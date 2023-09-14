@@ -43,7 +43,7 @@ export class RedisService {
     });
   }
 
-  public async get<T = any>(key: RedisKey) {
+  public async get<T = string>(key: RedisKey) {
     const res = await this.pubClient.get(key);
     return (await JSON.parse(res)) as T;
   }

@@ -1,3 +1,4 @@
+import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
 import { Injectable } from '@nestjs/common';
 import { User } from '../models/users.models';
 import { UserDto } from '../database/entities/users.dto';
@@ -6,7 +7,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { TokenType, UserVerifyStatus } from '../constants/user.enum.constant';
 import { envConfig } from '../config/config';
-
+import { IResponse } from '@libs/common/response/interfaces/response.interface';
 @Injectable()
 export class UserRepository {
   constructor(
@@ -19,6 +20,17 @@ export class UserRepository {
     const user = new User(streamId);
     user.setData(userDto);
     user.createUser(streamId);
+    return user;
+  }
+
+  async signInEvent(
+    streamId: string,
+    userLoginDto: UserLoginDto,
+    iResponse: IResponse,
+  ) {
+    const user = new User(streamId);
+    user.setData(iResponse);
+    user.signin(streamId, userLoginDto);
     return user;
   }
 

@@ -44,7 +44,7 @@ export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
         verify: UserVerifyStatus.Unverified,
       });
 
-    console.log(access_token, refresh_token);
+    console.log('access_token', access_token, 'refresh_token', refresh_token);
     const decode = await this.repository.decodeRefreshToken(refresh_token);
     const { iat, exp } = decode;
     await this.tokenRepository.save({

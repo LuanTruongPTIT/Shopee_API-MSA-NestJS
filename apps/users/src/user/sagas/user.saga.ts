@@ -23,13 +23,13 @@ export class UsersSagas {
   }
 
   @Saga()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userCreatedSuccess = (event$: Observable<any>): Observable<void> => {
     return event$.pipe(
       ofType(UserCreatedSuccessEvent),
       map((event: UserCreatedSuccessEvent) => {
         Logger.log(' Inside [UsersSagas] userCreatdSuccess');
-        const { streamId, userDto, tokenEmail } = event;
-        const data = { message: 'Verify email' };
+        const { tokenEmail } = event;
         this.authClient.emit(
           EKafkaMessage.REQUEST_SEND_VERIFY_EMAIL,
           JSON.stringify(tokenEmail),

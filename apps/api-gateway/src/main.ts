@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { setUpApplication } from '@libs/infra/setup';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
-  console.log(process.env.JWT_SECRET_REFRESH_TOKEN);
   const app = await NestFactory.create(AppModule);
   const { port, logInfo } = setUpApplication(app);
   const config = new DocumentBuilder()

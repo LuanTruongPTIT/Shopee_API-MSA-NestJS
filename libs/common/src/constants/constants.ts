@@ -7,6 +7,9 @@ export const CONSTANTS = {
   PERMISSION: {
     CSR_USER: 'CSR_USER',
   },
+  KEYREDIS: {
+    USER: 'numberLoginFail',
+  },
   TOKEN_TYPE: {
     FREE: 'FREE',
     TYPE_50_MINUTES: '50-MINUTES',

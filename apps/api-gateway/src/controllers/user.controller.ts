@@ -29,6 +29,8 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { AuthJwtAccessProtected } from '../decorators/user.decorator';
+import { checkNumberLoginFail } from '../guards/checkNumberLoginFail.guard';
+import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
 @ApiTags('Users')
 @Controller('/users')
 export class UserController implements OnModuleInit {
@@ -40,6 +42,7 @@ export class UserController implements OnModuleInit {
   async onModuleInit() {
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_CREATE_USER);
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_VERIFY_EMAIL);
+    this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_LOGIN);
     await this.clientKafka.connect();
   }
 
@@ -107,6 +110,10 @@ export class UserController implements OnModuleInit {
   //   required: true,
   // })
   @ApiBearerAuth('token')
+  @ApiHeader({
+    name: 'userId',
+    description: 'User ID',
+  })
   @ApiNotFoundResponse({
     status: 400,
     description: 'Token is not valid',
@@ -150,10 +157,21 @@ export class UserController implements OnModuleInit {
         .send(EKafkaMessage.REQUEST_VERIFY_EMAIL, JSON.stringify(token))
         .pipe(
           catchError((error) =>
-            throwError(() => {
-              console.log(error);
-              return error.response;
-            }),
+            throwError(() => new RpcException(error.response)),
+          ),
+        ),
+    );
+  }
+
+  @UseGuards(checkNumberLoginFail)
+  @Post('/signin')
+  async SignIn(@Body() data: UserLoginDto) {
+    return firstValueFrom(
+      this.clientKafka
+        .send(EKafkaMessage.REQUEST_LOGIN, JSON.stringify(data))
+        .pipe(
+          catchError((error) =>
+            throwError(() => new RpcException(error.response)),
           ),
         ),
     );
