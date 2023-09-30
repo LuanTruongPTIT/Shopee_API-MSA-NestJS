@@ -31,7 +31,7 @@ export class AuthJwtAccessStrategy
   }
 
   async validate(tokenPayload: any) {
-    return await firstValueFrom(
+    const result = await firstValueFrom(
       this.clientKafkaUser
         .send(
           EKafkaMessage.REQUEST_USER_BY_ID,
@@ -39,5 +39,6 @@ export class AuthJwtAccessStrategy
         )
         .pipe(catchError((error) => throwError(() => new RpcException(error)))),
     );
+    console.log(result);
   }
 }

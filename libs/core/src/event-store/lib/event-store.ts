@@ -133,7 +133,7 @@ export class EventStore
       event['eventType'] || stream,
     );
     // it's hack for find out streamId by include stream
-    const streams = ['Token', 'Project', 'User'];
+    const streams = ['Product', 'User', 'Category'];
     const streamName = streams
       .map((stream) => (eventPayload.type.includes(stream) ? stream : null))
       .filter((event) => event != null)[0];

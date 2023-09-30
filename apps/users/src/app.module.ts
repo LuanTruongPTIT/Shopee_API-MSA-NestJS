@@ -1,5 +1,5 @@
 import { TypeOrmService } from './user/database/datasource/typeorm.service';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,17 +7,13 @@ import { validate } from './index';
 import { TypeormModule } from './user/database/datasource/typeorm.module';
 import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
 import { ormConfig } from './user/database/datasource/orm.config';
+import { RequestStorageMiddleware } from '@libs/common/shared/RequestStorageMiddleware';
 @Module({
   imports: [
-    // TypeOrmModule.forRootAsync({
-    //   useClass: TypeOrmService,
-    // }),
     TypeOrmModule.forRoot(ormConfig()),
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
-      // envFilePath:
-      //   process.env.NODE_ENV === 'development' ? '.env.dev' : '.env',
     }),
     EventStoreModule.register({
       tcpEndpoint: {
@@ -43,4 +39,8 @@ import { ormConfig } from './user/database/datasource/orm.config';
     TypeormModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(RequestStorageMiddleware).forRoutes('*');
+  // }
+}

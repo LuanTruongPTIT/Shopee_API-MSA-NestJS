@@ -6,13 +6,13 @@ export class checkNumberLoginFail implements CanActivate {
   constructor(private readonly redisService: RedisService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
-    const userId = req.headers.userid?.split(' ') ?? [];
-    if (!userId) {
+    const { username } = req.body;
+    if (!username) {
       return false;
     }
-    const numberLoginFail = await this.redisService.get(
-      `${CONSTANTS.KEYREDIS.USER}:${userId}`,
-    );
-    return !(numberLoginFail && parseInt(numberLoginFail) >= 5);
+    const numberLoginFail = (await this.redisService.get(
+      `${CONSTANTS.KEYREDIS.USER}:${username}`,
+    )) as number;
+    return !(numberLoginFail && numberLoginFail >= 5);
   }
 }

@@ -32,7 +32,10 @@ export class UserDto extends BaseEntityDto {
     username: string,
     email: string,
     password: string,
+    password_expires: Date,
+    password_created: Date,
     bio: string,
+    isBlock: boolean,
     birthday: Date,
     isActive: boolean,
     gender: USER_GENDER,
@@ -51,6 +54,7 @@ export class UserDto extends BaseEntityDto {
     this.username = username;
     this.email = email;
     this.password = password;
+    this.password_expires = password_expires;
     this.address = address;
     this.birthday = birthday;
     this.bio = bio;
@@ -60,6 +64,8 @@ export class UserDto extends BaseEntityDto {
     this.gender = gender;
     this.phone_number = phone_number;
     this.roles = roles;
+    this.isBlock = isBlock;
+    this.password_created = password_created;
   }
 
   @IsString(ErrorUtils.getMessage('firstName', ERR.IsString))
@@ -91,6 +97,16 @@ export class UserDto extends BaseEntityDto {
     nullable: false,
   })
   password: string;
+
+  @IsOptional()
+  @IsDate()
+  @Column()
+  password_expires: Date;
+
+  @IsOptional()
+  @IsDate()
+  @Column()
+  password_created: Date;
 
   @IsString(ErrorUtils.getMessage('username', ERR.IsString))
   @IsNotEmpty(ErrorUtils.getMessage('username', ERR.IsNotEmpty))
@@ -145,6 +161,10 @@ export class UserDto extends BaseEntityDto {
   @IsOptional()
   @Column()
   avatar: string;
+
+  @IsOptional()
+  @Column()
+  isBlock: boolean;
 
   @IsOptional()
   @Column()

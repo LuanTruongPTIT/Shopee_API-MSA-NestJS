@@ -11,6 +11,7 @@ export class ResourceSerialization implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       switchMap((response) => {
+        console.log('intercept', response);
         if (!response) return of(response);
         return [formatResource(response)];
       }),

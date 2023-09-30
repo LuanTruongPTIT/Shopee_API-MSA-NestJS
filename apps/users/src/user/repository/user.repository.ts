@@ -8,13 +8,33 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenType, UserVerifyStatus } from '../constants/user.enum.constant';
 import { envConfig } from '../config/config';
 import { IResponse } from '@libs/common/response/interfaces/response.interface';
+import { compareSync } from 'bcryptjs';
+import { RedisService } from 'libs/redis/src/redis.service';
+import { HelperDateService } from '@libs/common/helper/services/helper.date.service';
+import { HelperHashService } from '@libs/common/helper/services/helper.hash.service';
+import { IAuthPassword } from '@libs/common/interfaces/auth.interface';
+import { ConfigService } from '@nestjs/config';
+import bcrypt from 'bcryptjs';
 @Injectable()
 export class UserRepository {
+  private readonly passwordSaltLength: number;
+  private readonly passwordExpiredIn: number;
   constructor(
     @InjectRepository(UserDto)
     private readonly userRepo: Repository<UserDto>,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly redisService: RedisService,
+    private readonly helperDateService: HelperDateService,
+    private readonly helperHashService: HelperHashService,
+    private readonly configService: ConfigService,
+  ) {
+    this.passwordSaltLength = parseInt(
+      this.configService.get<string>('AUTH_PASSWORD_SALT_LENGTH'),
+    );
+    this.passwordExpiredIn = this.configService.get<number>(
+      'AUTH_PASSWORD_EXPIREDIN',
+    );
+  }
 
   async createUser(streamId: string, userDto: UserDto) {
     const user = new User(streamId);
@@ -114,5 +134,52 @@ export class UserRepository {
     return this.jwtService.verifyAsync(refreshToken, {
       secret: envConfig.jwtSecretRefreshToken,
     });
+  }
+
+  checkPassword(password: string, hashPassword: string): boolean {
+    return this.helperHashService.bcryptCompare(password, hashPassword);
+  }
+
+  async checkNumberFailLogin({
+    key,
+    numberFailLogin,
+  }: {
+    key: string;
+    numberFailLogin: number;
+  }) {
+    console.log('Key', key);
+    const result = await this.redisService.get(key);
+    if (!result) {
+      await this.redisService.set(key, numberFailLogin, 100);
+    } else {
+      await this.redisService.set(key, numberFailLogin, 100);
+    }
+  }
+
+  createSalt(length: number): string {
+    return this.helperHashService.randomSalt(length);
+  }
+
+  async createPassword(password: string): Promise<IAuthPassword> {
+    const salt: string = this.createSalt(this.passwordSaltLength);
+    const passwordExpired: Date = this.helperDateService.forwardInSeconds(
+      this.passwordExpiredIn,
+    );
+    const passwordCreated: Date = this.helperDateService.create();
+    const passwordHash = this.helperHashService.bcrypt(password, salt);
+
+    return {
+      passwordHash,
+      passwordExpired,
+      passwordCreated,
+      salt,
+    };
+  }
+
+  async checkPasswordExpired(passwordExpired: Date): Promise<boolean> {
+    const toDate = this.helperDateService.create();
+    const passwordExpiredConvert: Date =
+      this.helperDateService.create(passwordExpired);
+    return toDate > passwordExpiredConvert;
   }
 }

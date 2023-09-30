@@ -11,7 +11,8 @@ import { UserRepository } from '../../repository/user.repository';
 import { UserVerifyStatus } from '../../constants/user.enum.constant';
 import { AuthService } from 'apps/auth/src/auth.service';
 import { TokenDto } from '../../database/entities/token.dto';
-
+import { IAuthPassword } from '@libs/common/interfaces/auth.interface';
+import { Transactional } from '@libs/common/shared/Transaction';
 @EventsHandler(UserCreatedEvent)
 export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
   constructor(
@@ -24,6 +25,7 @@ export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
     private readonly tokenRepository: Repository<TokenDto>,
   ) {}
 
+  // @Transactional()
   async handle(event: UserCreatedEvent) {
     Logger.log('UserCreatedEvent');
     const { streamId, userDto } = event;
@@ -37,22 +39,28 @@ export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
       user_id: userId,
       verify: UserVerifyStatus.Unverified,
     });
-    await this.userRepository.save(user);
+    const passwordAuth: Promise<IAuthPassword> = this.repository.createPassword(
+      user.password,
+    );
+    user.password = (await passwordAuth).passwordHash;
+    user.password_created = (await passwordAuth).passwordCreated;
+    user.password_expires = (await passwordAuth).passwordExpired;
+    // await this.userRepository.save(user);
     const [access_token, refresh_token] =
       await this.repository.signAccessAndRefreshToken({
         userId,
         verify: UserVerifyStatus.Unverified,
       });
 
-    console.log('access_token', access_token, 'refresh_token', refresh_token);
+    // console.log('access_token', access_token, 'refresh_token', refresh_token);
     const decode = await this.repository.decodeRefreshToken(refresh_token);
     const { iat, exp } = decode;
-    await this.tokenRepository.save({
-      token: refresh_token,
-      userId,
-      iat,
-      exp,
-    });
+    // await this.tokenRepository.save({
+    //   token: refresh_token,
+    //   userId,
+    //   iat,
+    //   exp,
+    // });
     this.eventBus.publish(
       new UserCreatedSuccessEvent(streamId, userDto, email_verify_token),
     );

@@ -12,9 +12,9 @@ export class TokenPayloadCheckExist implements CanActivate {
     if (!token) {
       return false;
     }
-    // const getTokenRedis = await this.redisService.get(`accessToken:${token}`);
-    // return getTokenRedis === token;
-    return true;
+    const getTokenRedis = await this.redisService.get(`accessToken:${token}`);
+    return getTokenRedis === token;
+    // return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {

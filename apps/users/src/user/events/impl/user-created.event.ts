@@ -13,6 +13,10 @@ export class UserCreatedSuccessEvent implements IEvent {
     public readonly userDto: any,
     public readonly tokenEmail: string,
   ) {}
+
+  checkPassword() {
+    console.log();
+  }
 }
 export class UserCreatedFailedEvent implements IEvent {
   constructor(

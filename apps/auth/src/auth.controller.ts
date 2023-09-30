@@ -12,7 +12,7 @@ export class AuthController {
   ) {}
 
   @EventPattern(EKafkaMessage.REQUEST_SEND_VERIFY_EMAIL)
-  async sendVerifyRegisterEmail(@Body() data: string): Promise<string> {
+  async SendVerifyRegisterEmail(@Body() data: string): Promise<string> {
     Logger.log('sendVerifyRegisterEmail');
     console.log(data);
     return data;

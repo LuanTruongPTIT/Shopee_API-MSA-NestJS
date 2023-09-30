@@ -7,6 +7,7 @@ import {
   NotFoundException,
   BadRequestException,
   ForbiddenException,
+  HttpException,
 } from '@nestjs/common';
 import { AuthService } from 'apps/auth/src/auth.service';
 import { UserVerifyStatus } from '../../constants/user.enum.constant';
@@ -47,5 +48,6 @@ export class CreatedUserHandler implements ICommandHandler<CreateUserCommand> {
       await this.repository.createUser(streamId, userDto),
     );
     user.commit();
+    return user;
   }
 }

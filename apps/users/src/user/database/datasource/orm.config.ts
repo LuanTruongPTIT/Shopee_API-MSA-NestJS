@@ -3,6 +3,7 @@ import { getMetadataArgsStorage } from 'typeorm';
 export function ormConfig(): any {
   return {
     type: process.env.DATABASE_TYPE,
+    // type: 'mongodb',
     host: process.env.DATABASE_HOST,
     port: parseInt(process.env.DATABASE_PORT),
     database: process.env.DATABASE_NAME,

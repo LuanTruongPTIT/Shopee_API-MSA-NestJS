@@ -1,4 +1,10 @@
-import { Logger, Module, OnModuleInit } from '@nestjs/common';
+import {
+  Logger,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  OnModuleInit,
+} from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from './controllers/user.controller';
 import { UserDto } from './database/entities/users.dto';
@@ -13,7 +19,14 @@ import {
 import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
 import { CONSTANTS } from '@libs/common/constants/constants';
 import { EventStore } from '@libs/core/event-store/lib/event-store';
-import { Repository } from 'typeorm';
+import {
+  Collection,
+  DataSource,
+  Db,
+  Repository,
+  getMetadataArgsStorage,
+  getMongoRepository,
+} from 'typeorm';
 import { ProjectionDto } from '@libs/core/event-store/lib/adapter/projection.dto';
 import { UserService } from './services/users.service';
 import {
@@ -32,11 +45,18 @@ import { UsersSagas } from './sagas/user.saga';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
 import { TokenDto } from './database/entities/token.dto';
+import { HelperDateService } from '@libs/common/helper/services/helper.date.service';
+import { HelperHashService } from '@libs/common/helper/services/helper.hash.service';
+import { DatabaseModule } from '@libs/common/shared/Database.module';
+import { RequestStorageMiddleware } from '@libs/common/shared/RequestStorageMiddleware';
+
+import { MongoClient } from 'mongodb';
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserDto, ProjectionDto, TokenDto]),
     JwtModule.register({}),
     CqrsModule,
+    // DatabaseModule,
     ClientsModule.register([
       {
         name: EMicroservice.GATEWAY_AUTH_SERVICE,
@@ -91,6 +111,8 @@ import { TokenDto } from './database/entities/token.dto';
     EventPublisher,
     AuthService,
     UsersSagas,
+    HelperDateService,
+    HelperHashService,
   ],
   exports: [UserService],
 })
@@ -102,6 +124,8 @@ export class UserModule implements OnModuleInit {
     private readonly eventStore: EventStore,
     @InjectRepository(ProjectionDto)
     private readonly projectRepository: Repository<ProjectionDto>,
+    @InjectRepository(UserDto)
+    private readonly userRepository: Repository<UserDto>,
   ) {}
 
   async onModuleInit() {
@@ -110,6 +134,7 @@ export class UserModule implements OnModuleInit {
     this.event$.registerSagas([UsersSagas]);
     this.event$.publisher = this.eventStore;
     await this.seedProjection();
+    await this.watchUserChanges();
   }
 
   async seedProjection() {
@@ -129,6 +154,31 @@ export class UserModule implements OnModuleInit {
         expectedVersion: CONSTANTS.INIT_EXPECTED_VERSION,
       });
       Logger.log('Seed Projection user success');
+    }
+  }
+
+  public async watchUserChanges() {
+    const mongoUrl = 'mongodb://localhost:27020/test?directConnection=true';
+    const client = new MongoClient(mongoUrl);
+
+    try {
+      await client.connect();
+      console.log('Connected to MongoDB');
+
+      const db = client.db('users');
+      const usersCollection = db.collection('users');
+
+      const changeStream = usersCollection.watch();
+      changeStream.on('change', (change) => {
+        // console.log('User Change:', change);
+        // Xử lý sự thay đổi ở đây
+      });
+
+      changeStream.on('error', (error) => {
+        console.error('User Change Stream Error:', error);
+      });
+    } catch (error) {
+      console.error('MongoDB connection error:', error);
     }
   }
 

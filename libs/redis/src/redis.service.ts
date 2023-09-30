@@ -43,16 +43,16 @@ export class RedisService {
     });
   }
 
-  public async get<T = string>(key: RedisKey) {
+  public async get<T = any>(key: RedisKey) {
     const res = await this.pubClient.get(key);
-    return (await JSON.parse(res)) as T;
+    return (await JSON.parse(res)) as string | number;
   }
 
   public async hset(key: RedisKey, field: string, value: string) {
     return await this.pubClient.hset(key, field, value);
   }
 
-  public async set(key: RedisKey, value: unknown, expire?: number) {
-    return await this.pubClient.set(key, JSON.stringify(value), 'EX', expire);
+  public async set(key: RedisKey, value: string | number, expire?: number) {
+    return await this.pubClient.set(key, value, 'EX', expire);
   }
 }

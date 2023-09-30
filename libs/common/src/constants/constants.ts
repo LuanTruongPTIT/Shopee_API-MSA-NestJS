@@ -187,5 +187,7 @@ export const CONSTANTS = {
     REQUEST: '$ce-request',
     TOKEN: '$ce-token',
     USER: '$ce-user',
+    PRODUCT: '$ce-product',
+    CATEGORY: '$ce-category',
   },
 };

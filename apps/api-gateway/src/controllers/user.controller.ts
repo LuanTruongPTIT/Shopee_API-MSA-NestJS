@@ -31,6 +31,8 @@ import {
 import { AuthJwtAccessProtected } from '../decorators/user.decorator';
 import { checkNumberLoginFail } from '../guards/checkNumberLoginFail.guard';
 import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
+import { UserSignUpDoc } from '../decorators/user.docs.decorator';
+import { Response } from '../common/response/decorators/response.decorator';
 @ApiTags('Users')
 @Controller('/users')
 export class UserController implements OnModuleInit {
@@ -46,49 +48,51 @@ export class UserController implements OnModuleInit {
     await this.clientKafka.connect();
   }
 
-  @ApiOperation({
-    summary: 'Login',
-    description: 'Login shopee',
-    operationId: 'login',
-  })
-  @ApiConflictResponse({
-    status: 403,
-    description: 'Bad request',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object',
-          properties: {
-            message: {
-              type: 'string',
-              example: ['Email is exist', 'Mobile number is exist'],
-            },
-          },
-        },
-      },
-    },
-  })
-  @ApiOkResponse({
-    status: 200,
-    description: 'Create user success',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object',
-          properties: {
-            message: {
-              type: 'string',
-              example: 'Create user success',
-            },
-          },
-        },
-      },
-    },
-    type: UserDto,
-  })
+  // @ApiOperation({
+  //   summary: 'Login',
+  //   description: 'Login shopee',
+  //   operationId: 'login',
+  // })
+  // @ApiConflictResponse({
+  //   status: 403,
+  //   description: 'Bad request',
+  //   content: {
+  //     'application/json': {
+  //       schema: {
+  //         type: 'object',
+  //         properties: {
+  //           message: {
+  //             type: 'string',
+  //             example: ['Email is exist', 'Mobile number is exist'],
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // })
+  // @ApiOkResponse({
+  //   status: 200,
+  //   description: 'Create user success',
+  //   content: {
+  //     'application/json': {
+  //       schema: {
+  //         type: 'object',
+  //         properties: {
+  //           message: {
+  //             type: 'string',
+  //             example: 'Create user success',
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  //   type: UserDto,
+  // })
+  @UserSignUpDoc()
+  @Response('user.signUp')
   @Post('/create-user')
   async createUser(@Body() data: UserDto) {
-    return firstValueFrom(
+    return await firstValueFrom(
       this.clientKafka
         .send(EKafkaMessage.REQUEST_CREATE_USER, JSON.stringify(data))
         .pipe(

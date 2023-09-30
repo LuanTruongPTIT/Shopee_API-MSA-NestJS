@@ -9,6 +9,8 @@ import { TokenPayloadCheckExist } from '../guards/authentication.guard';
 import { RedisModule } from 'libs/redis/src/redis.module';
 import { checkNumberLoginFail } from '../guards/checkNumberLoginFail.guard';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { CategoryController } from './category.controller';
+import { ResponseDefaultInterceptor } from '../common/response/interceptors/response.default.interceptor';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -22,11 +24,12 @@ import { ThrottlerModule } from '@nestjs/throttler';
     PassportModule,
     RedisModule,
   ],
-  controllers: [UserController],
+  controllers: [UserController, CategoryController],
   providers: [
     AuthJwtAccessStrategy,
     TokenPayloadCheckExist,
     checkNumberLoginFail,
+    ResponseDefaultInterceptor,
   ],
 })
 export class ControllerModule {}

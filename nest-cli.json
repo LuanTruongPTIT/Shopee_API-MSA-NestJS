@@ -55,6 +55,24 @@
         "tsConfigPath": "apps/roles/tsconfig.app.json"
       }
     },
+    "@apps/products": {
+      "type": "application",
+      "root": "apps/products",
+      "entryFile": "main",
+      "sourceRoot": "apps/products/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/products/tsconfig.app.json"
+      }
+    },
+    "@apps/category": {
+      "type": "application",
+      "root": "apps/category",
+      "entryFile": "main",
+      "sourceRoot": "apps/category/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/category/tsconfig.app.json"
+      }
+    },
     "@libs/infra": {
       "type": "library",
       "root": "libs/infra",

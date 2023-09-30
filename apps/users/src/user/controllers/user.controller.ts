@@ -19,7 +19,8 @@ export class UserController {
   @MessagePattern(EKafkaMessage.REQUEST_CREATE_USER)
   async createUser(@Body() data: UserDto): Promise<UserDto> {
     const streamId = data._id;
-    return await this.usersService.createUser(streamId, data);
+    const result = await this.usersService.createUser(streamId, data);
+    return result;
   }
 
   @MessagePattern(EKafkaMessage.REQUEST_VERIFY_EMAIL)
@@ -35,5 +36,7 @@ export class UserController {
   @MessagePattern(EKafkaMessage.REQUEST_LOGIN)
   async SignIn(@Body() data: UserLoginDto) {
     console.log(data);
+    const streamId = data.userId;
+    return await this.usersService.signin(streamId, data);
   }
 }

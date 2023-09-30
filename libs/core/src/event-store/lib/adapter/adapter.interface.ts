@@ -1,12 +1,12 @@
 /*
-* IAdapterStore use for Checkpoint when rebuild
-* */
+ * IAdapterStore use for Checkpoint when rebuild
+ * */
 export interface IAdapterStore {
-    storeKey: string
+  storeKey: string;
 
-    write(key: string, value: number): Promise<number>
+  write(key: string, value: number): Promise<number>;
 
-    read(key: string): Promise<number>
+  read(key: string): Promise<number>;
 
-    clear(): number
+  clear(): number;
 }
