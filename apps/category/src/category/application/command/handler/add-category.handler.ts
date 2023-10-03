@@ -38,7 +38,6 @@ export class AddCategoryProductHandler
     }
 
     if (parents) {
-      console.log('DA vao parents');
       const data_ancestors =
         await this.categoryProductRepo.findAncestorCategory(
           addCategoryProductDto.parents,
@@ -56,7 +55,6 @@ export class AddCategoryProductHandler
         });
       }
     } else {
-      console.log('Set primary');
       addCategoryProductDto.is_primary = true;
     }
 

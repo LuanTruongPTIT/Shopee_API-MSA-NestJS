@@ -6,7 +6,7 @@ import { Category, CategoryProductImplement } from './Category';
 type AddCategoryOptions = Readonly<{
   _id: string;
   ancestors: Array<string>;
-  parents: Array<string>;
+  parents: string;
   name: string;
   is_primary: boolean;
   image: string[];

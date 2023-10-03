@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  MinLength,
-  MaxLength,
   IsString,
   IsNotEmpty,
   IsArray,
@@ -29,9 +27,8 @@ export class AddCategoryProductRequestDTO {
 
   @IsOptional()
   @IsNotEmpty()
-  @IsArray()
-  @ApiProperty({ type: 'array', example: ['short_shopee'] })
-  parents: Array<string>;
+  @ApiProperty({ type: 'array', example: 'short_shopee' })
+  parents: string;
 
   @IsNotEmpty()
   // @MaxLength(14)

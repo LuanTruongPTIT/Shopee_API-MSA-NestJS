@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 import { AggregateRoot } from '@nestjs/cqrs';
 // import { Attribute } from '../infrastructure/entity/attribute.entity';
 // import { Product } from '../infrastructure/entity/product.entity';
@@ -7,7 +8,7 @@ export type CategoryEssentialProperties = Readonly<
   Required<{
     _id: string;
     ancestors: Array<string>;
-    parents: Array<string>;
+    parents: string;
     name: string;
     is_primary: boolean;
     image: string[];
@@ -33,7 +34,7 @@ export class CategoryProductImplement
 {
   private readonly _id: string;
   private ancestors: Array<string>;
-  private parents: Array<string>;
+  private parents: string;
   private name: string;
   private is_primary: boolean;
   private image: string[];

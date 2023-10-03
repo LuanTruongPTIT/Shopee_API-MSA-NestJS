@@ -5,14 +5,24 @@ import { ConfigModule } from '@nestjs/config';
 import { validate } from './index';
 import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
 import { CategoryModule } from './category/category.module';
-import { ormConfig } from './category/infrastructure/repository/database/orm.config';
+// import { ormConfig } from './category/infrastructure/repository/database/orm.config';
+import {
+  typeormConfig,
+  dataSource,
+} from './category/infrastructure/repository/database/orm.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
     }),
-    TypeOrmModule.forRoot(ormConfig()),
+    TypeOrmModule.forRootAsync({
+      useFactory: () => typeormConfig,
+      dataSourceFactory: async () => {
+        dataSource.initialize();
+        return dataSource;
+      },
+    }),
     EventStoreModule.register({
       tcpEndpoint: {
         host: process.env.EVENT_STORE_HOSTNAME || '0.0.0.0',

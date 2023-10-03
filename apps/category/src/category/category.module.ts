@@ -44,10 +44,16 @@ import { AddCategoryEvent } from '../category/domain/event/AddCategoryEvent';
 import { EventsHandlers } from './application/event/index';
 import { ProductController } from './interface/category.controller';
 import { CategoryFactory } from './domain/CategoryFactory';
+import { CategoryQueryImplement } from './infrastructure/query/CategoryImplement';
+import { QueryHandlers } from './application/query/handler/index';
 const infrastructure: Provider[] = [
   {
     provide: InjectionToken.CATEGORY_REPOSITORY,
     useClass: CategoryRepositoryImplements,
+  },
+  {
+    provide: InjectionToken.CATEGORY_QUERY,
+    useClass: CategoryQueryImplement,
   },
 ];
 @Module({
@@ -109,6 +115,7 @@ const infrastructure: Provider[] = [
     ...CommandHandlers,
     CategoryFactory,
     ...EventsHandlers,
+    ...QueryHandlers,
   ],
   exports: [],
 })
@@ -126,6 +133,7 @@ export class CategoryModule implements OnModuleInit {
     this.event$.publisher = this.eventStore;
     this.command$.register(CommandHandlers);
     this.event$.register(EventsHandlers);
+    this.query$.register(QueryHandlers);
     await this.seedProjection();
     // await this.watchUserChanges();
   }

@@ -7,24 +7,359 @@
     "category_list": [
       {
         "category_id": 123,
-        "original_category_name": "Thời trang nữ",
-        "display_category_name": "Thời trang nữ",
-        "has_children": false
+        "original_category_name": "Thời trang nam",
+        "display_category_name": "Thời trang nam",
+        "has_children": false,
+        "category_children": [
+          {
+            "category_id": 345,
+            "parent_category_id": 123,
+            "original_category_name": "Hoodie & Áo nỉ",
+            "display_category_name": "Hoodie & Áo nỉ",
+            "has_children": true,
+            "category_children": [
+              {
+                "category_id": 567,
+                "parent_category_id": 345,
+                "original_category_name": "Áo nỉ",
+                "display_category_name": "Áo nỉ",
+                "has_children": false
+              },
+              {
+                "category_id": 567,
+                "parent_category_id": 345,
+                "original_category_name": "Áo mưa",
+                "display_category_name": "Áo mưa",
+                "has_children": false
+              }
+            ]
+          },
+          {
+            "category_id": 345,
+            "parent_category_id": 123,
+            "original_category_name": "Dép",
+            "display_category_name": "dép",
+            "has_children": true,
+            "category_children": []
+          },
+          {
+            "category_id": 345,
+            "parent_category_id": 123,
+            "original_category_name": "Dép",
+            "display_category_name": "dép",
+            "has_children": true,
+            "category_children": [
+              {
+                "category_id": 567,
+                "parent_category_id": 345,
+                "original_category_name": "Dép thể thao nữ",
+                "display_category_name": "Dép thể thao nữ",
+                "has_children": true
+              }
+            ]
+          }
+        ]
       },
       {
-        "category_id": 345,
-        "parent_category_id": 123,
-        "original_category_name": "Áo",
-        "display_category_name": "Áo",
-        "has_children": true
+        "category_id": 123,
+        "original_category_name": "Điện thoại phụ kiện",
+        "display_category_name": "Điện thoại phụ kiện",
+        "has_children": false,
+        "category_children": [
+          {
+            "category_id": 567,
+            "parent_category_id": 345,
+            "original_category_name": "Thiết bị đeo thông minh",
+            "display_category_name": "Thiết bị đeo thông minh",
+            "has_children": true,
+            "category_children": [
+              {
+                "category_id": 567,
+                "parent_category_id": 345,
+                "original_category_name": "Thiết bị thực tế ảo",
+                "display_category_name": "Thiết bị thực tế áo",
+                "has_children": true
+              }
+            ]
+          }
+        ]
       },
       {
-        "category_id": 567,
-        "parent_category_id": 345,
-        "original_category_name": "Áo hai dây và ba lỗ",
-        "display_category_name": "Áo hai dây và ba lỗ",
-        "has_children": false
+        "category_id": 123,
+        "original_category_name": "Book",
+        "display_category_name": "Book",
+        "has_children": false,
+        "category_children": [
+          {
+            "category_id": 456,
+            "parent_category_id": 123,
+            "original_category_name": "Programing",
+            "display_category_name": "Programing",
+            "has_children": true,
+            "category_children": [
+              {
+                "category_id": 567,
+                "parent_category_id": 456,
+                "original_category_name": "Languages",
+                "display_category_name": "Languages",
+                "has_children": true
+              },
+              {
+                "category_id": 789,
+                "parent_category_id": 456,
+                "original_category_name": "Databases",
+                "display_category_name": "Databases",
+                "has_children": true
+              }
+            ]
+          }
+        ]
       }
     ]
   }
 }
+// db.Category_Product.insertMany( [
+//   { _id: "Áo hoodie", ancestors: [ "Thời trang nam", "Hoodie & Áo nỉ" ], parents: "Hoodie & Áo nỉ" , name: "Áo hoodie",is_primary: false},
+//   { _id: "Áo nỉ", ancestors: [ "Thời trang nam", "Hoodie & Áo nỉ" ], parents: "Hoodie & Áo nỉ" , name: "Áo nỉ",is_primary: false},
+//   { _id: "Hoodie & Áo nỉ", ancestors: [ "Thời trang name" ], parents: "Thời trang nam" , name: "Hoodie & Áo nỉ",is_primary: false},
+//   { _id: "Thời trang nam", ancestors: [ ], parents: null , is_primary: true}
+// ])
+
+db.Category_Product.insertOne( [
+  { _id: "Áo mưa nam", ancestors: [
+      "Thời trang nam"
+    ], parents: "Thời trang nam", name: "Hoodie & Áo nỉ",is_primary: false
+  }
+])
+
+
+
+
+[
+  {
+      _id: 'Books',
+      ancestors: null,
+      parents: null,
+      is_primary: true
+  },
+  {
+      _id: 'Programming',
+      ancestors: [Array
+    ],
+      parents: 'Books',
+      is_primary: false
+  },
+  {
+      _id: 'Databases',
+      ancestors: [Array
+    ],
+      parents: 'Programming',
+      is_primary: false
+  },
+  {
+      _id: 'Languages',
+      ancestors: [Array
+    ],
+      parents: 'Programming',
+      is_primary: false
+  },
+  {
+      _id: 'MongoDB',
+      ancestors: [Array
+    ],
+      parents: 'Databases',
+      is_primary: false
+  },
+  {
+      _id: 'dbm',
+      ancestors: [Array
+    ],
+      parents: 'Databases',
+      is_primary: false
+  }
+],
+[
+  {
+      _id: 'Thời trang nam',
+      ancestors: ,
+      parents: '',
+      is_primary: true
+  },
+  {
+      _id: 'Hoodie & Áo nỉ',
+      ancestors: [Array
+    ],
+      parents: 'Thời trang nam',
+      is_primary: false
+  },
+  {
+      _id: 'Áo mưa nam',
+      ancestors: [Array
+    ],
+      parents: 'Thời trang nam',
+      is_primary: false
+  },
+  {
+      _id: 'Áo hoodie',
+      ancestors: [Array
+    ],
+      parents: 'Hoodie & Áo nỉ',
+      is_primary: false
+  },
+  {
+      _id: 'Áo nỉ',
+      ancestors: [Array
+    ],
+      parents: 'Hoodie & Áo nỉ',
+      is_primary: false
+  }
+]
+
+
+  [
+  {
+    "category_id": "Books",
+    "name": "Books",
+    "is_primary": true,
+    "category_children": [
+      {
+        "category_id": "Programming",
+        "name": "Programming",
+        "parent_category_id": "Books",
+        "is_primary": false
+      }
+    ]
+  },
+  {
+    "category_id": "Thời trang nam",
+    "name": "Thời trang nam",
+    "is_primary": true,
+    "category_children": [
+      {
+        "category_id": "Hoodie & Áo nỉ",
+        "name": "Hoodie & Áo nỉ",
+        "parent_category_id": "Thời trang nam",
+        "is_primary": false
+      },
+      {
+        "category_id": "Áo mưa nam",
+        "name": "Áo mưa nam",
+        "parent_category_id": "Thời trang nam",
+        "is_primary": false
+      }
+    ]
+  }
+]
+
+
+
+[
+  {
+    "_id": "Books",
+    "ancestors": null,
+    "parents": null,
+    "is_primary": true,
+    "category_children": [
+      {
+        "_id": "Programming",
+        "ancestors": [
+          "Books"
+        ],
+        "parents": "Books",
+        "is_primary": false,
+        "category_children": [
+          {
+            "_id": "Databases",
+            "ancestors": [
+              "Books",
+              "Programming"
+            ],
+            "parents": "Programming",
+            "is_primary": false,
+            "category_children": [
+              {
+                "_id": "MongoDB",
+                "ancestors": [
+                  "Books",
+                  "Programming",
+                  "Databases"
+                ],
+                "parents": "Databases",
+                "is_primary": false,
+                "category_children": []
+              },
+              {
+                "_id": "dbm",
+                "ancestors": [
+                  "Books",
+                  "Programming",
+                  "Databases"
+                ],
+                "parents": "Databases",
+                "is_primary": false,
+                "category_children": []
+              }
+            ]
+          },
+          {
+            "_id": "Languages",
+            "ancestors": [
+              "Books",
+              "Programming"
+            ],
+            "parents": "Programming",
+            "is_primary": false,
+            "category_children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "Thời trang nam",
+    "ancestors": null,
+    "parents": null,
+    "is_primary": true,
+    "category_children": [
+      {
+        "_id": "Hoodie & Áo nỉ",
+        "ancestors": [
+          "Thời trang nam"
+        ],
+        "parents": "Thời trang nam",
+        "is_primary": false,
+        "category_children": [
+          {
+            "_id": "Áo hoodie",
+            "ancestors": [
+              "Thời trang nam",
+              "Hoodie & Áo nỉ"
+            ],
+            "parents": "Hoodie & Áo nỉ",
+            "is_primary": false,
+            "category_children": []
+          },
+          {
+            "_id": "Áo nỉ",
+            "ancestors": [
+              "Thời trang nam",
+              "Hoodie & Áo nỉ"
+            ],
+            "parents": "Hoodie & Áo nỉ",
+            "is_primary": false,
+            "category_children": []
+          }
+        ]
+      },
+      {
+        "_id": "Áo mưa nam",
+        "ancestors": [
+          "Thời trang nam"
+        ],
+        "parents": "Thời trang nam",
+        "is_primary": false,
+        "category_children": []
+      }
+    ]
+  }
+]

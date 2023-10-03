@@ -6,6 +6,8 @@ import { Body } from '@nestjs/common';
 import { EKafkaMessage } from '@libs/common/interfaces/kafka.interface';
 import { AddCategoryProductRequestDTO } from './dto/addCategoryProductRequest.dto';
 import { AddCategoryProductCommand } from '../application/command/impl/add-category.command';
+// import { FindAllCategoryResponseDto } from './dto/FindAllCategoryReponse.dto';
+import { GetCategoryQuery } from '../application/query/impl/FindAllCategory.query';
 @Controller()
 export class ProductController {
   constructor(
@@ -21,5 +23,10 @@ export class ProductController {
     return await this.commandBus.execute(
       new AddCategoryProductCommand(_id, data),
     );
+  }
+
+  @MessagePattern(EKafkaMessage.REQUEST_GET_ALL_CATEGORY)
+  async FindAllCategory(): Promise<any> {
+    return await this.queryBus.execute(new GetCategoryQuery());
   }
 }

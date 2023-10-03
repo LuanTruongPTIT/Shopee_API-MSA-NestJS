@@ -60,6 +60,7 @@
     "@types/passport-local": "^1.0.35",
     "@types/ratelimiter": "^3.4.4",
     "@types/ua-parser-js": "^0.7.37",
+    "@types/uuid": "^9.0.4",
     "async_hooks": "^1.0.0",
     "bcryptjs": "^2.4.3",
     "cache-manager": "5.2.2",

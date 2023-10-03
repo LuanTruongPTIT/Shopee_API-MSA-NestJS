@@ -1,22 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ObjectIdColumn,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
 // import { Attribute } from './attribute.entity';
 // import { Product } from './product.entity';
-import { BaseEntityDto } from '@libs/common/base/base-entity.dto';
+
 @Entity('Category_Product')
 export class CategoryProductEntity {
   constructor(
     _id: string,
     ancestors: Array<string>,
-    parents: Array<string>,
+    parents: string,
     name: string,
     is_primary: boolean,
     description: string,
@@ -48,9 +41,9 @@ export class CategoryProductEntity {
   ancestors: Array<string>;
 
   @Column({
-    type: 'array',
+    type: 'string',
   })
-  parents: Array<string>;
+  parents: string;
 
   @Column({
     type: 'string',

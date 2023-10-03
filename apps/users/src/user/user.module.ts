@@ -19,14 +19,7 @@ import {
 import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
 import { CONSTANTS } from '@libs/common/constants/constants';
 import { EventStore } from '@libs/core/event-store/lib/event-store';
-import {
-  Collection,
-  DataSource,
-  Db,
-  Repository,
-  getMetadataArgsStorage,
-  getMongoRepository,
-} from 'typeorm';
+import { Repository } from 'typeorm';
 import { ProjectionDto } from '@libs/core/event-store/lib/adapter/projection.dto';
 import { UserService } from './services/users.service';
 import {
@@ -47,9 +40,6 @@ import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
 import { TokenDto } from './database/entities/token.dto';
 import { HelperDateService } from '@libs/common/helper/services/helper.date.service';
 import { HelperHashService } from '@libs/common/helper/services/helper.hash.service';
-import { DatabaseModule } from '@libs/common/shared/Database.module';
-import { RequestStorageMiddleware } from '@libs/common/shared/RequestStorageMiddleware';
-
 import { MongoClient } from 'mongodb';
 @Module({
   imports: [

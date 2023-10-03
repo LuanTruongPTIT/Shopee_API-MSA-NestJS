@@ -22,11 +22,11 @@ export class CategoryRepositoryImplements implements CategoryRepository {
     return category;
   }
 
-  async findAncestorCategory(parents: Array<string>): Promise<string[] | null> {
+  async findAncestorCategory(parents: string): Promise<string[] | null> {
     const category = await this.categoryProductRepo.findOne({
-      where: { parents: In(parents) },
+      where: { parents: parents },
     });
-    console.log(category);
+
     if (category && category.ancestors) {
       return category.ancestors;
     } else {

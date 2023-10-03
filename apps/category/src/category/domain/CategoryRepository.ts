@@ -5,5 +5,5 @@ import { CategoryProductEntity } from '../infrastructure/entity/category.entity'
 export interface CategoryRepository {
   save: (category: Category) => Promise<void>;
   findPrimaryCategory: (id: string) => Promise<CategoryProductEntity>;
-  findAncestorCategory: (parents: Array<string>) => Promise<string[] | null>;
+  findAncestorCategory: (parents: string) => Promise<string[] | null>;
 }

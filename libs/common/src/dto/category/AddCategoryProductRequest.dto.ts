@@ -8,8 +8,8 @@ import {
   IsBoolean,
   IsOptional,
 } from 'class-validator';
-// import { Product } from './product.entity';
-// import { Attribute } from './attribute.entity';
+// import { Attribute } from '../../infrastructure/entity/attribute.entity';
+// import { Product } from '../../infrastructure/entity/product.entity';
 
 export class AddCategoryProductRequestDTO {
   @IsString()
@@ -29,9 +29,8 @@ export class AddCategoryProductRequestDTO {
 
   @IsOptional()
   @IsNotEmpty()
-  @IsArray()
-  @ApiProperty({ type: 'array', example: ['short_shopee'] })
-  parents: Array<string>;
+  @ApiProperty({ type: 'array', example: 'short_shopee' })
+  parents: string;
 
   @IsNotEmpty()
   // @MaxLength(14)
@@ -44,7 +43,6 @@ export class AddCategoryProductRequestDTO {
   name: string;
 
   @IsBoolean()
-  @IsOptional()
   @ApiProperty({
     example: 'true',
   })
