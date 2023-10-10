@@ -1,14 +1,26 @@
-// import { Entity, Column, ObjectIdColumn } from 'typeorm';
+import { Entity, Column, ObjectIdColumn } from 'typeorm';
 
-// @Entity('Attribute_value')
-// export class Attribute_Value {
-//   @ObjectIdColumn()
-//   _id: string;
+@Entity('Attribute_value')
+export class Attribute_Value {
+  @ObjectIdColumn()
+  _id: string;
 
-//   @Column({
-//     type: 'string',
-//     // unique: true,
-//   })
-//   @Column({})
-//   attribute_info_: object;
-// }
+  @Column({
+    type: 'string',
+    // unique: true,
+  })
+  @Column({
+    type: 'string',
+  })
+  original_value_name: string;
+
+  @Column({
+    type: 'string',
+  })
+  display_value_name: string;
+
+  @Column({
+    type: 'string',
+  })
+  value_unit: string;
+}

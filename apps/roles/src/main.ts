@@ -1,5 +1,5 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { RoleModule } from './role.module';
+import { RoleModule } from './role/role.module';
 import kafkaInit from './kafka';
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(RoleModule);

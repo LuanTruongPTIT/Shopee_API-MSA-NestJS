@@ -8,7 +8,7 @@ import { CategoryModule } from './category/category.module';
 // import { ormConfig } from './category/infrastructure/repository/database/orm.config';
 import {
   typeormConfig,
-  dataSource,
+  datasource,
 } from './category/infrastructure/repository/database/orm.config';
 @Module({
   imports: [
@@ -19,8 +19,8 @@ import {
     TypeOrmModule.forRootAsync({
       useFactory: () => typeormConfig,
       dataSourceFactory: async () => {
-        dataSource.initialize();
-        return dataSource;
+        datasource.initialize();
+        return datasource;
       },
     }),
     EventStoreModule.register({

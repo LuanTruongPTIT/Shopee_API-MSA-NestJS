@@ -32,6 +32,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
 import { HelperDateService } from '@libs/common/helper/services/helper.date.service';
 import { HelperHashService } from '@libs/common/helper/services/helper.hash.service';
+import { HelperIdManagementService } from '@libs/common/helper/services/helper.id.management.service';
 import { DatabaseModule } from '@libs/common/shared/Database.module';
 import { RequestStorageMiddleware } from '@libs/common/shared/RequestStorageMiddleware';
 import { CategoryProductEntity } from './infrastructure/entity/category.entity';
@@ -42,10 +43,13 @@ import { CommandHandlers } from './application/command/handler/index';
 import { WriteConnection } from '@libs/common/shared/Database.module';
 import { AddCategoryEvent } from '../category/domain/event/AddCategoryEvent';
 import { EventsHandlers } from './application/event/index';
-import { ProductController } from './interface/category.controller';
+
 import { CategoryFactory } from './domain/CategoryFactory';
 import { CategoryQueryImplement } from './infrastructure/query/CategoryImplement';
 import { QueryHandlers } from './application/query/handler/index';
+import { AttributeCategoryRepositoryimpelents } from './infrastructure/AttributeCategoryRepositoryImplements';
+import { CategoryController } from './interface/cattegory.controller';
+import { DbTransactionFactory } from '@libs/common/transactional/DBTransactionFactory';
 const infrastructure: Provider[] = [
   {
     provide: InjectionToken.CATEGORY_REPOSITORY,
@@ -54,6 +58,10 @@ const infrastructure: Provider[] = [
   {
     provide: InjectionToken.CATEGORY_QUERY,
     useClass: CategoryQueryImplement,
+  },
+  {
+    provide: InjectionToken.ATTRIBUTE_CATEGORY_REPOSITORY,
+    useClass: AttributeCategoryRepositoryimpelents,
   },
 ];
 @Module({
@@ -101,7 +109,7 @@ const infrastructure: Provider[] = [
       },
     }),
   ],
-  controllers: [ProductController],
+  controllers: [CategoryController],
   providers: [
     CommandBus,
     EventBus,
@@ -116,6 +124,8 @@ const infrastructure: Provider[] = [
     CategoryFactory,
     ...EventsHandlers,
     ...QueryHandlers,
+    DbTransactionFactory,
+    HelperIdManagementService,
   ],
   exports: [],
 })

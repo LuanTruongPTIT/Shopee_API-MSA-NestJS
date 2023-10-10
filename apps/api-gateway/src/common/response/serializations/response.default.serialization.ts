@@ -54,7 +54,7 @@ export class ResponseDefaultSerialization<T = Record<string, any>> {
       timestamp: 169940404,
       timezone: 'Asia/HoChiMinh',
       requestId: ' 40c2f734-7247-472b-bc26-8eff6e669781',
-      path: '/api/v1/user/',
+      path: '/api/v1/test/hello',
     },
   })
   _metadata: ResponseMetadataSerialization;

@@ -10,12 +10,10 @@ export const typeormConfig: DataSourceOptions & TypeOrmModuleOptions = {
   synchronize: true,
   logging: false,
   autoLoadEntities: true,
-  // useUnifiedTopology: true,
-  // useNewUrlParser: true,
   directConnection: true,
   extra: {
     connectionLimit: parseInt(process.env.DATABASE_CONNECTION_LIMIT),
   },
   entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
 };
-export const dataSource = new DataSource(typeormConfig);
+export const datasource = new DataSource(typeormConfig);

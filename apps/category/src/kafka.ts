@@ -10,7 +10,7 @@ export default async function (app: NestApplication) {
         brokers: [process.env.KAFKA_HOST],
       },
       consumer: {
-        groupId: EKafkaGroup.PRODUCT_GROUP,
+        groupId: EKafkaGroup.CATEGORY_GROUP,
       },
     },
   });

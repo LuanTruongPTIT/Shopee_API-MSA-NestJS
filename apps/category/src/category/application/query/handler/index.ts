@@ -1,2 +1,2 @@
-import { FindAllCategoryHandler } from './FindAllCategory.handler';
-export const QueryHandlers = [FindAllCategoryHandler];
+import { GetCategoryHandler } from './GetCategory.handler';
+export const QueryHandlers = [GetCategoryHandler];

@@ -4,7 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from '../domain/Category';
 import { CategoryProperties } from '../domain/Category';
-import { In } from 'typeorm';
+import { datasource } from './repository/database/orm.config';
+
 export class CategoryRepositoryImplements implements CategoryRepository {
   constructor(
     @InjectRepository(CategoryProductEntity)
@@ -24,7 +25,7 @@ export class CategoryRepositoryImplements implements CategoryRepository {
 
   async findAncestorCategory(parents: string): Promise<string[] | null> {
     const category = await this.categoryProductRepo.findOne({
-      where: { parents: parents },
+      where: { parents },
     });
 
     if (category && category.ancestors) {
@@ -39,5 +40,14 @@ export class CategoryRepositoryImplements implements CategoryRepository {
     return {
       ...properties,
     };
+  }
+
+  async updateAttributeOfCategory(
+    category_id: string,
+    data: Array<string>,
+  ): Promise<void> {
+    await datasource
+      .getMongoRepository(CategoryProductEntity)
+      .updateOne({ _id: category_id }, { $set: { data } });
   }
 }

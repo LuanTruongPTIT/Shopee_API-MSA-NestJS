@@ -1,6 +1,6 @@
 import { CategoryQuery } from '../../application/query/CategoryQuery';
 import { GetCategoryResult } from '../../application/query/GetCategoryResult';
-import { dataSource } from '../repository/database/orm.config';
+import { datasource } from '../repository/database/orm.config';
 import { CategoryProductEntity } from '../entity/category.entity';
 
 import { Repository } from 'typeorm';
@@ -15,7 +15,7 @@ export class CategoryQueryImplement implements CategoryQuery {
   ) {}
 
   async getCategoryById(id: string): Promise<GetCategoryResult[]> {
-    const category = (await dataSource
+    const category = (await datasource
       .getMongoRepository(CategoryProductEntity)
       .aggregate([
         {
@@ -53,7 +53,7 @@ export class CategoryQueryImplement implements CategoryQuery {
       GetCategoryResult,
       '_id' | 'name' | 'parents' | 'is_primary'
     >;
-    const category: typeofCategory[] = await dataSource
+    const category: typeofCategory[] = await datasource
       .getMongoRepository(CategoryProductEntity)
       .find({ select: ['_id', 'name', 'parents', 'is_primary'] });
     const dataMap = new Map();

@@ -255,47 +255,52 @@ db.Category_Product.insertOne( [
 
 [
   {
+    "_id": "Điện thoại phụ kiện",
+    "parents": [
+      ""
+    ],
+    "name": "Đồ điện tử",
+    "is_primary": true,
+    "category_children": []
+  },
+  {
+    "_id": "Thiết bị đeo thông minh",
+    "parents": [
+      "Điện thoại phụ kiện"
+    ],
+    "name": "Đồ điện tử",
+    "is_primary": false,
+    "category_children": []
+  },
+  {
     "_id": "Books",
-    "ancestors": null,
     "parents": null,
+    "name": "Books",
     "is_primary": true,
     "category_children": [
       {
         "_id": "Programming",
-        "ancestors": [
-          "Books"
-        ],
         "parents": "Books",
+        "name": "Programing",
         "is_primary": false,
         "category_children": [
           {
             "_id": "Databases",
-            "ancestors": [
-              "Books",
-              "Programming"
-            ],
             "parents": "Programming",
+            "name": "Databases",
             "is_primary": false,
             "category_children": [
               {
                 "_id": "MongoDB",
-                "ancestors": [
-                  "Books",
-                  "Programming",
-                  "Databases"
-                ],
                 "parents": "Databases",
+                "name": "MongoDB",
                 "is_primary": false,
                 "category_children": []
               },
               {
                 "_id": "dbm",
-                "ancestors": [
-                  "Books",
-                  "Programming",
-                  "Databases"
-                ],
                 "parents": "Databases",
+                "name": "dbm",
                 "is_primary": false,
                 "category_children": []
               }
@@ -303,11 +308,8 @@ db.Category_Product.insertOne( [
           },
           {
             "_id": "Languages",
-            "ancestors": [
-              "Books",
-              "Programming"
-            ],
             "parents": "Programming",
+            "name": "Languages",
             "is_primary": false,
             "category_children": []
           }
@@ -317,35 +319,27 @@ db.Category_Product.insertOne( [
   },
   {
     "_id": "Thời trang nam",
-    "ancestors": null,
     "parents": null,
+    "name": "Thời trang nam",
     "is_primary": true,
     "category_children": [
       {
         "_id": "Hoodie & Áo nỉ",
-        "ancestors": [
-          "Thời trang nam"
-        ],
         "parents": "Thời trang nam",
+        "name": "Hoodie & Áo nỉ",
         "is_primary": false,
         "category_children": [
           {
             "_id": "Áo hoodie",
-            "ancestors": [
-              "Thời trang nam",
-              "Hoodie & Áo nỉ"
-            ],
             "parents": "Hoodie & Áo nỉ",
+            "name": "Áo hoodie",
             "is_primary": false,
             "category_children": []
           },
           {
             "_id": "Áo nỉ",
-            "ancestors": [
-              "Thời trang nam",
-              "Hoodie & Áo nỉ"
-            ],
             "parents": "Hoodie & Áo nỉ",
+            "name": "Áo nỉ",
             "is_primary": false,
             "category_children": []
           }
@@ -353,10 +347,8 @@ db.Category_Product.insertOne( [
       },
       {
         "_id": "Áo mưa nam",
-        "ancestors": [
-          "Thời trang nam"
-        ],
         "parents": "Thời trang nam",
+        "name": "Áo mưa nam",
         "is_primary": false,
         "category_children": []
       }

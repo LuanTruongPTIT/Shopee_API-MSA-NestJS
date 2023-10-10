@@ -1,3 +1,4 @@
+/* eslint-disable brace-style */
 /* eslint-disable no-unused-vars */
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AddCategoryProductCommand } from '../impl/add-category.command';

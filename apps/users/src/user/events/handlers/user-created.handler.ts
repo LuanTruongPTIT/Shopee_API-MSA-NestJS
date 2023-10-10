@@ -12,7 +12,7 @@ import { UserVerifyStatus } from '../../constants/user.enum.constant';
 import { AuthService } from 'apps/auth/src/auth.service';
 import { TokenDto } from '../../database/entities/token.dto';
 import { IAuthPassword } from '@libs/common/interfaces/auth.interface';
-import { Transactional } from '@libs/common/shared/Transaction';
+// import { Transactional } from '@libs/common/shared/Transaction';
 @EventsHandler(UserCreatedEvent)
 export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
   constructor(
@@ -45,7 +45,7 @@ export class UserCreatedHandler implements IEventHandler<UserCreatedEvent> {
     user.password = (await passwordAuth).passwordHash;
     user.password_created = (await passwordAuth).passwordCreated;
     user.password_expires = (await passwordAuth).passwordExpired;
-    // await this.userRepository.save(user);
+    await this.userRepository.save(user);
     const [access_token, refresh_token] =
       await this.repository.signAccessAndRefreshToken({
         userId,

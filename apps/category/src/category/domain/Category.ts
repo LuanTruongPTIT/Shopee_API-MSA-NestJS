@@ -1,6 +1,6 @@
 /* eslint-disable brace-style */
 import { AggregateRoot } from '@nestjs/cqrs';
-// import { Attribute } from '../infrastructure/entity/attribute.entity';
+import { Attribute } from '../infrastructure/entity/attribute.entity';
 // import { Product } from '../infrastructure/entity/product.entity';
 import { AddCategoryEvent } from './event/AddCategoryEvent';
 
@@ -19,7 +19,7 @@ export type CategoryOptionalProperties = Readonly<{
   description: string;
   is_product_listing_enabled: boolean;
   no_license_Seller_enabled: boolean;
-  // attribute_id: Attribute[];
+  attribute_id: Attribute['_id'];
   // product_id: Product[];
 }>;
 export type CategoryProperties = CategoryEssentialProperties &
@@ -41,7 +41,7 @@ export class CategoryProductImplement
   private description?: string;
   private is_product_listing_enabled?: true;
   private no_license_seller_enabled?: true;
-  // private attribute_id?: Attribute[];
+  private attribute_id?: Attribute[];
   // private product_id?: Product[];
 
   constructor(properties: CategoryProperties) {

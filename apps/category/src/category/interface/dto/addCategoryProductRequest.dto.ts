@@ -6,6 +6,7 @@ import {
   IsBoolean,
   IsOptional,
 } from 'class-validator';
+import { Attribute } from '../../infrastructure/entity/attribute.entity';
 // import { Attribute } from '../../infrastructure/entity/attribute.entity';
 // import { Product } from '../../infrastructure/entity/product.entity';
 
@@ -74,12 +75,12 @@ export class AddCategoryProductRequestDTO {
   })
   is_product_listing_enabled: boolean;
 
-  // @IsArray()
-  // @IsOptional()
-  // @ApiProperty({
-  //   type: 'array',
-  // })
-  // attribute_id: Attribute[];
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({
+    type: 'array',
+  })
+  attribute_id: Attribute['_id'];
 
   // @IsArray()
   // @IsOptional()

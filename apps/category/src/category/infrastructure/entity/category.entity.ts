@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
-// import { Attribute } from './attribute.entity';
+import { Attribute } from './attribute.entity';
 // import { Product } from './product.entity';
 
 @Entity('Category_Product')
@@ -60,8 +60,8 @@ export class CategoryProductEntity {
   })
   description: string;
 
-  // @Column((type) => Attribute)
-  // attribute_id: Attribute[];
+  @Column((type) => Attribute)
+  attribute_id: Attribute['_id'];
 
   @Column({
     type: 'boolean',
@@ -80,14 +80,4 @@ export class CategoryProductEntity {
 
   // @Column((type) => Product)
   // product_id: Product[];
-
-  // @CreateDateColumn({
-  //   name: 'createdDate',
-  // })
-  // createdDate: Date;
-
-  // @UpdateDateColumn({
-  //   name: 'updatedDate',
-  // })
-  // updatedDate: Date;
 }
