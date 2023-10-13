@@ -1,2 +1,3 @@
 import DatabaseConfig from './database.config';
-export default [DatabaseConfig];
+import UserConfig from './user.config';
+export default [DatabaseConfig, UserConfig];

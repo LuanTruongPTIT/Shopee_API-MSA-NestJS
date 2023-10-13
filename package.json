@@ -35,12 +35,14 @@
     "start:dev:roles": "yarn start:dev @apps/roles",
     "migration:dev:roles": "yarn workspace @apps/roles migration:run",
     "start:dev:products": "yarn start:dev @apps/products",
-    "start:dev:category": "yarn start:dev @apps/category"
+    "start:dev:category": "yarn start:dev @apps/category",
+    "start:dev:user_v2": "yarn start:dev @apps/user_v2"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.405.0",
     "@casl/ability": "^6.5.0",
     "@faker-js/faker": "^8.0.2",
+    "@juicycleff/nestjs-event-store": "^4.0.0",
     "@nestjs/cache-manager": "1.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",

@@ -14,6 +14,7 @@ export class DatabaseOptionsService implements IDatabaseOptionsService {
       : '';
 
     let uri = `${host}`;
+    console.log(host, name);
     if (name) {
       uri = `${uri}/${name}${options}`;
     }

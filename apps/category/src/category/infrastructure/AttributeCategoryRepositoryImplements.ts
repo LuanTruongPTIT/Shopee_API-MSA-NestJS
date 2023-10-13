@@ -3,9 +3,9 @@
 import { AttributeCategoryRepository } from '../domain/Attribute_Category.repository';
 import { AddAttributeCategoryRequestDto_v2 } from '../interface/dto/AddAttributCategory.v2.request.dto';
 import { datasource } from '../infrastructure/repository/database/orm.config';
-import { Attribute_Value } from '../infrastructure/entity/attribute.value.entity';
-import { Attribute } from '../infrastructure/entity/attribute.entity';
-import {} from '../infrastructure/entity/category.entity';
+import { Attribute_Value } from './entity/attribute.value.entity';
+import { Attribute } from './entity/attribute.entity';
+import {} from './entity/category.entity';
 import { AddAttributeValueCategoryRequestDto } from '../interface/dto/AddAttributeValueCategory.request.dto';
 
 export class AttributeCategoryRepositoryimpelents

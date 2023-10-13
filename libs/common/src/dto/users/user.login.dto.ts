@@ -2,7 +2,7 @@ import { IsString, IsNotEmpty } from 'class-validator';
 import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsStrongPassword } from '../../decorators/check-password.decorator';
-import { UserVerifyStatus } from 'apps/users/src/user/constants/user.enum.constant';
+// import { UserVerifyStatus } from 'apps/users/src/user/constants/user.enum.constant';
 export class UserLoginDto {
   @ApiProperty({
     example: '',
@@ -32,12 +32,12 @@ export class UserLoginDto {
   @IsStrongPassword()
   password: string;
 
-  @ApiProperty({
-    example: ['Verify', 'Blocked', 'Unverify'],
-    description: 'verify of user',
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsString()
-  verify: UserVerifyStatus;
+  // @ApiProperty({
+  //   example: ['Verify', 'Blocked', 'Unverify'],
+  //   description: 'verify of user',
+  //   required: true,
+  // })
+  // @IsNotEmpty()
+  // @IsString()
+  // verify: UserVerifyStatus;
 }

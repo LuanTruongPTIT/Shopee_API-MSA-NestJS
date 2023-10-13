@@ -1,4 +1,9 @@
-import { Catch, ArgumentsHost, ExceptionFilter } from '@nestjs/common';
+import {
+  Catch,
+  ArgumentsHost,
+  ExceptionFilter,
+  HttpStatus,
+} from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 @Catch(RpcException)
 export class RpcExceptionFilter implements ExceptionFilter {
@@ -7,7 +12,9 @@ export class RpcExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response: any = ctx.getResponse<Response>();
     response.json({
-      statusCode: error.statusCode,
+      statusCode: error?.statusCode
+        ? error.statusCode
+        : HttpStatus.INTERNAL_SERVER_ERROR,
       error,
       timestamp: new Date().toISOString(),
       stack: exception.stack,

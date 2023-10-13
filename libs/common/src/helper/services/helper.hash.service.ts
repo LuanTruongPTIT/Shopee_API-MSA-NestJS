@@ -12,7 +12,7 @@ export class HelperHashService implements IHelperHashService {
   }
 
   bcryptCompare(passwordString: string, passwordHashed: string): boolean {
-    console.log(passwordString, 'hash', passwordHashed);
+    // console.log(passwordString, 'hash', passwordHashed);
     return compareSync(passwordString, passwordHashed);
   }
 }

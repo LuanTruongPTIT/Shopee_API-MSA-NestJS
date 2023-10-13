@@ -13,27 +13,22 @@ import {
   EKafkaMessage,
 } from '@libs/common/interfaces/kafka.interface';
 import { ClientKafka, RpcException } from '@nestjs/microservices';
-import { UserDto } from 'apps/users/src/user/database/entities/users.dto';
+import { UserCreateDto } from '@libs/common/dto/users/user.create.dto';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
 import {
-  ApiSecurity,
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiHeader,
-  ApiParam,
   ApiNotFoundResponse,
-  ApiBody,
-  ApiOkResponse,
-  ApiConflictResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { AuthJwtAccessProtected } from '../decorators/user.decorator';
-import { checkNumberLoginFail } from '../../guards/checkNumberLoginFail.guard';
+// import { AuthJwtAccessProtected } from '../decorators/user.decorator';
+// import { checkNumberLoginFail } from '../../guards/checkNumberLoginFail.guard';
 import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
 import { UserSignUpDoc } from '../decorators/user.docs.decorator';
-import { Response } from '../../common/response/decorators/response.decorator';
-
+import { Response } from '@libs/common/response/decorators/response.decorator';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 @ApiTags('User')
 @Controller('/user')
 export class UserController implements OnModuleInit {
@@ -52,7 +47,7 @@ export class UserController implements OnModuleInit {
   @UserSignUpDoc()
   @Response('user.signUp')
   @Post('/create-user')
-  async createUser(@Body() data: UserDto) {
+  async createUser(@Body() data: UserCreateDto) {
     return await firstValueFrom(
       this.clientKafka
         .send(EKafkaMessage.REQUEST_CREATE_USER, JSON.stringify(data))
@@ -114,7 +109,7 @@ export class UserController implements OnModuleInit {
     },
   })
   // @UseGuards(TokenPayloadCheckExist, AuthJwtAccessGuard)
-  @AuthJwtAccessProtected()
+  // @AuthJwtAccessProtected()
   @Get('/email-verifications/:token')
   async sendVervifyEmail(@Param('token') token: string) {
     return firstValueFrom(
@@ -128,7 +123,7 @@ export class UserController implements OnModuleInit {
     );
   }
 
-  @UseGuards(checkNumberLoginFail)
+  // @UseGuards(checkNumberLoginFail)
   @Post('/signin')
   async SignIn(@Body() data: UserLoginDto) {
     return firstValueFrom(

@@ -4,8 +4,8 @@ import {
   DocDefault,
   DocRequest,
   DocResponse,
-} from '../../common/docs/decorators/doc.decorators';
-import { ENUM_DOC_REQUEST_BODY_TYPE } from '../../common/docs/constants/doc.enum.constants';
+} from '../../../../../libs/common/src/docs/decorators/doc.decorators';
+import { ENUM_DOC_REQUEST_BODY_TYPE } from '../../../../../libs/common/src/docs/constants/doc.enum.constants';
 import { GetCategoryResponseSerialization } from '../serializations/get-category.response.serialization';
 
 // import {} from '';

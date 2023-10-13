@@ -2,7 +2,6 @@ import { CategoryQuery } from '../../application/query/CategoryQuery';
 import { GetCategoryResult } from '../../application/query/GetCategoryResult';
 import { datasource } from '../repository/database/orm.config';
 import { CategoryProductEntity } from '../entity/category.entity';
-
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';

@@ -6,6 +6,7 @@ import {
   Inject,
   OnModuleInit,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ClientKafka, RpcException } from '@nestjs/microservices';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
@@ -14,12 +15,16 @@ import { ApiTags } from '@nestjs/swagger';
 import { AddAttributeCategoryRequestDto_v2 } from '@libs/common/dto/category/AddAttributCategory.v2.request.dto';
 import { CategoryAddDoc } from '../decorators/category.decorator.docs';
 import { GetCategoryDoc } from '../decorators/category.decorator.docs';
+import { HttpCacheInterceptor } from '../interceptor';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 @ApiTags('Category')
 @Controller('/category')
 export class CategoryController implements OnModuleInit {
   constructor(
     @Inject(EMicroservice.GATEWAY_CATEGORY_SERVICE)
     private readonly clientKafka_category: ClientKafka,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async onModuleInit() {
@@ -50,9 +55,12 @@ export class CategoryController implements OnModuleInit {
   }
 
   @GetCategoryDoc()
+  @UseInterceptors(HttpCacheInterceptor)
   @Get('')
   async GetAllCategory() {
     const message = 'get all category';
+    const keys: string[] = await this.cacheManager.store.keys();
+    console.log(keys);
     return firstValueFrom(
       this.clientKafka_category
         .send(EKafkaMessage.REQUEST_GET_ALL_CATEGORY, JSON.stringify(message))

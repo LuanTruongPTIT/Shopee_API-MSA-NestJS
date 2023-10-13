@@ -2,8 +2,8 @@ import { ENUM_ROLE_TYPE } from '../../constants/role.enum.constant';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { IPolicyRule } from '@libs/common/interfaces/policy.interface';
-import { CallbackWithoutResultAndOptionalError } from 'mongoose';
-@Schema()
+import { CallbackWithoutResultAndOptionalError, Document } from 'mongoose';
+@Schema({ collection: 'RoleEntity' })
 export class RoleEntity extends DatabaseMongoUUIDEntityAbstract {
   @Prop({
     required: true,
@@ -37,7 +37,7 @@ export class RoleEntity extends DatabaseMongoUUIDEntityAbstract {
     index: true,
     type: String,
   })
-  type: ENUM_ROLE_TYPE[];
+  type: ENUM_ROLE_TYPE;
 
   @Prop({
     required: true,
@@ -61,6 +61,7 @@ export class RoleEntity extends DatabaseMongoUUIDEntityAbstract {
   permissions: IPolicyRule[];
 }
 export const RoleSchema = SchemaFactory.createForClass(RoleEntity);
+export type RoleDoc = RoleEntity & Document;
 RoleSchema.pre('save', function (next: CallbackWithoutResultAndOptionalError) {
   this.name = this.name.toLowerCase();
   next();

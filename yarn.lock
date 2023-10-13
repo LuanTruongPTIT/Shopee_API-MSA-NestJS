@@ -1129,6 +1129,15 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@juicycleff/nestjs-event-store@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@juicycleff/nestjs-event-store/-/nestjs-event-store-4.0.0.tgz#ce25c51ee148d77114375219b893d4c5484f329e"
+  integrity sha512-7kH1fbhNhAPHmCQPAXRttQw4bMCWX/Jn46lrywP6CFCUCdM0P7p1eTlHRnh8vmzKlHbobpZxwa+amZKQQOwZeQ==
+  dependencies:
+    node-eventstore-client "^0.2.16"
+    node-nats-streaming "^0.3.2"
+    uuid "^8.3.0"
+
 "@lukeed/csprng@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@lukeed/csprng/-/csprng-1.1.0.tgz#1e3e4bd05c1cc7a0b2ddbd8a03f39f6e4b5e6cfe"
@@ -4730,6 +4739,11 @@ globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
+google-protobuf@^3.11.2:
+  version "3.21.2"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.21.2.tgz#4580a2bea8bbb291ee579d1fefb14d6fa3070ea4"
+  integrity sha512-3MSOYFO5U9mPGikIYCzK0SaThypfGgS6bHqrUGXG3DPHCrb+txNqeEcns1W0lkGfk0rCyNXm7xB9rMxnCiZOoA==
+
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
   version "4.2.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
@@ -6044,6 +6058,14 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
+nats@^1.4.9:
+  version "1.4.12"
+  resolved "https://registry.yarnpkg.com/nats/-/nats-1.4.12.tgz#11a988d5041d95dfb1b6ac1e37c0cfb57b171579"
+  integrity sha512-Jf4qesEF0Ay0D4AMw3OZnKMRTQm+6oZ5q8/m4gpy5bTmiDiK6wCXbZpzEslmezGpE93LV3RojNEG6dpK/mysLQ==
+  dependencies:
+    nuid "^1.1.4"
+    ts-nkeys "^1.0.16"
+
 natural-compare-lite@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare-lite/-/natural-compare-lite-1.4.0.tgz#17b09581988979fddafe0201e931ba933c96cbb4"
@@ -6093,7 +6115,7 @@ node-emoji@1.11.0:
   dependencies:
     lodash "^4.17.21"
 
-node-eventstore-client@^0.2.18:
+node-eventstore-client@^0.2.16, node-eventstore-client@^0.2.18:
   version "0.2.19"
   resolved "https://registry.yarnpkg.com/node-eventstore-client/-/node-eventstore-client-0.2.19.tgz#cb5c68c9bbf61d83d1adb223c36d81d3f8489e68"
   integrity sha512-mmnRtDcO13b07zYWDHzXg2MJY0nTOfGFMNWiBBcd+uGehowmL+tP19WfPTjfFBnagbb1zZQX3DPIVenOBQIHiQ==
@@ -6128,6 +6150,15 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==
 
+node-nats-streaming@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/node-nats-streaming/-/node-nats-streaming-0.3.2.tgz#a6d1b77eae837495856893f573e3d78184b39833"
+  integrity sha512-exeT+FwGYW3UbBSzu8a7ykwWoY6R/vjQLr1RoZ1gnoJ9F66WVvpMZQWCZzLxlf9XRpJTTygcp6P1+WRw9h07Sg==
+  dependencies:
+    google-protobuf "^3.11.2"
+    nats "^1.4.9"
+    nuid "^1.1.4"
+
 node-releases@^2.0.13:
   version "2.0.13"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.13.tgz#d5ed1627c23e3461e819b02e57b75e4899b1c81d"
@@ -6149,6 +6180,11 @@ npm-run-path@^4.0.0, npm-run-path@^4.0.1:
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==
   dependencies:
     path-key "^3.0.0"
+
+nuid@^1.1.4:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/nuid/-/nuid-1.1.6.tgz#a3b5a1df155f6615fed1dbd39ad3dbf9d2e0b82b"
+  integrity sha512-Eb3CPCupYscP1/S1FQcO5nxtu6l/F3k0MQ69h7f5osnsemVk5pkc8/5AyalVT+NCfra9M71U8POqF6EZa6IHvg==
 
 object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.1:
   version "4.1.1"
@@ -7471,6 +7507,13 @@ ts-loader@^9.4.3:
     micromatch "^4.0.0"
     semver "^7.3.4"
 
+ts-nkeys@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/ts-nkeys/-/ts-nkeys-1.0.16.tgz#b0c6e7c4f16f976c7e7ddb6982fc789a2f971248"
+  integrity sha512-1qrhAlavbm36wtW+7NtKOgxpzl+70NTF8xlz9mEhiA5zHMlMxjj3sEVKWm3pGZhHXE0Q3ykjrj+OSRVaYw+Dqg==
+  dependencies:
+    tweetnacl "^1.0.3"
+
 ts-node@^10.0.0, ts-node@^10.9.1:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
@@ -7539,6 +7582,11 @@ tsutils@^3.21.0:
   integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"
+
+tweetnacl@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
+  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
@@ -7662,7 +7710,7 @@ utils-merge@1.0.1, utils-merge@^1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-uuid@8.3.2, uuid@^8.3.2:
+uuid@8.3.2, uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==

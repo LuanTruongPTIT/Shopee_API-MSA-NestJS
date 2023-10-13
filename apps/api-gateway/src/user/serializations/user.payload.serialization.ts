@@ -1,4 +1,4 @@
-import { ENUM_POLICY_SUBJECT } from '../../common/policy/constants/policy.enum.constants';
+import { ENUM_POLICY_SUBJECT } from '@libs/common/policy/constants/policy.enum.constants';
 import { ApiProperty } from '@nestjs/swagger';
 // import {} from '';
 export class UserPayloadPermissionSerialization {

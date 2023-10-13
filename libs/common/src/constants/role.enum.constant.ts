@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-vars */
 export enum ENUM_ROLE_TYPE {
-  SELLER = 'seller',
-  BUYER = 'buyer',
-  SUPER_ADMIN = 'shop manager',
-  CUSTOMER_SUPPORT_STAFF = 'custom support staff',
-  SUPPLIER = 'supplier',
+  SHOP = 'SHOP',
+  BUYER = 'BUYER',
+  ADMIN = 'ADMIN',
 }
 export enum ENUM_POLICY_ACTION {
   MANAGE = 'manage',

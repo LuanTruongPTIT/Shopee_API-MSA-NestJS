@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { validate } from './common/config';
+import { validate } from './config';
 import { ControllerModule } from './index';
-import { CommonModule } from './common/common.module';
+import { CommonModule } from '../../../libs/common/src/common.module';
 @Module({
   imports: [
     ConfigModule.forRoot({

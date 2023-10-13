@@ -83,9 +83,9 @@ export class RoleCreateDto {
   @IsNotEmpty()
   @IsArray()
   @ValidateNested()
-  @ValidateIf((e) => e.type === ENUM_ROLE_TYPE.SUPER_ADMIN)
+  @ValidateIf((e) => e.type === ENUM_ROLE_TYPE.ADMIN)
   @Transform(({ value, obj }) =>
-    obj.type !== ENUM_ROLE_TYPE.SUPER_ADMIN ? [] : value,
+    obj.type !== ENUM_ROLE_TYPE.ADMIN ? [] : value,
   )
-  permission: RolePermissionDto;
+  permission: RolePermissionDto[];
 }

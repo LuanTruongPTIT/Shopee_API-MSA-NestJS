@@ -1,15 +1,10 @@
-import {
-  HttpStatus,
-  applyDecorators,
-  BadRequestException,
-} from '@nestjs/common';
+import { HttpStatus, applyDecorators } from '@nestjs/common';
 import {
   Doc,
-  DocDefault,
   DocRequest,
   DocResponse,
-} from '../../common/docs/decorators/doc.decorators';
-import { ENUM_DOC_REQUEST_BODY_TYPE } from '../../common/docs/constants/doc.enum.constants';
+} from '@libs/common/docs/decorators/doc.decorators';
+import { ENUM_DOC_REQUEST_BODY_TYPE } from '@libs/common/docs/constants/doc.enum.constants';
 
 export function UserSignUpDoc(): MethodDecorator {
   return applyDecorators(

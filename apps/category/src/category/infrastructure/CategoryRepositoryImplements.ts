@@ -1,5 +1,5 @@
 import { CategoryRepository } from '../domain/CategoryRepository';
-import { CategoryProductEntity } from '../infrastructure/entity/category.entity';
+import { CategoryProductEntity } from './entity/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from '../domain/Category';

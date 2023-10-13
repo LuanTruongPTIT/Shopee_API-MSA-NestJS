@@ -73,6 +73,15 @@
         "tsConfigPath": "apps/category/tsconfig.app.json"
       }
     },
+       "@apps/user_v2": {
+      "type": "application",
+      "root": "apps/user_v2",
+      "entryFile": "main",
+      "sourceRoot": "apps/user_v2/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user_v2/tsconfig.app.json"
+      }
+    },
     "@libs/infra": {
       "type": "library",
       "root": "libs/infra",

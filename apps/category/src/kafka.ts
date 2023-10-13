@@ -1,6 +1,10 @@
 import { NestApplication } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { EKafkaGroup } from '@libs/common/interfaces';
+import {
+  ClientsModuleOptions,
+  MicroserviceOptions,
+  Transport,
+} from '@nestjs/microservices';
+import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
 import { Logger } from '@nestjs/common';
 export default async function (app: NestApplication) {
   app.connectMicroservice<MicroserviceOptions>({
