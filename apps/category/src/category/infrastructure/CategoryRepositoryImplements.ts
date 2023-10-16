@@ -5,7 +5,9 @@ import { Repository } from 'typeorm';
 import { Category } from '../domain/Category';
 import { CategoryProperties } from '../domain/Category';
 import { datasource } from './repository/database/orm.config';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CategoryRepositoryImplements implements CategoryRepository {
   constructor(
     @InjectRepository(CategoryProductEntity)

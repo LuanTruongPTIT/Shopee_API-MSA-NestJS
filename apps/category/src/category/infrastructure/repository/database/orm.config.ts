@@ -17,3 +17,4 @@ export const typeormConfig: DataSourceOptions & TypeOrmModuleOptions = {
   entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
 };
 export const datasource = new DataSource(typeormConfig);
+console.log(getMetadataArgsStorage().tables.map((tbl) => tbl.target));

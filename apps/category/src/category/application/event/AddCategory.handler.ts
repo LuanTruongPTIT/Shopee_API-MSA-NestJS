@@ -8,5 +8,6 @@ export class AddCategoryHandler implements IEventHandler<AddCategoryEvent> {
 
   handle(event: AddCategoryEvent) {
     Logger.log('AddCategoryEvent');
+    // console.log(event);
   }
 }

@@ -6,10 +6,11 @@ import { DatabaseOptionModule } from '@libs/common/database_mongoose/database.op
 import config from '@libs/common/configs/index';
 import { RoleRepositoryModule } from './database/role.repository.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DATABASE_CONNECTION_NAME } from '@libs/common/database_mongoose/constants/database.constant';
 import { ICreateRoleUseCase } from './domains/usecases/i-create-role.usecase';
 import { CreateRoleUseCase } from './domains/usecases/create-role.usecase';
 import { RoleController } from './controllers/role.controller';
+import { IFindRoleUseCase } from './domains/usecases/i-find-role.usecase';
+import { FindRoleUseCase } from './domains/usecases/find-role.usecase';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,9 +21,7 @@ import { RoleController } from './controllers/role.controller';
     /**
      * Database Config
      */
-
     MongooseModule.forRootAsync({
-      // connectionName: DATABASE_CONNECTION_NAME,
       imports: [DatabaseOptionModule],
       inject: [DatabaseOptionsService],
       useFactory: (databaseOptionsService: DatabaseOptionsService) => {
@@ -35,6 +34,10 @@ import { RoleController } from './controllers/role.controller';
     {
       provide: ICreateRoleUseCase,
       useClass: CreateRoleUseCase,
+    },
+    {
+      provide: IFindRoleUseCase,
+      useClass: FindRoleUseCase,
     },
   ],
   controllers: [RoleController],

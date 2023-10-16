@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IAdapterStore } from './adapter.interface';
 import { ProjectionDto } from './projection.dto';
+import {} from 'typeorm';
 
 @Injectable()
 export class MongoStore implements IAdapterStore {
@@ -31,6 +32,7 @@ export class MongoStore implements IAdapterStore {
   }
 
   async read(key: string): Promise<number> {
+    console.log(key);
     const state = await this.projectionRepo.findOne({
       where: { streamName: key }, // Specify the query criteria
       lock: { mode: 'optimistic', version: new Date() },

@@ -8,13 +8,14 @@ import { CategoryRepositoryImplements } from '../../../infrastructure/CategoryRe
 import { BadRequestException, Inject } from '@nestjs/common';
 import { CategoryFactory } from '../../../domain/CategoryFactory';
 import { RpcException } from '@nestjs/microservices';
+import { CategoryRepository } from '../../../domain/CategoryRepository';
 @CommandHandler(AddCategoryProductCommand)
 export class AddCategoryProductHandler
   implements ICommandHandler<AddCategoryProductCommand, IResponse>
 {
   constructor(
     @Inject(InjectionToken.CATEGORY_REPOSITORY)
-    private readonly categoryProductRepo: CategoryRepositoryImplements,
+    private readonly categoryProductRepo: CategoryRepository,
 
     private readonly categoryFactory: CategoryFactory,
   ) {}

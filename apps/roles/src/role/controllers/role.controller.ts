@@ -1,22 +1,25 @@
 import { Controller, Inject, Body, ConflictException } from '@nestjs/common';
-import { RpcException, MessagePattern } from '@nestjs/microservices';
+import { RpcException, MessagePattern, Payload } from '@nestjs/microservices';
 import { RoleCreateDto } from '../domains/dtos/role.create.dto';
 import { EKafkaMessage } from '@libs/common/interfaces/kafka.interface';
 import { ICreateRoleUseCase } from '../domains/usecases/i-create-role.usecase';
 import { ENUM_ROLE_STATUS_CODE_ERROR } from '../constants/role.enum.error';
 import { IResponse } from '@libs/common/response/interfaces/response.interface';
-import { EventPattern } from '@nestjs/microservices';
+import { IFindRoleUseCase } from '../domains/usecases/i-find-role.usecase';
+
 @Controller()
 export class RoleController {
   constructor(
     @Inject(ICreateRoleUseCase)
     private readonly createRoleUseCase: ICreateRoleUseCase,
+    @Inject(IFindRoleUseCase)
+    private readonly findRoleUseCase: IFindRoleUseCase,
   ) {}
 
   @MessagePattern(EKafkaMessage.REQUEST_CREATE_ROLE)
   async CreateRole(@Body() data: RoleCreateDto): Promise<IResponse> {
     const { name } = data;
-    console.log(name);
+
     const result: boolean = await this.createRoleUseCase.checkExistName(name);
 
     if (result) {
@@ -33,10 +36,9 @@ export class RoleController {
     };
   }
 
-  @EventPattern(EKafkaMessage.REQUEST_FIND_ROLE_BY_NAME)
-  async findRole(@Body() data: string) {
-    console.log(data);
-    console.log('Async find role by name');
-    return 1;
+  @MessagePattern('REQUEST_FIND_ROLE_BY_NAME')
+  async findRole(@Payload() data: string) {
+    const result = await this.findRoleUseCase.FindOneByName(JSON.parse(data));
+    return result._id;
   }
 }

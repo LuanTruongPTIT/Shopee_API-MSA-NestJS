@@ -24,9 +24,10 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
 
   async findOne<T = EntityDocument>(
     find: Record<string, any>,
-    options: IDatabaseFindOneOptions<ClientSession>,
+    options?: IDatabaseFindOneOptions<ClientSession>,
   ): Promise<T> {
     const findOne = this._repository.findOne<EntityDocument>(find);
+
     if (options?.withDeleted) {
       findOne.or([
         {
@@ -43,7 +44,7 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
       findOne.select(options.select);
     }
 
-    if (options.join) {
+    if (options?.join) {
       findOne.populate(
         typeof options.join === 'boolean'
           ? this._joinOnFind

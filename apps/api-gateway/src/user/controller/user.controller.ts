@@ -13,7 +13,7 @@ import {
   EKafkaMessage,
 } from '@libs/common/interfaces/kafka.interface';
 import { ClientKafka, RpcException } from '@nestjs/microservices';
-import { UserCreateDto } from '@libs/common/dto/users/user.create.dto';
+import { UserSignUpDto } from '@libs/common/dto/users/user.sign-up.dto';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
 import {
   ApiTags,
@@ -47,7 +47,7 @@ export class UserController implements OnModuleInit {
   @UserSignUpDoc()
   @Response('user.signUp')
   @Post('/create-user')
-  async createUser(@Body() data: UserCreateDto) {
+  async createUser(@Body() data: UserSignUpDto) {
     return await firstValueFrom(
       this.clientKafka
         .send(EKafkaMessage.REQUEST_CREATE_USER, JSON.stringify(data))

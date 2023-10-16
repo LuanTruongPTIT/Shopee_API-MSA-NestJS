@@ -1,4 +1,4 @@
-import { ENUM_ROLE_TYPE } from '../../constants/role.enum.constant';
+import { ENUM_ROLE_TYPE } from '@libs/common/constants/role.enum.constant';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { IPolicyRule } from '@libs/common/interfaces/policy.interface';

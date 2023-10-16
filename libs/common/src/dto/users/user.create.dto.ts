@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { MobileNumberAllowed } from '@libs/common/request/validations/request.mobile-number-allowed.validation';
 import { ApiProperty } from '@nestjs/swagger';
-import { ENUM_USER_SIGN_UP_FROM } from 'apps/user_v2/src/user/constants/user.enum';
+import { ENUM_USER_SIGN_UP_FROM } from '../../constants/user.enum';
 import { Type } from 'class-transformer';
 import {
   IsEmail,
@@ -15,8 +15,13 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-
+import { DatabaseDefaultUUID } from '@libs/common/database_mongoose/constants/database.function.constant';
 export class UserCreateDto {
+  constructor() {
+    this._id = DatabaseDefaultUUID;
+  }
+
+  _id: string;
   @ApiProperty({
     example: faker.internet.email(),
   })

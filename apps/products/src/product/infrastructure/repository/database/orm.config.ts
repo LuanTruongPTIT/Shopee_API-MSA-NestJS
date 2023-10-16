@@ -20,3 +20,4 @@ export function ormConfig(): any {
     entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
   };
 }
+console.log(getMetadataArgsStorage().tables.map((tbl) => tbl.target));

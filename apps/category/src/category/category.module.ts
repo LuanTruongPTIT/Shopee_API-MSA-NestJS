@@ -24,7 +24,7 @@ import { ProjectionDto } from '@libs/core/event-store/lib/adapter/projection.dto
 import { EventStoreSubscriptionType } from '@libs/core/event-store/lib/contract';
 
 import { MongoStore } from '@libs/core/event-store/lib/adapter/mongo-store';
-import { AuthService } from 'apps/auth/src/auth.service';
+
 import { JwtModule } from '@nestjs/jwt';
 import { RedisModule } from 'libs/redis/src/redis.module';
 
@@ -69,22 +69,6 @@ const infrastructure: Provider[] = [
     TypeOrmModule.forFeature([ProjectionDto, CategoryProductEntity]),
     JwtModule.register({}),
     CqrsModule,
-    // DatabaseModule,
-    // ClientsModule.register([
-    //   {
-    //     name: EMicroservice.GATEWAY_AUTH_SERVICE,
-    //     transport: Transport.KAFKA,
-    //     options: {
-    //       client: {
-    //         clientId: EMicroservice.GATEWAY_AUTH_SERVICE,
-    //         brokers: [process.env.KAFKA_HOST],
-    //       },
-    //       consumer: {
-    //         groupId: EKafkaGroup.AUTH_GROUP,
-    //       },
-    //     },
-    //   },
-    // ]),
     RedisModule,
     EventStoreModule.registerFeature({
       featureStreamName: CONSTANTS.STREAM_NAME.CATEGORY,

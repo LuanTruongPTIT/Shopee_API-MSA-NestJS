@@ -32,7 +32,7 @@ import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
       },
     }),
   ],
-  providers: [CommandBus, EventBus, QueryBus],
+  providers: [],
 })
 export class ProductModule implements OnModuleInit {
   constructor(

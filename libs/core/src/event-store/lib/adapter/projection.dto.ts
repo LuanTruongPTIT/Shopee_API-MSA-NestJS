@@ -8,9 +8,10 @@ export class ProjectionDto extends BaseEntityDto {
     eventNumber: number,
     expectedVersion?: number,
   ) {
-    super();
+    super(); // Gọi constructor của lớp cơ sở BaseEntityDto
     this.streamName = streamName;
     this.eventNumber = eventNumber;
+    // this.expectedVersion = expectedVersion;
   }
 
   @Column()

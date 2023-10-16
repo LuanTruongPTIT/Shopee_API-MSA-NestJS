@@ -8,6 +8,7 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { RequestMiddlewareModule } from './middleware/request.middleware.module';
+import { MobileNumberAllowedConstraint } from './validations/request.mobile-number-allowed.validation';
 @Module({
   controllers: [],
   providers: [
@@ -15,6 +16,7 @@ import { RequestMiddlewareModule } from './middleware/request.middleware.module'
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
+    MobileNumberAllowedConstraint,
   ],
   imports: [
     RequestMiddlewareModule,

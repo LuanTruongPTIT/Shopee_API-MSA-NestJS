@@ -13,7 +13,6 @@ import { AuthController } from './auth.controller';
       isGlobal: true,
       validate,
     }),
-    AwsModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],

@@ -3,8 +3,12 @@ import {
   ValidatorConstraintInterface,
   ValidationOptions,
   registerDecorator,
+  ValidatorConstraint,
 } from 'class-validator';
 import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
+@ValidatorConstraint({ async: true })
+@Injectable()
 export class MobileNumberAllowedConstraint
   implements ValidatorConstraintInterface
 {
