@@ -1,0 +1,5 @@
+ <p align="center"> HẠN CHẾ I/O </p>
+Hạn chế I/O trong backend là một trong những nguyên tắc quan trọng trong việc phát triển ứng dụng để đảm bảo hiệu suất và khả năng mở rộng của hệ thống, Dưới dây là một số lý do quan trọng về việc backend
+1. Hiệu suất và thời gian phản hồi: I/O thường là hoạt động chậm so với việc xử lý các thao tác trong bộ nhớ hoặc trên CPU. Khi ứng dụng thực hiện nhiều hoạt động I/O thời gian phản hồi của ứng dụng có thể tăng lên, gây ra tình trạng trễ và làm cho người dùng cảm thấy không hài lòng về hiệu suất của ứng dụng 
+2. Tài nguyên hệ thống: Hoạt động I/O cần sử dụng tài nguyên hệ thống như băng thông mạng bộ nhớ thậm chí là tài nguyên I/O của ổ đĩa. Nếu I/O không được quản lý tốt nó thể tiêu thụ tài nguyên hệ thống quá nhiều ảnh hưởng đến các hoạt động khác và làm cho hệ thống trở nên chậm chạp 
+3. Khả năng mở rộng: Khi ứng dụng thực hiện nhiều I/O vieec
