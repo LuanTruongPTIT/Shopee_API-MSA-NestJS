@@ -43,7 +43,7 @@
     "@casl/ability": "^6.5.0",
     "@faker-js/faker": "^8.0.2",
     "@juicycleff/nestjs-event-store": "^4.0.0",
-    "@nestjs-modules/mailer": "^1.9.1",
+    
     "@nestjs/axios": "^3.0.0",
     "@nestjs/bull": "^10.0.1",
     "@nestjs/cache-manager": "1.0.0",
@@ -63,7 +63,7 @@
     "@types/lodash": "^4.14.196",
     "@types/mongodb": "^4.0.7",
     "@types/ms": "^0.7.32",
-    "@types/nodemailer": "^6.4.11",
+ 
     "@types/passport-jwt": "^3.0.9",
     "@types/passport-local": "^1.0.35",
     "@types/ratelimiter": "^3.4.4",
@@ -90,7 +90,7 @@
     "nest-ratelimiter": "^0.3.3",
     "nestjs-eventstore": "^2.1.0",
     "node-eventstore-client": "^22.10.2",
-    "nodemailer": "^6.9.6",
+
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
