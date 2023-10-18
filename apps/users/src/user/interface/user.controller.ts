@@ -15,6 +15,7 @@ import {
 import { CreateUserCommand } from '../application/command/impl/create-user.command.impl';
 import { UserSignUpDto } from '@libs/common/dto/users/user.sign-up.dto';
 import { firstValueFrom } from 'rxjs';
+import { IResponse } from '@libs/common/response/interfaces/response.interface';
 @Controller()
 export class UserController implements OnModuleInit {
   constructor(
@@ -32,7 +33,7 @@ export class UserController implements OnModuleInit {
   }
 
   @MessagePattern(EKafkaMessage.REQUEST_CREATE_USER)
-  async signUp(@Body() data: UserSignUpDto) {
+  async signUp(@Body() data: UserSignUpDto): Promise<IResponse> {
     const role = await firstValueFrom(
       this.clientKafka.send(
         'REQUEST_FIND_ROLE_BY_NAME',
@@ -52,6 +53,7 @@ export class UserController implements OnModuleInit {
       data._id,
       role,
     );
-    await this.commandBus.execute(command);
+    const result = await this.commandBus.execute(command);
+    return result;
   }
 }
