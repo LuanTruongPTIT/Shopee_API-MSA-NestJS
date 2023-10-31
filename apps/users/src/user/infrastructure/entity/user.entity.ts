@@ -1,6 +1,9 @@
 import { Entity, Column, ObjectIdColumn } from 'typeorm';
 
-import { ENUM_USER_SIGN_UP_FROM } from '../../constants/user.enum';
+import {
+  ENUM_USER_SIGN_UP_FROM,
+  UserVerifyStatus,
+} from '../../constants/user.enum';
 import { BaseEntityDto } from '@libs/common/base/base-entity.dto';
 
 @Entity('UserEntity')
@@ -64,4 +67,10 @@ export class UserEntity extends BaseEntityDto {
 
   @Column({ type: String })
   photo: string;
+
+  @Column({ enum: UserVerifyStatus })
+  verify: UserVerifyStatus;
+
+  @Column({ type: 'string' })
+  email_verify_token: string;
 }

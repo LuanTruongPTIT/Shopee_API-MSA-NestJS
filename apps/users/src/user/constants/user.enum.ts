@@ -1,4 +1,5 @@
 export enum ENUM_USER_SIGN_UP_FROM {
+  LOCAL = 'LOCAL',
   PUBLIC = 'PUBLIC',
   ADMIN = 'ADMIN',
 }
@@ -15,4 +16,9 @@ export enum ENUM_USER_STATUS_CODE_ERROR {
   USER_PASSWORD_EXPIRED_ERROR = 5209,
   USER_PASSWORD_ATTEMPT_MAX_ERROR = 5210,
   USER_BLOCKED_ERROR = 5211,
+  USER_IS_NOT_VERIFY = 403,
+}
+export enum UserVerifyStatus {
+  Unverified,
+  Verified,
 }

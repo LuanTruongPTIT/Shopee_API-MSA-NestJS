@@ -10,12 +10,19 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   ClientKafka,
   MessagePattern,
+  EventPattern,
   RpcException,
+  Payload,
 } from '@nestjs/microservices';
 import { CreateUserCommand } from '../application/command/impl/create-user.command.impl';
 import { UserSignUpDto } from '@libs/common/dto/users/user.sign-up.dto';
 import { firstValueFrom } from 'rxjs';
 import { IResponse } from '@libs/common/response/interfaces/response.interface';
+import { FindUserByIdQuery } from '../application/query/impl/FindUserById.impl';
+import { VerifyEmailCommand } from '../application/command/impl/verify-email.command.impl';
+import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
+import { UserEntity } from '../infrastructure/entity/user.entity';
+import { UserLoginCommand } from '../application/command/impl/user.login.command.impl';
 @Controller()
 export class UserController implements OnModuleInit {
   constructor(
@@ -55,5 +62,22 @@ export class UserController implements OnModuleInit {
     );
     const result = await this.commandBus.execute(command);
     return result;
+  }
+
+  @MessagePattern(EKafkaMessage.REQUEST_USER_BY_ID)
+  async FindUserById(@Body() data: string): Promise<IResponse> {
+    return this.queryBus.execute(new FindUserByIdQuery(data));
+  }
+
+  @MessagePattern(EKafkaMessage.REQUEST_VERIFY_EMAIL)
+  async VerifyEmail(@Body() data: string): Promise<IResponse> {
+    return this.commandBus.execute(new VerifyEmailCommand(data));
+  }
+
+  @MessagePattern(EKafkaMessage.REQUEST_LOGIN)
+  async signIn(@Body() data: UserLoginDto): Promise<void> {
+    const { email, password } = data;
+    return this.commandBus.execute(new UserLoginCommand(email, password));
+    // return data;
   }
 }

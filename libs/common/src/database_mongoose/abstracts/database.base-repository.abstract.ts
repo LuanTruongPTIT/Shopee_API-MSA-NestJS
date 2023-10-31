@@ -21,4 +21,9 @@ export abstract class DatabaseBaseRepositoryAbstract<Entity> {
     find: Record<string, any>,
     options?: IDatabaseExistOptions<any>,
   ): Promise<boolean>;
+
+  abstract findOneById<T = Entity>(
+    _id: string,
+    options?: IDatabaseFindOneOptions,
+  ): Promise<T>;
 }

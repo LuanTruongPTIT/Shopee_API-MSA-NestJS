@@ -4,9 +4,8 @@ import {
   Inject,
   OnModuleInit,
   Post,
-  Get,
-  Param,
-  UseGuards,
+  Request,
+  Put,
 } from '@nestjs/common';
 import {
   EMicroservice,
@@ -15,32 +14,30 @@ import {
 import { ClientKafka, RpcException } from '@nestjs/microservices';
 import { UserSignUpDto } from '@libs/common/dto/users/user.sign-up.dto';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
+import { ApiTags } from '@nestjs/swagger';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiHeader,
-  ApiNotFoundResponse,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
-// import { AuthJwtAccessProtected } from '../decorators/user.decorator';
-// import { checkNumberLoginFail } from '../../guards/checkNumberLoginFail.guard';
-import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
-import { UserSignUpDoc } from '../decorators/user.docs.decorator';
+  UserSignUpDoc,
+  VerifyEmailDoc,
+} from '../decorators/user.docs.decorator';
 import { Response } from '@libs/common/response/decorators/response.decorator';
-import { CacheInterceptor } from '@nestjs/cache-manager';
+import { TokenEmailUserProtected } from '../decorators/user.decorator';
+import { ConfigService } from '@nestjs/config';
+import { TokenVerifyEmailDto } from '@libs/common/dto/users/user.verify.email.dto';
+import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
 @ApiTags('User')
 @Controller('/user')
 export class UserController implements OnModuleInit {
   constructor(
     @Inject(EMicroservice.GATEWAY_USER_SERVICE)
     private readonly clientKafka: ClientKafka,
+    private readonly configService: ConfigService,
   ) {}
 
   async onModuleInit() {
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_CREATE_USER);
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_VERIFY_EMAIL);
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_LOGIN);
+
     await this.clientKafka.connect();
   }
 
@@ -59,62 +56,19 @@ export class UserController implements OnModuleInit {
     );
   }
 
-  @ApiOperation({
-    summary: 'Verify Email',
-    description: 'Verify email when user click',
-    operationId: 'Verify email user',
-  })
-  // @ApiHeader({
-  //   name: 'Authorization',
-  //   description: 'Bearer access token',
-  //   required: true,
-  // })
-  @ApiBearerAuth('token')
-  @ApiHeader({
-    name: 'userId',
-    description: 'User ID',
-  })
-  @ApiNotFoundResponse({
-    status: 400,
-    description: 'Token is not valid',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object',
-          properties: {
-            message: {
-              type: 'string',
-              example: 'Invalid Token',
-            },
-          },
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User Verify email success',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object',
-          properties: {
-            message: {
-              type: 'string',
-              example: 'User Verify email success',
-            },
-          },
-        },
-      },
-    },
-  })
-  // @UseGuards(TokenPayloadCheckExist, AuthJwtAccessGuard)
-  // @AuthJwtAccessProtected()
-  @Get('/email-verifications/:token')
-  async sendVervifyEmail(@Param('token') token: string) {
+  @VerifyEmailDoc()
+  @Response('user.verify.email')
+  @TokenEmailUserProtected()
+  @Put('/email-verifications/')
+  async sendVervifyEmail(
+    @Body() token: TokenVerifyEmailDto,
+    @Request() request,
+  ) {
+    const user_id = request.user;
+
     return firstValueFrom(
       this.clientKafka
-        .send(EKafkaMessage.REQUEST_VERIFY_EMAIL, JSON.stringify(token))
+        .send(EKafkaMessage.REQUEST_VERIFY_EMAIL, JSON.stringify(user_id))
         .pipe(
           catchError((error) =>
             throwError(() => new RpcException(error.response)),
@@ -123,7 +77,6 @@ export class UserController implements OnModuleInit {
     );
   }
 
-  // @UseGuards(checkNumberLoginFail)
   @Post('/signin')
   async SignIn(@Body() data: UserLoginDto) {
     return firstValueFrom(

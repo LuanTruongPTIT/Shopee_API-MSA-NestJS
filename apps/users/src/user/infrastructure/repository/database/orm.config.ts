@@ -15,5 +15,6 @@ export const typeormConfig: DataSourceOptions & TypeOrmModuleOptions = {
     connectionLimit: parseInt(process.env.DATABASE_CONNECTION_LIMIT),
   },
   entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
+  // entities: [__dirname + '/../../../*{.ts,.js}'],
 };
 export const datasource = new DataSource(typeormConfig);

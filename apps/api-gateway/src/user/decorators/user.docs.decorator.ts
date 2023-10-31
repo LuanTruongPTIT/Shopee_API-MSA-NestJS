@@ -19,3 +19,19 @@ export function UserSignUpDoc(): MethodDecorator {
     }),
   );
 }
+
+export function VerifyEmailDoc(): MethodDecorator {
+  return applyDecorators(
+    Doc({
+      operation: 'module.public.user',
+    }),
+    DocRequest({
+      bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON,
+    }),
+    DocResponse('Verify email is success', {
+      httpStatus: HttpStatus.OK,
+      statusCode: 200,
+      // message: 'Verify email is success',
+    }),
+  );
+}

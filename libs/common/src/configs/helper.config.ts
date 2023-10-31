@@ -7,8 +7,8 @@ export default registerAs(
       length: 8,
     },
     jwt: {
-      secretKey: '123456',
-      expirationTime: seconds('1h'),
+      defaultSecretKey: '123456',
+      defaultExpirationiTme: seconds('1h'),
       notBeforeExpirationTime: seconds('0'),
     },
   }),

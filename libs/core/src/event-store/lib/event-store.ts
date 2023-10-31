@@ -120,24 +120,25 @@ export class EventStore
     );
   }
 
-  async publish(event: IEvent, stream?: string) {
+  async publish(event: IEvent) {
     if ([null, undefined].includes(event)) {
       return;
     }
-
+    console.log('event', event.constructor.name);
+    // console.log('stream', stream, typeof stream);
     const eventPayload: EventData = createJsonEventData(
       v4(),
       event,
       null,
       // eslint-disable-next-line dot-notation
-      event['eventType'] || stream,
+      event['eventType'],
     );
     // it's hack for find out streamId by include stream
     const streams = ['Product', 'User', 'Category'];
     const streamName = streams
       .map((stream) => (eventPayload.type.includes(stream) ? stream : null))
       .filter((event) => event != null)[0];
-    const streamId = stream || `$ce-${streamName?.toLowerCase() ?? 'user'}`;
+    const streamId = `$ce-${streamName?.toLowerCase() ?? 'user'}`;
     try {
       let version = await this.store.readExpectedVersion(streamId);
       const lcp = await this.store.read(streamId);

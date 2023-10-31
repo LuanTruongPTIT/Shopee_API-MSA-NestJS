@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { validate } from './index';
 import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
 import { UserModule } from './user/user.module';
-// import { ormConfig } from './category/infrastructure/repository/database/orm.config';
+import config from '@libs/common/configs/auth.config';
 import {
   typeormConfig,
   datasource,
@@ -15,11 +15,13 @@ import {
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
+      load: [config],
     }),
     TypeOrmModule.forRootAsync({
       useFactory: () => typeormConfig,
+
       dataSourceFactory: async () => {
-        datasource.initialize();
+        await datasource.initialize();
         return datasource;
       },
     }),

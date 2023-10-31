@@ -7,17 +7,22 @@ import { InjectionToken } from '../../InjectionToken';
 import {
   ENUM_USER_SIGN_UP_FROM,
   ENUM_USER_STATUS_CODE_ERROR,
+  UserVerifyStatus,
 } from '../../../constants/user.enum';
 import { UserFactory } from '../../../domain/user.factory';
+import { IResponse } from '@libs/common/response/interfaces/response.interface';
+
 @CommandHandler(CreateUserCommand)
-export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
+export class CreateUserHandler
+  implements ICommandHandler<CreateUserCommand, IResponse>
+{
   constructor(
     @Inject(InjectionToken.USER_REPOSITORY)
     private readonly userRepository: UserRepository,
     private readonly userFactory: UserFactory,
   ) {}
 
-  async execute(command: CreateUserCommand) {
+  async execute(command: CreateUserCommand): Promise<IResponse> {
     const { email, mobileNumber, ...body } = command;
 
     const promises: Promise<any>[] = [this.userRepository.exist({ email })];
@@ -44,23 +49,35 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     }
 
     const password = await this.userRepository.createPassword(body.password);
+    const email_verify_token = await this.userRepository.signEmailVerifyToken({
+      user_id: body._id,
+      verify: UserVerifyStatus.Unverified,
+    });
     await this.userRepository.create(
       {
         _id: body._id,
         email,
         mobileNumber,
         ...body,
+        verify: UserVerifyStatus.Unverified,
+        email_verify_token,
         signUpFrom: ENUM_USER_SIGN_UP_FROM.PUBLIC,
       },
       password,
     );
+    console.log(email, body._id);
     const user = this.userFactory.create({
       email,
       id: body._id,
-      tokenEmail: 'kfkfkfk',
+      tokenEmail: email_verify_token,
     });
     user.open();
 
     user.commit();
+    return {
+      data: {
+        tokenEmail: email_verify_token,
+      },
+    };
   }
 }

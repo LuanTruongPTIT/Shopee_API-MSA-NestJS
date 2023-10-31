@@ -15,6 +15,9 @@ import { CacheModule } from '@nestjs/cache-manager';
 import type { RedisClientOptions } from 'redis';
 import { RoleController } from './role/controller/role.controller';
 import { HttpCacheInterceptor } from './category/interceptor';
+import { AuthModule } from './guards/auth.module';
+import { JwtTokenEmailStrategy } from './guards/jwt-token-email/jwt-token-email.strategy';
+import { UserPayloadPutToRequestGuard } from './user/guards/payload/user.payload.put-to-request.guard';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -31,12 +34,15 @@ import { HttpCacheInterceptor } from './category/interceptor';
     JwtModule.register({}),
     PassportModule,
     // RedisModule,
+    // AuthModule,
   ],
   controllers: [UserController, CategoryController, RoleController],
   providers: [
-    AuthJwtAccessStrategy,
+    // AuthJwtAccessStrategy,
     // TokenPayloadCheckExist,
     // checkNumberLoginFail,
+    // JwtTokenEmailStrategy,
+    UserPayloadPutToRequestGuard,
     HttpCacheInterceptor,
   ],
 })

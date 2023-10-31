@@ -7,6 +7,7 @@ export interface IDocOfOptions {
   statusCode: number;
   messagePath: string;
   serialization?: ClassConstructor<any>;
+  message?: string;
 }
 export interface IDocOptions {
   operation?: string;
@@ -23,5 +24,6 @@ export interface IDocRequestOptions {
 export interface IDocResponseOptions<T> {
   statusCode?: number;
   httpStatus?: HttpStatus;
+  message?: string;
   serialization?: ClassConstructor<T>;
 }

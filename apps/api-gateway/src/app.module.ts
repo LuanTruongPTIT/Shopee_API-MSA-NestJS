@@ -1,17 +1,20 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from './config';
 import { ControllerModule } from './index';
 import { CommonModule } from '../../../libs/common/src/common.module';
+import config from '@libs/common/configs/auth.config';
+import { AuthModule } from './guards/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      // envFilePath: '../../env',
+      load: [config],
       validate,
     }),
     ControllerModule,
     CommonModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

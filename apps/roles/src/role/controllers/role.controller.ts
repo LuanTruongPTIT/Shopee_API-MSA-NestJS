@@ -6,6 +6,7 @@ import { ICreateRoleUseCase } from '../domains/usecases/i-create-role.usecase';
 import { ENUM_ROLE_STATUS_CODE_ERROR } from '../constants/role.enum.error';
 import { IResponse } from '@libs/common/response/interfaces/response.interface';
 import { IFindRoleUseCase } from '../domains/usecases/i-find-role.usecase';
+import { RoleDoc } from '../database/entities/roles.entity';
 
 @Controller()
 export class RoleController {
@@ -40,5 +41,12 @@ export class RoleController {
   async findRole(@Payload() data: string) {
     const result = await this.findRoleUseCase.FindOneByName(JSON.parse(data));
     return result._id;
+  }
+
+  @MessagePattern('REQUEST_FIND_ROLE_BY_ID')
+  async findRoleByID(@Body() data: string): Promise<any> {
+    const result = await this.findRoleUseCase.FindOneById(JSON.parse(data));
+
+    return JSON.stringify(result);
   }
 }

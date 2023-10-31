@@ -19,7 +19,7 @@ import { MobileNumberAllowedConstraint } from './validations/request.mobile-numb
     MobileNumberAllowedConstraint,
   ],
   imports: [
-    RequestMiddlewareModule,
+    // RequestMiddlewareModule,
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

@@ -28,17 +28,25 @@ import { EventStore } from '@libs/core/event-store/lib/event-store';
 import { CreateUserSuccessEvent } from './domain/event/create-user.event';
 import { ClientsModule } from '@nestjs/microservices';
 import { clientModuleOptions } from '../kafka';
+import { UserQueryImplement } from './infrastructure/query/UserQueryImplement';
+import { QueryHandlers } from './application/query/handler/index';
+import { UserService } from './domain/user.service';
+import { RefreshTokenEntity } from './infrastructure/entity/token.entity';
 const infrastructure: Provider[] = [
   {
     provide: InjectionToken.USER_REPOSITORY,
     useClass: UserRepositoryImplement,
+  },
+  {
+    provide: InjectionToken.USER_QUERY,
+    useClass: UserQueryImplement,
   },
 ];
 const domain = [UserFactory];
 @Module({
   imports: [
     ClientsModule.register(clientModuleOptions),
-    TypeOrmModule.forFeature([ProjectionDto, UserEntity]),
+    TypeOrmModule.forFeature([ProjectionDto, UserEntity, RefreshTokenEntity]),
     CqrsModule,
     EventStoreModule.registerFeature({
       featureStreamName: CONSTANTS.STREAM_NAME.USER,
@@ -73,12 +81,14 @@ const domain = [UserFactory];
     Repository,
     EventPublisher,
     ...CommandHandlers,
+    ...QueryHandlers,
     ...EventsHandlers,
     MobileNumberAllowedConstraint,
     HelperHashService,
     HelperDateService,
     ...infrastructure,
     UserFactory,
+    UserService,
   ],
 })
 export class UserModule implements OnModuleInit {
@@ -94,6 +104,7 @@ export class UserModule implements OnModuleInit {
   async onModuleInit() {
     this.event$.publisher = this.eventStore;
     this.command$.register(CommandHandlers);
+    this.query$.register(QueryHandlers);
     this.event$.register(EventsHandlers);
     await this.seedProjection();
   }

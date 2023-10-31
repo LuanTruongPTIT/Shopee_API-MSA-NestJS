@@ -3,7 +3,7 @@ import { RequestModule } from './request/request.module';
 import { HelperModule } from './helper/helper.module';
 
 @Module({
-  imports: [RequestModule, HelperModule],
+  imports: [HelperModule, RequestModule],
   controllers: [],
   providers: [],
 })

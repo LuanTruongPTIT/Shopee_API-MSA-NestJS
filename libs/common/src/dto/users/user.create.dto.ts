@@ -1,7 +1,10 @@
 import { faker } from '@faker-js/faker';
 import { MobileNumberAllowed } from '@libs/common/request/validations/request.mobile-number-allowed.validation';
 import { ApiProperty } from '@nestjs/swagger';
-import { ENUM_USER_SIGN_UP_FROM } from '../../constants/user.enum';
+import {
+  ENUM_USER_SIGN_UP_FROM,
+  UserVerifyStatus,
+} from '../../constants/user.enum';
 import { Type } from 'class-transformer';
 import {
   IsEmail,
@@ -89,4 +92,11 @@ export class UserCreateDto {
   @IsString()
   @IsNotEmpty()
   readonly signUpFrom: ENUM_USER_SIGN_UP_FROM;
+
+  @IsEnum(UserVerifyStatus)
+  @IsString()
+  readonly verify: UserVerifyStatus;
+
+  @IsString()
+  readonly email_verify_token: string;
 }

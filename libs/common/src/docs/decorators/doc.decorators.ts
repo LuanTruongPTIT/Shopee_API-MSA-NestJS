@@ -159,6 +159,7 @@ export function DocResponse<T = void>(
 ): MethodDecorator {
   const docs: IDocDefaultOptions = {
     httpStatus: options?.httpStatus ?? HttpStatus.OK,
+    message: options?.message,
     messagePath,
     statusCode: options?.statusCode ?? options?.httpStatus ?? HttpStatus.OK,
   };
