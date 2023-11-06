@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker';
-import { ENUM_USER_SIGN_UP_FROM } from '@libs/common/constants/user.enum';
+import {
+  ENUM_USER_SIGN_UP_FROM,
+  UserVerifyStatus,
+} from '@libs/common/constants/user.enum';
 import { ResponseIdSerialization } from '@libs/common/response/serializations/response.id.serialization';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
@@ -134,6 +137,10 @@ export class UserGetSerialization extends ResponseIdSerialization {
   @ApiHideProperty()
   @Exclude()
   readonly salt: string;
+
+  @ApiHideProperty()
+  @Exclude()
+  verify: UserVerifyStatus;
 
   @ApiProperty({
     description: 'Date created at',

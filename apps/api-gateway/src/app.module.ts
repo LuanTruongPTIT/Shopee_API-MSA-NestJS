@@ -1,20 +1,20 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from './config';
-import { ControllerModule } from './index';
+import { ControllerModule } from './controller.module';
 import { CommonModule } from '../../../libs/common/src/common.module';
 import config from '@libs/common/configs/auth.config';
-import { AuthModule } from './guards/auth.module';
+import appConfig from '@libs/common/configs/app.config';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [config],
+      load: [config, appConfig],
       validate,
     }),
     ControllerModule,
     CommonModule,
-    AuthModule,
   ],
   controllers: [],
   providers: [],

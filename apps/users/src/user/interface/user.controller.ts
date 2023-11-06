@@ -22,7 +22,8 @@ import { FindUserByIdQuery } from '../application/query/impl/FindUserById.impl';
 import { VerifyEmailCommand } from '../application/command/impl/verify-email.command.impl';
 import { UserLoginDto } from '@libs/common/dto/users/user.login.dto';
 import { UserEntity } from '../infrastructure/entity/user.entity';
-import { UserLoginCommand } from '../application/command/impl/user.login.command.impl';
+
+import { FindUserByEmailQuery } from '../application/query/impl/FindUserByEmail.impl';
 @Controller()
 export class UserController implements OnModuleInit {
   constructor(
@@ -74,10 +75,11 @@ export class UserController implements OnModuleInit {
     return this.commandBus.execute(new VerifyEmailCommand(data));
   }
 
-  @MessagePattern(EKafkaMessage.REQUEST_LOGIN)
-  async signIn(@Body() data: UserLoginDto): Promise<void> {
-    const { email, password } = data;
-    return this.commandBus.execute(new UserLoginCommand(email, password));
-    // return data;
+  @MessagePattern(EKafkaMessage.REQUEST_FIND_BY_EMAIL)
+  async findUserByEmail(@Payload() email: string): Promise<string> {
+    console.log(email);
+    return JSON.stringify(
+      await this.queryBus.execute(new FindUserByEmailQuery(JSON.parse(email))),
+    );
   }
 }

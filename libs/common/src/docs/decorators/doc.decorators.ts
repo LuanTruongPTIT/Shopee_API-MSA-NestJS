@@ -1,5 +1,7 @@
 import {
+  IDocAuthOptions,
   IDocDefaultOptions,
+  IDocOfOptions,
   IDocOptions,
   IDocResponseOptions,
 } from '../interfaces/doc.interface';
@@ -13,6 +15,7 @@ import {
   ApiParam,
   ApiQuery,
   ApiProduces,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 // import { ResponseDefaultInterceptor } from '../../interceptors/response.default.interceptor';
@@ -27,6 +30,7 @@ import {
   ENUM_REQUEST_STATUS_CODE_ERROR,
 } from '../../error/constants/error.enum.constant';
 import { IDocRequestOptions } from '../interfaces/doc.interface';
+import { ENUM_AUTH_STATUS_CODE_ERROR } from 'apps/api-gateway/src/auth/constants/auth.status-code.constant';
 export function DocDefault<T>(options: IDocDefaultOptions): MethodDecorator {
   const docs = [];
   const schema: Record<string, any> = {
@@ -169,4 +173,82 @@ export function DocResponse<T = void>(
   }
 
   return applyDecorators(ApiProduces('application/json'), DocDefault(docs));
+}
+export function DocOneOf<T>(
+  httpStatus: HttpStatus,
+  ...documents: IDocOfOptions[]
+): MethodDecorator {
+  const docs = [];
+  const oneOf = [];
+
+  for (const doc of documents) {
+    const oneOfSchema: Record<string, any> = {
+      allOf: [{ $ref: getSchemaPath(ResponseDefaultSerialization<T>) }],
+      properties: {
+        message: {
+          example: doc.messagePath,
+        },
+        statusCode: {
+          type: 'number',
+          example: doc.statusCode ?? HttpStatus.OK,
+        },
+      },
+    };
+
+    if (doc.serialization) {
+      docs.push(ApiExtraModels(doc.serialization));
+      oneOfSchema.properties = {
+        ...oneOfSchema.properties,
+        data: {
+          $ref: getSchemaPath(doc.serialization),
+        },
+      };
+    }
+
+    oneOf.push(oneOfSchema);
+  }
+
+  return applyDecorators(
+    ApiExtraModels(ResponseDefaultSerialization<T>),
+    ApiResponse({
+      status: httpStatus,
+      schema: {
+        oneOf,
+      },
+    }),
+    ...docs,
+  );
+}
+export function DocAuth(options?: IDocAuthOptions) {
+  const docs: Array<ClassDecorator | MethodDecorator> = [];
+  const oneOfUnauthorized: IDocOfOptions[] = [];
+
+  if (options?.jwtRefreshToken) {
+    docs.push(ApiBearerAuth('refreshToken'));
+    oneOfUnauthorized.push({
+      messagePath: 'auth.error.refreshTokenUnauthorized',
+      statusCode: ENUM_AUTH_STATUS_CODE_ERROR.AUTH_JWT_REFRESH_TOKEN_ERROR,
+    });
+  }
+
+  if (options?.jwtAccessToken) {
+    docs.push(ApiBearerAuth('accessToken'));
+    oneOfUnauthorized.push({
+      messagePath: 'auth.error.accessTokenUnauthorized',
+      statusCode: ENUM_AUTH_STATUS_CODE_ERROR.AUTH_JWT_ACCESS_TOKEN_ERROR,
+    });
+  }
+
+  if (options?.google) {
+    docs.push(ApiBearerAuth('google'));
+    oneOfUnauthorized.push({
+      messagePath: 'auth.error.googleSSO',
+      statusCode: ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GOOGLE_SSO_ERROR,
+    });
+  }
+
+  return applyDecorators(
+    ...docs,
+    DocOneOf(HttpStatus.UNAUTHORIZED, ...oneOfUnauthorized),
+  );
 }

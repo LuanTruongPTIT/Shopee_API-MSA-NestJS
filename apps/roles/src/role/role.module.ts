@@ -11,6 +11,8 @@ import { CreateRoleUseCase } from './domains/usecases/create-role.usecase';
 import { RoleController } from './controllers/role.controller';
 import { IFindRoleUseCase } from './domains/usecases/i-find-role.usecase';
 import { FindRoleUseCase } from './domains/usecases/find-role.usecase';
+import { ClientsModule } from '@nestjs/microservices';
+import { clientModuleOptions } from '../kafka';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,9 +20,11 @@ import { FindRoleUseCase } from './domains/usecases/find-role.usecase';
       validate,
       load: config,
     }),
+    // ClientsModule.register(clientModuleOptions),
     /**
      * Database Config
      */
+
     MongooseModule.forRootAsync({
       imports: [DatabaseOptionModule],
       inject: [DatabaseOptionsService],

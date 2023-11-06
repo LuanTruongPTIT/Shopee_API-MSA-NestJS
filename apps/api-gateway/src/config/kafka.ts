@@ -15,21 +15,21 @@ const clientKafkaConfig: IClientKafkaConfig[] = [
     clientId: EMicroservice.GATEWAY_USER_SERVICE,
     groupId: EKafkaGroup.USER_GROUP,
   },
-  {
-    name: EMicroservice.GATEWAY_TOKEN_SERVICE,
-    clientId: EMicroservice.GATEWAY_TOKEN_SERVICE,
-    groupId: EKafkaGroup.TOKEN_GROUP,
-  },
-  {
-    name: EMicroservice.GATEWAY_AUTH_SERVICE,
-    clientId: EMicroservice.GATEWAY_AUTH_SERVICE,
-    groupId: EKafkaGroup.AUTH_GROUP,
-  },
-  {
-    name: EMicroservice.GATEWAY_CATEGORY_SERVICE,
-    clientId: EMicroservice.GATEWAY_CATEGORY_SERVICE,
-    groupId: EKafkaGroup.CATEGORY_GROUP,
-  },
+  // {
+  //   name: EMicroservice.GATEWAY_TOKEN_SERVICE,
+  //   clientId: EMicroservice.GATEWAY_TOKEN_SERVICE,
+  //   groupId: EKafkaGroup.TOKEN_GROUP,
+  // },
+  // {
+  //   name: EMicroservice.GATEWAY_AUTH_SERVICE,
+  //   clientId: EMicroservice.GATEWAY_AUTH_SERVICE,
+  //   groupId: EKafkaGroup.AUTH_GROUP,
+  // },
+  // {
+  //   name: EMicroservice.GATEWAY_CATEGORY_SERVICE,
+  //   clientId: EMicroservice.GATEWAY_CATEGORY_SERVICE,
+  //   groupId: EKafkaGroup.CATEGORY_GROUP,
+  // },
   {
     name: EMicroservice.GATEWAY_ROLE_SERVICE,
     clientId: EMicroservice.GATEWAY_ROLE_SERVICE,

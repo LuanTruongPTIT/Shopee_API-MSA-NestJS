@@ -40,9 +40,7 @@ export class UserRepositoryImplement implements UserRepository {
     private readonly configService: ConfigService,
     private readonly helperHashService: HelperHashService,
     private readonly helperDateService: HelperDateService,
-    private readonly helperEncryptionService: HelperEncryptionService,
-    @InjectRepository(RefreshTokenEntity)
-    private readonly tokenEntity: Repository<RefreshTokenEntity>,
+    private readonly helperEncryptionService: HelperEncryptionService, // @InjectRepository(RefreshTokenEntity) // private readonly tokenEntity: Repository<RefreshTokenEntity>,
   ) {
     this.passwordSaltLength = this.configService.get<number>(
       'auth.password.saltLength',
@@ -188,7 +186,8 @@ export class UserRepositoryImplement implements UserRepository {
     console.log('tim thay user chua');
     const result = await datasource
       .getMongoRepository(UserEntity)
-      .findOne({ where: data });
+      .findOneByOrFail({ where: data });
+    console.log(result);
     return result;
   }
 

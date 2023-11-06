@@ -15,7 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AddAttributeCategoryRequestDto_v2 } from '@libs/common/dto/category/AddAttributCategory.v2.request.dto';
 import { CategoryAddDoc } from '../decorators/category.decorator.docs';
 import { GetCategoryDoc } from '../decorators/category.decorator.docs';
-import { HttpCacheInterceptor } from '../interceptor';
+
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 @ApiTags('Category')
@@ -55,7 +55,6 @@ export class CategoryController implements OnModuleInit {
   }
 
   @GetCategoryDoc()
-  @UseInterceptors(HttpCacheInterceptor)
   @Get('')
   async GetAllCategory() {
     const message = 'get all category';

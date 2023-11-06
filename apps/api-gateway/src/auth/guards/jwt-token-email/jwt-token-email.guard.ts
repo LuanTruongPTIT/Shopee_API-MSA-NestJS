@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ENUM_AUTH_STATUS_CODE_ERROR } from '../../auth/constants/auth.status-code.constant';
+import { ENUM_AUTH_STATUS_CODE_ERROR } from '../../constants/auth.status-code.constant';
 
 @Injectable()
 export class JwtTokenEmail extends AuthGuard('jwtTokenEmail') {

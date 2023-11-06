@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import _ from 'lodash';
+import cookieParser from 'cookie-parser';
 import {
   // AllExceptionFilter,
   RpcExceptionFilter,
@@ -34,6 +35,8 @@ export const setUpApplication = (app: INestApplication) => {
     }),
   );
   app.useGlobalFilters(new RpcExceptionFilter());
+  app.use(cookieParser());
+
   const configService = app.get(ConfigService);
   const port = _.parseInt(configService.get('PORT'), 10);
   return {

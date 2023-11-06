@@ -1,2 +1,3 @@
 import { FindUserByIdHandler } from './FindUserById.handler';
-export const QueryHandlers = [FindUserByIdHandler];
+import { FindUserByEmailHandler } from './FindUserByEmail.handler';
+export const QueryHandlers = [FindUserByIdHandler, FindUserByEmailHandler];

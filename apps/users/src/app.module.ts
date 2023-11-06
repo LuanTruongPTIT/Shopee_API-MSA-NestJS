@@ -10,6 +10,9 @@ import {
   typeormConfig,
   datasource,
 } from './user/infrastructure/repository/database/orm.config';
+import { ProjectionDto } from '@libs/core/event-store/lib/adapter/projection.dto';
+import { RefreshTokenEntity } from './user/infrastructure/entity/token.entity';
+import { UserEntity } from './user/infrastructure/entity/user.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,6 +28,7 @@ import {
         return datasource;
       },
     }),
+    TypeOrmModule.forFeature([ProjectionDto, RefreshTokenEntity, UserEntity]),
     EventStoreModule.register({
       tcpEndpoint: {
         host: process.env.EVENT_STORE_HOSTNAME || '0.0.0.0',

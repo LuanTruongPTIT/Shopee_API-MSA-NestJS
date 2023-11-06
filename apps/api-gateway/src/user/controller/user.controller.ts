@@ -37,7 +37,6 @@ export class UserController implements OnModuleInit {
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_CREATE_USER);
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_VERIFY_EMAIL);
     this.clientKafka.subscribeToResponseOf(EKafkaMessage.REQUEST_LOGIN);
-
     await this.clientKafka.connect();
   }
 
@@ -65,23 +64,9 @@ export class UserController implements OnModuleInit {
     @Request() request,
   ) {
     const user_id = request.user;
-
     return firstValueFrom(
       this.clientKafka
         .send(EKafkaMessage.REQUEST_VERIFY_EMAIL, JSON.stringify(user_id))
-        .pipe(
-          catchError((error) =>
-            throwError(() => new RpcException(error.response)),
-          ),
-        ),
-    );
-  }
-
-  @Post('/signin')
-  async SignIn(@Body() data: UserLoginDto) {
-    return firstValueFrom(
-      this.clientKafka
-        .send(EKafkaMessage.REQUEST_LOGIN, JSON.stringify(data))
         .pipe(
           catchError((error) =>
             throwError(() => new RpcException(error.response)),

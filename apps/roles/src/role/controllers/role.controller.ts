@@ -1,5 +1,10 @@
 import { Controller, Inject, Body, ConflictException } from '@nestjs/common';
-import { RpcException, MessagePattern, Payload } from '@nestjs/microservices';
+import {
+  RpcException,
+  MessagePattern,
+  Payload,
+  EventPattern,
+} from '@nestjs/microservices';
 import { RoleCreateDto } from '../domains/dtos/role.create.dto';
 import { EKafkaMessage } from '@libs/common/interfaces/kafka.interface';
 import { ICreateRoleUseCase } from '../domains/usecases/i-create-role.usecase';
@@ -43,7 +48,7 @@ export class RoleController {
     return result._id;
   }
 
-  @MessagePattern('REQUEST_FIND_ROLE_BY_ID')
+  @MessagePattern(EKafkaMessage.REQUEST_FIND_ROLE_BY_ID)
   async findRoleByID(@Body() data: string): Promise<any> {
     const result = await this.findRoleUseCase.FindOneById(JSON.parse(data));
 

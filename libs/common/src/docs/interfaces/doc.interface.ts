@@ -12,6 +12,7 @@ export interface IDocOfOptions {
 export interface IDocOptions {
   operation?: string;
   description?: string;
+  summary?: string;
 }
 export interface IDocDefaultOptions extends IDocOfOptions {
   httpStatus: HttpStatus;
@@ -26,4 +27,10 @@ export interface IDocResponseOptions<T> {
   httpStatus?: HttpStatus;
   message?: string;
   serialization?: ClassConstructor<T>;
+}
+export interface IDocAuthOptions {
+  jwtAccessToken?: boolean;
+  jwtRefreshToken?: boolean;
+  apiKey?: boolean;
+  google?: boolean;
 }

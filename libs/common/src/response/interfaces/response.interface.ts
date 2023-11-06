@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { ClassConstructor } from 'class-transformer';
 import { ENUM_HELPER_FILE_TYPE } from '../../helper/constants/helper.enum.constant';
+import { IMessageOptionsProperties } from '@libs/common/message/interfaces/message.interface';
 // import { IHelperFileRows } from 'src/common/helper/interfaces/helper.interface';
 // import { IMessageOptionsProperties } from 'src/common/message/interfaces/message.interface';
 
@@ -8,7 +9,7 @@ export interface IResponseCustomPropertyMetadata {
   statusCode?: number;
   message?: string;
   httpStatus?: HttpStatus;
-  // messageProperties?: IMessageOptionsProperties;
+  messageProperties?: IMessageOptionsProperties;
 }
 
 // metadata

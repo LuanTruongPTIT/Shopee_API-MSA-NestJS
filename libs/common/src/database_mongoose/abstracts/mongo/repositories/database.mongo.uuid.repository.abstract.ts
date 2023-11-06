@@ -83,9 +83,9 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
         },
       };
     }
-    console.log('da vao day roi');
+
     const exists = this._repository.exists(find);
-    console.log(exists);
+
     if (options?.withDeleted) {
       exists.or([
         {

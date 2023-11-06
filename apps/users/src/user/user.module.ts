@@ -46,7 +46,7 @@ const domain = [UserFactory];
 @Module({
   imports: [
     ClientsModule.register(clientModuleOptions),
-    TypeOrmModule.forFeature([ProjectionDto, UserEntity, RefreshTokenEntity]),
+    TypeOrmModule.forFeature([ProjectionDto, RefreshTokenEntity, UserEntity]),
     CqrsModule,
     EventStoreModule.registerFeature({
       featureStreamName: CONSTANTS.STREAM_NAME.USER,

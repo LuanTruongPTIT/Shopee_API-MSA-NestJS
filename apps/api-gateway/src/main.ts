@@ -9,7 +9,18 @@ async function bootstrap() {
     .setTitle('API for Shopee')
     .setDescription('The Api for shopee app description')
     .setVersion('1.0')
-    .addSecurity('token', { type: 'http', scheme: 'bearer' })
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'accessToken',
+    )
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'refreshToken',
+    )
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'google',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
