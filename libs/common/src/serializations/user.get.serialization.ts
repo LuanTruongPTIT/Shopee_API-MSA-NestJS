@@ -14,7 +14,7 @@ export class UserGetSerialization extends ResponseIdSerialization {
     type: () => RoleGetSerialization,
   })
   @Type(() => RoleGetSerialization)
-  readonly role: RoleGetSerialization;
+  role: RoleGetSerialization | string;
 
   @ApiProperty({
     example: faker.internet.userName(),
@@ -29,6 +29,7 @@ export class UserGetSerialization extends ResponseIdSerialization {
     nullable: false,
     example: faker.internet.email(),
   })
+  @Exclude()
   readonly email: string;
 
   @ApiProperty({
@@ -36,6 +37,7 @@ export class UserGetSerialization extends ResponseIdSerialization {
     required: false,
     example: faker.internet.email(),
   })
+  @Exclude()
   readonly mobileNumber?: string;
 
   @ApiProperty({
@@ -78,6 +80,7 @@ export class UserGetSerialization extends ResponseIdSerialization {
     nullable: false,
     example: faker.person.firstName(),
   })
+  @Exclude()
   readonly firstName: string;
 
   @ApiProperty({
@@ -85,6 +88,7 @@ export class UserGetSerialization extends ResponseIdSerialization {
     nullable: false,
     example: faker.person.lastName(),
   })
+  @Exclude()
   readonly lastName: string;
 
   @ApiProperty({
@@ -148,7 +152,8 @@ export class UserGetSerialization extends ResponseIdSerialization {
     required: true,
     nullable: false,
   })
-  readonly createdAt: Date;
+  @Exclude()
+  readonly createdDate: Date;
 
   @ApiProperty({
     description: 'Date updated at',
@@ -156,7 +161,8 @@ export class UserGetSerialization extends ResponseIdSerialization {
     required: true,
     nullable: false,
   })
-  readonly updatedAt: Date;
+  @Exclude()
+  readonly updatedDate: Date;
 
   @ApiHideProperty()
   @Exclude()

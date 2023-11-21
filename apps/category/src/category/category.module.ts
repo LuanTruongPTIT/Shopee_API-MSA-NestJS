@@ -28,19 +28,16 @@ import { MongoStore } from '@libs/core/event-store/lib/adapter/mongo-store';
 import { JwtModule } from '@nestjs/jwt';
 import { RedisModule } from 'libs/redis/src/redis.module';
 
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { EKafkaGroup, EMicroservice } from '@libs/common/interfaces';
 import { HelperDateService } from '@libs/common/helper/services/helper.date.service';
 import { HelperHashService } from '@libs/common/helper/services/helper.hash.service';
 import { HelperIdManagementService } from '@libs/common/helper/services/helper.id.management.service';
-import { DatabaseModule } from '@libs/common/shared/Database.module';
-import { RequestStorageMiddleware } from '@libs/common/shared/RequestStorageMiddleware';
+
 import { CategoryProductEntity } from './infrastructure/entity/category.entity';
 import { MongoClient } from 'mongodb';
 import { InjectionToken } from './application/InjectionToken';
 import { CategoryRepositoryImplements } from './infrastructure/CategoryRepositoryImplements';
 import { CommandHandlers } from './application/command/handler/index';
-import { WriteConnection } from '@libs/common/shared/Database.module';
+
 import { AddCategoryEvent } from '../category/domain/event/AddCategoryEvent';
 import { EventsHandlers } from './application/event/index';
 

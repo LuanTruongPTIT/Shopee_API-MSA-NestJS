@@ -16,6 +16,7 @@ import {
   ApiQuery,
   ApiProduces,
   ApiBearerAuth,
+  ApiCookieAuth,
 } from '@nestjs/swagger';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 // import { ResponseDefaultInterceptor } from '../../interceptors/response.default.interceptor';
@@ -231,8 +232,15 @@ export function DocAuth(options?: IDocAuthOptions) {
     });
   }
 
+  // if (options?.jwtAccessToken) {
+  //   docs.push(ApiBearerAuth('accessToken'));
+  //   oneOfUnauthorized.push({
+  //     messagePath: 'auth.error.accessTokenUnauthorized',
+  //     statusCode: ENUM_AUTH_STATUS_CODE_ERROR.AUTH_JWT_ACCESS_TOKEN_ERROR,
+  //   });
+  // }
   if (options?.jwtAccessToken) {
-    docs.push(ApiBearerAuth('accessToken'));
+    docs.push(ApiCookieAuth('csrf-token'));
     oneOfUnauthorized.push({
       messagePath: 'auth.error.accessTokenUnauthorized',
       statusCode: ENUM_AUTH_STATUS_CODE_ERROR.AUTH_JWT_ACCESS_TOKEN_ERROR,

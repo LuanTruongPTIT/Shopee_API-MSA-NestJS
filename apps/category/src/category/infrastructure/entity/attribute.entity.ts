@@ -22,11 +22,6 @@ export class Attribute extends BaseEntityDto {
   display_attribute_name: string;
 
   @Column({
-    type: 'string',
-  })
-  input_validation_type: string;
-
-  @Column({
     type: 'array',
   })
   value_unit: Array<string>;

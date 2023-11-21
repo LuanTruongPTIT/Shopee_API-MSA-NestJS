@@ -25,10 +25,10 @@ export interface UserRepository {
     { passwordExpired, passwordHash, salt, passwordCreated }: IAuthPassword,
   ) => Promise<UserEntity>;
   signEmailVerifyToken: ({
-    user_id,
+    _id,
     verify,
   }: {
-    user_id: string;
+    _id: string;
     verify: UserVerifyStatus;
   }) => Promise<string>;
   verifyEmail: (id: string) => Promise<void>;

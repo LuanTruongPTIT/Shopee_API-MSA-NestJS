@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthJwtAccessStrategy } from './guards/jwt-access/auth.jwt-access.strategy';
 import { CheckTokenPayload } from './guards/auth.check-token-redis.guard';
+import { AuthJwtAccessGuard } from './guards/jwt-access/auth.jwt-access.guard';
 
 @Module({
   imports: [
@@ -14,7 +15,12 @@ import { CheckTokenPayload } from './guards/auth.check-token-redis.guard';
     PassportModule,
     JwtModule.register({}),
   ],
-  providers: [JwtTokenEmailStrategy, AuthJwtAccessStrategy, CheckTokenPayload],
+  providers: [
+    JwtTokenEmailStrategy,
+    AuthJwtAccessStrategy,
+    CheckTokenPayload,
+    AuthJwtAccessGuard,
+  ],
   exports: [JwtTokenEmailStrategy, AuthJwtAccessStrategy],
   controllers: [AuthController],
 })

@@ -4,7 +4,6 @@ import { config } from './config';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './config/index';
 import { AuthService } from './services/auth.service';
-import { AwsModule } from './aws/aws.module';
 import { AuthController } from './controller/auth.controller';
 import databaseConfig from '@libs/common/configs/database.config';
 import { MongooseModule } from '@nestjs/mongoose';

@@ -1,0 +1,40 @@
+[
+  {
+    "category_name": "Electronics",
+    "isParent": true,
+    "subcategories": [
+      {
+        "category_name_children": "Laptops",
+        "value_unit": "USD",
+        "subcategories": [
+          {
+            "category_name_children": "Gaming Laptops",
+            "is_children": true,
+            "subcategories": []
+          },
+          {
+            "category_name_children": "Business Laptops",
+            "is_children": true,
+            "subcategories": []
+          }
+        ]
+      }
+      
+    ]
+  },
+  {
+    "category_name": "Clothing",
+    "isParent": true,
+    "subcategories": [
+      {
+        "category_name_children": "Men's Clothing",
+        "subcategories": []
+      },
+      {
+        "category_name_children": "Women's Clothing",
+        "subcategories": []
+      }
+    ]
+  }
+]
+

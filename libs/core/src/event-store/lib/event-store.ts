@@ -133,6 +133,7 @@ export class EventStore
       // eslint-disable-next-line dot-notation
       event['eventType'],
     );
+    console.log('vao day chua');
     // it's hack for find out streamId by include stream
     const streams = ['Product', 'User', 'Category'];
     const streamName = streams

@@ -72,6 +72,8 @@ export class UserController implements OnModuleInit {
 
   @MessagePattern(EKafkaMessage.REQUEST_VERIFY_EMAIL)
   async VerifyEmail(@Body() data: string): Promise<IResponse> {
+    console.log(JSON.parse(data));
+    data = JSON.parse(data);
     return this.commandBus.execute(new VerifyEmailCommand(data));
   }
 

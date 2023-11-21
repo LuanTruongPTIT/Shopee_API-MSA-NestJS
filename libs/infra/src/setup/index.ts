@@ -12,17 +12,42 @@ import {
   RpcExceptionFilter,
   // ExceptionFilter,
 } from '../exception/all-exceptions.filter';
+import session from 'express-session';
+import passport from 'passport';
 export const setUpApplication = (app: INestApplication) => {
   app.setGlobalPrefix('api/v1');
   app.enableCors({
-    origin: '*',
+    origin: '',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: [
-      'Content-Type',
       'Accept',
+      'Accept-Language',
+      'Content-Language',
+      'Content-Type',
+      'Origin',
       'Authorization',
+      'Access-Control-Request-Method',
+      'Access-Control-Request-Headers',
+      'Access-Control-Allow-Headers',
+      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Allow-Credentials',
+      'Access-Control-Expose-Headers',
+      'Access-Control-Max-Age',
+      'Referer',
+      'Host',
       'X-Requested-With',
+      'x-custom-lang',
+      'x-timestamp',
+      'x-api-key',
+      'x-timezone',
+      'x-request-id',
+      'x-version',
+      'x-repo-version',
+      'X-Response-Time',
+      'user-agent',
     ],
+    credentials: true,
   });
   app.useGlobalPipes(
     new ValidationPipe({
@@ -36,7 +61,18 @@ export const setUpApplication = (app: INestApplication) => {
   );
   app.useGlobalFilters(new RpcExceptionFilter());
   app.use(cookieParser());
-
+  app.use(
+    session({
+      secret: 'asiodasjoddjdoasddasoidjasiodasdjaiodd',
+      saveUninitialized: false,
+      resave: false,
+      cookie: {
+        maxAge: 60000,
+      },
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
   const configService = app.get(ConfigService);
   const port = _.parseInt(configService.get('PORT'), 10);
   return {

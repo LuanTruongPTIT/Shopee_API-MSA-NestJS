@@ -1,7 +1,7 @@
+/* eslint-disable dot-notation */
 import {
   Controller,
   Body,
-  Logger,
   OnModuleInit,
   Inject,
   NotFoundException,
@@ -10,12 +10,10 @@ import {
 } from '@nestjs/common';
 import {
   ClientKafka,
-  EventPattern,
   MessagePattern,
-  Payload,
   RpcException,
 } from '@nestjs/microservices';
-import { AuthService } from '../services/auth.service';
+
 import {
   EKafkaMessage,
   EMicroservice,
@@ -39,6 +37,8 @@ import {
   ENUM_AUTH_LOGIN_WITH,
 } from '@libs/common/constants/auth.enum.constants';
 import { IResponse } from '@libs/common/response/interfaces/response.interface';
+import { AuthRefreshTokenDto } from '@libs/common/dto/auth/auth.refresh.dto';
+import { RoleGetSerialization } from '@libs/common/serializations/role.get.serialization';
 @Controller()
 export class AuthController implements OnModuleInit {
   constructor(
@@ -73,8 +73,6 @@ export class AuthController implements OnModuleInit {
         JSON.stringify(data.email),
       ),
     );
-
-    console.log(user);
 
     if (!user) {
       throw new RpcException(
@@ -148,8 +146,16 @@ export class AuthController implements OnModuleInit {
     await this.cache.del(key);
 
     const payload = await this.authService.payloadSerialization(user);
+    // const payload = {
+    //   _id: user._id,
+    //   role: role._id,
+    //   type: role.type,
+    //   permissions: role.perrmissions,
+    // };
     const tokenType = await this.authService.getTokenType();
+
     const loginDate = await this.authService.getLoginDate();
+
     const payloadAccessToken = await this.authService.createPayloadAccessToken(
       payload,
       {
@@ -158,6 +164,7 @@ export class AuthController implements OnModuleInit {
         loginDate,
       },
     );
+    console.log(payloadAccessToken);
     const payloadRefreshToken =
       await this.authService.createPayloadRefreshToken(payload._id, {
         loginWith: ENUM_AUTH_LOGIN_WITH.EMAIL,
@@ -165,21 +172,33 @@ export class AuthController implements OnModuleInit {
         loginDate,
       });
     const expirationIn = await this.authService.getAccessTokenExpirationTime();
+    const expirationRefreshToken =
+      await this.authService.getRefreshTokenExpirationTime();
     const accessToken = await this.authService.createAccessToken(
       payloadAccessToken,
     );
-
+    await this.cache.set(
+      `${user._id}:${CACHE_KEY.AUTH.ACCESS_TOKEN}`,
+      accessToken,
+      expirationIn,
+    );
     const refreshToken = await this.authService.createRefreshToken(
       payloadRefreshToken,
+    );
+
+    await this.cache.set(
+      `${user._id}:${CACHE_KEY.AUTH.REFRESH_TOKEN}`,
+      refreshToken,
+      expirationRefreshToken,
     );
     await this.authService.create({
       refreshToken,
       userId: user._id,
     });
-
+    console.log('expirationRefreshToken', expirationRefreshToken, '');
     return {
       data: {
-        expirationIn,
+        expirationAccessToken: expirationIn,
         tokenType,
         type: role.type,
         accessToken,
@@ -187,4 +206,58 @@ export class AuthController implements OnModuleInit {
       },
     };
   }
+
+  @MessagePattern(EKafkaMessage.REQUEST_REFRESH_TOKEN)
+  async refresh(@Body() data: AuthRefreshTokenDto): Promise<IResponse> {
+    console.log(data);
+    const { refreshToken, refreshPayload, user } = data;
+
+    const role = await firstValueFrom<RoleGetSerialization>(
+      this.clientKafka_role.send(
+        EKafkaMessage.REQUEST_FIND_ROLE_BY_ID,
+        JSON.stringify(user['user'].role),
+      ),
+    );
+
+    if (!role.isActive) {
+      throw new ForbiddenException({
+        statusCode: ENUM_ROLE_STATUS_CODE_ERROR.ROLE_INACTIVE_ERROR,
+        message: 'role.error.inactive',
+      });
+    }
+    user['user'].role = role;
+    const payload = await this.authService.payloadSerialization(user['user']);
+    const tokenType = await this.authService.getTokenType();
+    const payloadAccessToken = await this.authService.createPayloadAccessToken(
+      payload,
+      {
+        loginWith: ENUM_AUTH_LOGIN_WITH.EMAIL,
+        loginFrom: ENUM_AUTH_LOGIN_FROM.PASSWORD,
+        loginDate: user.loginDate,
+      },
+    );
+    console.log(payloadAccessToken);
+    const expirationIn = await this.authService.getAccessTokenExpirationTime();
+    const accessToken = await this.authService.createAccessToken(
+      payloadAccessToken,
+    );
+    await this.cache.set(
+      `${user['user']._id}:${CACHE_KEY.AUTH.ACCESS_TOKEN}`,
+      accessToken,
+      expirationIn,
+    );
+
+    return {
+      data: {
+        expirationAccessToken: expirationIn,
+        tokenType,
+        type: role.type,
+        accessToken,
+        refreshToken,
+      },
+    };
+  }
+
+  @MessagePattern(EKafkaMessage.REQUEST_LOGOUT)
+  async logout() {}
 }

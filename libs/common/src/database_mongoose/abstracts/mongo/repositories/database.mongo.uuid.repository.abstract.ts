@@ -99,7 +99,7 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
       exists.where(DATABASE_DELETED_AT_FIELD_NAME).exists(false);
     }
 
-    if (options.join) {
+    if (options?.join) {
       exists.populate(
         typeof options.join === 'boolean'
           ? this._joinOnFind

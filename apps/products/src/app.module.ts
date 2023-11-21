@@ -1,42 +1,67 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Global, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './index';
-import { EventStoreModule } from '@libs/core/event-store/lib/event-store.module';
-import { ormConfig } from './product/infrastructure/repository/database/orm.config';
+
 import { ProductModule } from './product/product.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { DatabaseOptionModule } from '@libs/common/database_mongoose/database.options.module';
+import { DatabaseOptionsService } from '@libs/common/database_mongoose/services/database.options.service';
+import { CategoryModule } from './category/category.module';
+import databaseConfig from '@libs/common/configs/database.config';
+import { CategoryProviders } from './category/infrastructure/provider/category.provider';
+import { CommandHandlers } from './category/application/handler';
+import { EventHandlersProjectionCategory } from './category/infrastructure/read-model/projection';
+import { CqrsModule, CommandBus, EventBus, EventPublisher } from '@nestjs/cqrs';
+import { CategoryRepositoryModule } from './category/domain/repository/Category.repository.module';
+import { CategoryRepository } from './category/domain/repository/Category.repository';
+import { EventStore } from '@libs/common/core/eventstore/eventstore';
+import { EventStoreModule } from '@libs/common/core/eventstore/eventstore.module';
+import { CategoryFactory } from './category/domain/factory/Category.factory';
+import { CategoryService } from './category/infrastructure/services/category.service';
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
+      load: [databaseConfig],
     }),
-    TypeOrmModule.forRoot(ormConfig()),
-    EventStoreModule.register({
-      tcpEndpoint: {
-        host: process.env.EVENT_STORE_HOSTNAME || '0.0.0.0',
-        port: 1113,
-      },
-      options: {
-        maxRetries: 10,
-        maxReconnections: 100,
-        reconnectionDelay: 5000,
-        heartbeatInterval: 1000,
-        heartbeatTimeout: 500,
-        verboseLogging: true,
-        maxDiscoverAttempts: 100000,
-        failOnNoServerResponse: true,
-        defaultUserCredentials: {
-          username: process.env.EVENT_STORE_CREDENTIALS_USERNAME || 'admin',
-          password: process.env.EVENT_STORE_CREDENTIALS_PASSWORD || 'changeit',
-        },
+    EventStoreModule.forRoot(),
+    MongooseModule.forRootAsync({
+      imports: [DatabaseOptionModule],
+      inject: [DatabaseOptionsService],
+      useFactory: (databaseOptionsService: DatabaseOptionsService) => {
+        return databaseOptionsService.createOptions();
       },
     }),
+    CategoryModule,
     ProductModule,
+    CategoryRepositoryModule,
+    CqrsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [
+    // EventPublisher,
+
+    // ...CommandHandlers,
+
+    CategoryFactory,
+    // CommandBus,
+    // EventBus,
+    // CategoryRepository,
+    // CategoryService,
+  ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(
+    private readonly event$: EventBus,
+    private readonly eventStore: EventStore,
+  ) {}
+
+  async onModuleInit() {
+    /** ------------ */
+    await this.eventStore.bridgeEventsTo((this.event$ as any).subject$);
+    // this.event$.publisher = this.eventStore;
+  }
+}

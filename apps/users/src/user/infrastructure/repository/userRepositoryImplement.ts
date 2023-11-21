@@ -148,14 +148,14 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   async signEmailVerifyToken({
-    user_id,
+    _id,
     verify,
   }: {
-    user_id: string;
+    _id: string;
     verify: UserVerifyStatus;
   }): Promise<string> {
     return this.helperEncryptionService.jwtEncrypt(
-      { user_id, verify },
+      { user: { _id, verify } },
       {
         secretKey: this.tokenEmailSecretKey,
         expiredIn: this.tokenEmailExpirationTime,
@@ -168,8 +168,8 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   async verifyEmail(id: string): Promise<void> {
-    console.log(id);
-    await datasource.getMongoRepository(UserEntity).updateOne(
+    console.log('id la', id);
+    const result = await datasource.getMongoRepository(UserEntity).updateOne(
       { _id: id },
       {
         $set: {
@@ -180,6 +180,7 @@ export class UserRepositoryImplement implements UserRepository {
         },
       },
     );
+    console.log(result);
   }
 
   async findUser(data: Record<string, any>): Promise<UserEntity> {

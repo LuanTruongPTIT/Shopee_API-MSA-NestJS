@@ -19,3 +19,9 @@ export interface IHelperJwtOptions extends IHelperJwtVerifyOptions {
 export interface IHelperDateOptionsFormat {
   format: ENUM_HELPER_DATE_FORMAT | string;
 }
+export interface IHelperGooglePayload {
+  email: string;
+}
+export interface IHelperGoogleRefresh {
+  accessToken: string;
+}

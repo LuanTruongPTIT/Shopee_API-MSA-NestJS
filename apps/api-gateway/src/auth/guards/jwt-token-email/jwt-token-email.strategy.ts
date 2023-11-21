@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
@@ -25,8 +26,8 @@ export class JwtTokenEmailStrategy extends PassportStrategy(
     });
   }
 
-  async validate(tokenEmail: any) {
-    console.log('tokenEMail', tokenEmail);
-    return tokenEmail.user_id;
+  async validate(data: any) {
+    console.log('tokenEMail', data);
+    return data;
   }
 }

@@ -9,11 +9,12 @@ import { plainToInstance } from 'class-transformer';
 import { UserPayloadSerialization } from '@libs/common/serializations/user.payload.serialization';
 import { HelperDateService } from '@libs/common/helper/services/helper.date.service';
 import { HelperEncryptionService } from '@libs/common/helper/services/helper.encryption.service';
-import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth.access-payload.serialization';
+import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth/auth.access-payload.serialization';
 import { IAuthPayloadOptions } from '@libs/common/interfaces/auth.interface';
-import { AuthRefreshPayloadSerialization } from '@libs/common/serializations/auth.refresh-payload.serialization';
+import { AuthRefreshPayloadSerialization } from '@libs/common/serializations/auth/auth.refresh-payload.serialization';
 import { TokenEntity } from '../database/entites/token.entites';
 import { AuthRepository } from '../database/repositories/Auth.repository';
+import { UserPayloadAccessToken } from '@libs/common/serializations/user.payload.accesstoken';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -36,9 +37,7 @@ export class AuthService implements IAuthService {
     private readonly helperEncryptionService: HelperEncryptionService,
     private readonly authRepository: AuthRepository,
   ) {
-    this.tokenType = this.configService.get<string>(
-      'auth. prefixAuthorization:',
-    );
+    this.tokenType = this.configService.get<string>('auth.prefixAuthorization');
     this.accessTokenSecretKey = this.configService.get<string>(
       'auth.accessToken.secretKey',
     );
@@ -66,12 +65,11 @@ export class AuthService implements IAuthService {
     passwordString: string,
     passwordHashed: string,
   ): Promise<boolean> {
-    console.log(passwordString, passwordHashed);
     return compareSync(passwordString, passwordHashed);
   }
 
   async payloadSerialization(
-    data: UserResponseKafkaSerialization,
+    data: UserResponseKafkaSerialization | Record<string, any>,
   ): Promise<UserPayloadSerialization> {
     return plainToInstance(UserPayloadSerialization, data);
   }
@@ -85,7 +83,7 @@ export class AuthService implements IAuthService {
   }
 
   async createPayloadAccessToken(
-    user: Record<string, any>,
+    user: UserPayloadAccessToken,
     { loginWith, loginFrom, loginDate }: IAuthPayloadOptions,
   ): Promise<AuthAccessPayloadSerialization> {
     return {
@@ -109,6 +107,7 @@ export class AuthService implements IAuthService {
   }
 
   async createAccessToken(data: Record<string, any>): Promise<string> {
+    console.log('this.accessTokenExpired', this.accessTokenExpired);
     return this.helperEncryptionService.jwtEncrypt(data, {
       secretKey: this.accessTokenSecretKey,
       expiredIn: this.accessTokenExpired,
@@ -132,6 +131,10 @@ export class AuthService implements IAuthService {
 
   async getAccessTokenExpirationTime(): Promise<number> {
     return this.accessTokenExpired;
+  }
+
+  async getRefreshTokenExpirationTime(): Promise<number> {
+    return this.refreshTokenExpirationTime;
   }
 
   async create({

@@ -63,7 +63,8 @@ export class UserController implements OnModuleInit {
     @Body() token: TokenVerifyEmailDto,
     @Request() request,
   ) {
-    const user_id = request.user;
+    const user_id = request.user._id;
+    console.log('user_id', user_id);
     return firstValueFrom(
       this.clientKafka
         .send(EKafkaMessage.REQUEST_VERIFY_EMAIL, JSON.stringify(user_id))

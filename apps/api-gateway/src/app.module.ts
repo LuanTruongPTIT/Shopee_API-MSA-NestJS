@@ -6,11 +6,12 @@ import { CommonModule } from '../../../libs/common/src/common.module';
 import config from '@libs/common/configs/auth.config';
 import appConfig from '@libs/common/configs/app.config';
 import { AuthModule } from './auth/auth.module';
+import googleConfig from '@libs/common/configs/google.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [config, appConfig],
+      load: [config, appConfig, googleConfig],
       validate,
     }),
     ControllerModule,

@@ -28,7 +28,7 @@ export class UserPayloadPermissionSerialization {
 
 export class UserPayloadSerialization extends OmitType(
   UserProfileSerialization,
-  ['photo', 'role', 'signUpDate', 'createdAt', 'updatedAt'] as const,
+  ['photo', 'role', 'signUpDate', 'createdDate', 'updatedDate'] as const,
 ) {
   @ApiHideProperty()
   @Exclude()
@@ -86,14 +86,15 @@ export class UserPayloadSerialization extends OmitType(
     nullable: false,
     example: faker.date.recent(),
   })
-  @Expose()
+  // @Expose()
+  @Exclude()
   readonly loginDate: Date;
 
   @ApiHideProperty()
   @Exclude()
-  readonly createdAt: number;
+  readonly createdDate: number;
 
   @ApiHideProperty()
   @Exclude()
-  readonly updatedAt: number;
+  readonly updatedDate: number;
 }

@@ -1,6 +1,8 @@
+import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth/auth.access-payload.serialization';
 import { Request } from 'express';
 import { IResult } from 'ua-parser-js';
-export interface IRequestApp extends Request {
+export interface IRequestApp<T = AuthAccessPayloadSerialization>
+  extends Request {
   // apiKey?: IApiKeyPayload;
   user?: Record<string, any>;
 

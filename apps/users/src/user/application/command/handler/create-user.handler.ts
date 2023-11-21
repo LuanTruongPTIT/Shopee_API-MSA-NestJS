@@ -50,7 +50,7 @@ export class CreateUserHandler
 
     const password = await this.userRepository.createPassword(body.password);
     const email_verify_token = await this.userRepository.signEmailVerifyToken({
-      user_id: body._id,
+      _id: body._id,
       verify: UserVerifyStatus.Unverified,
     });
     await this.userRepository.create(

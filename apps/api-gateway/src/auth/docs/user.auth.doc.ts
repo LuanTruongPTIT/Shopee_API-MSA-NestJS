@@ -8,7 +8,8 @@ import {
 } from '@libs/common/docs/decorators/doc.decorators';
 import { ENUM_DOC_REQUEST_BODY_TYPE } from '@libs/common/docs/constants/doc.enum.constants';
 import { UserLoginSerialization } from '@libs/common/serializations/user.login.serialization';
-import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth.access-payload.serialization';
+import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth/auth.access-payload.serialization';
+import { UserRefreshSerialization } from '@libs/common/serializations/auth/user.refresh.serialization';
 export function UserAuthLoginDoc(): MethodDecorator {
   return applyDecorators(
     Doc({
@@ -34,5 +35,23 @@ export function UserAuthInfoDoc(): MethodDecorator {
     DocResponse<AuthAccessPayloadSerialization>('user.info', {
       serialization: AuthAccessPayloadSerialization,
     }),
+  );
+}
+export function UserAuthRefreshDoc(): MethodDecorator {
+  return applyDecorators(
+    Doc({ summary: 'refresh a token' }),
+    DocAuth({ jwtRefreshToken: true }),
+    DocResponse<UserRefreshSerialization>('user.refresh', {
+      serialization: UserRefreshSerialization,
+    }),
+  );
+}
+export function UserAuthLoginGooglerDoc(): MethodDecorator {
+  return applyDecorators(
+    Doc({
+      summary: 'login with access token google',
+    }),
+    DocAuth({ google: true }),
+    DocResponse('user.loginGoogle'),
   );
 }

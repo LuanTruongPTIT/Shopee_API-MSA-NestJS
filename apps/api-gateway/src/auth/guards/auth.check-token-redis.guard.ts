@@ -5,7 +5,6 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { RedisService } from 'libs/redis/src/redis.service';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 @Injectable()

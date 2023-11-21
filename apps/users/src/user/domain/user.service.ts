@@ -2,8 +2,8 @@ import { UserPayloadSerialization } from '@libs/common/serializations/user.paylo
 import { UserEntity } from '../infrastructure/entity/user.entity';
 import { plainToInstance } from 'class-transformer';
 import { IAuthPayloadOptions } from '@libs/common/interfaces/auth.interface';
-import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth.access-payload.serialization';
-import { AuthRefreshPayloadSerialization } from '@libs/common/serializations/auth.refresh-payload.serialization';
+import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth/auth.access-payload.serialization';
+import { AuthRefreshPayloadSerialization } from '@libs/common/serializations/auth/auth.refresh-payload.serialization';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { HelperDateService } from '@libs/common/helper/services/helper.date.service';

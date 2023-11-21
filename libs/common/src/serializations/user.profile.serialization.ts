@@ -43,4 +43,8 @@ export class UserProfileSerialization extends OmitType(UserGetSerialization, [
   @ApiHideProperty()
   @Exclude()
   readonly blockedDate?: Date;
+
+  @ApiHideProperty()
+  @Exclude()
+  readonly email_verify_token?: string | null;
 }

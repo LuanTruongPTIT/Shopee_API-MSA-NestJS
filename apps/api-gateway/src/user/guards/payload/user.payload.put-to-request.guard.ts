@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { firstValueFrom } from 'rxjs';
@@ -15,7 +16,9 @@ import {
   EMicroservice,
 } from '@libs/common/interfaces/kafka.interface';
 import { CACHE_KEY } from '@libs/common/constants/Key.management';
-
+import ms from 'ms';
+import { AnyBulkWriteOperation } from 'mongodb';
+import { UserResponseFindByIdSerialization } from '@libs/common/serializations/user.response.find-by-id.serialization';
 @Injectable()
 export class UserPayloadPutToRequestGuard implements CanActivate, OnModuleInit {
   constructor(
@@ -36,23 +39,32 @@ export class UserPayloadPutToRequestGuard implements CanActivate, OnModuleInit {
       .switchToHttp()
       .getRequest<IRequestApp & { __user: any }>();
     const { user } = request;
-    const cacheKey = `${user}:${CACHE_KEY.USER.INFO}`;
+    console.log('user', user);
+    const cacheKey = `${user.user._id}:${CACHE_KEY.USER.INFO}`;
 
-    let data = await this.cacheManager.get(cacheKey);
+    let data: UserResponseFindByIdSerialization = await this.cacheManager.get(
+      cacheKey,
+    );
 
     if (!data) {
-      data = await firstValueFrom(
+      data = await firstValueFrom<UserResponseFindByIdSerialization>(
         this.clientKafkaUser.send(
           EKafkaMessage.REQUEST_USER_BY_ID,
-          JSON.stringify(user),
+          JSON.stringify(user.user._id),
         ),
       );
 
       if (data) {
-        await this.cacheManager.set(cacheKey, data);
+        await this.cacheManager.set(cacheKey, data, ms('30m'));
       }
     }
+    user.user.isActive = data.isActive;
+    user.user.blocked = data.blocked;
+    if (!user.user.role) {
+      user.user.role = data.role;
+    }
 
-    return !!data;
+    request.__user = user;
+    return true;
   }
 }

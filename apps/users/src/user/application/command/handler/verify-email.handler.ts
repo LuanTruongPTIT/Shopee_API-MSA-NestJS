@@ -14,8 +14,9 @@ export class VerifyEmailHandler
   ) {}
 
   async execute(command: VerifyEmailCommand): Promise<IResponse> {
-    let { id } = command;
-    id = id.replace(/"/g, '');
+    const { id } = command;
+    // id = id.replace(/"/g, '');
+    console.log('id', id);
     await this.userRepository.verifyEmail(id);
     return {
       data: {
