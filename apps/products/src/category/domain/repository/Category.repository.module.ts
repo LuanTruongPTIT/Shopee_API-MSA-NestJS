@@ -9,10 +9,11 @@ import {
   AttributeCateogrySchema,
 } from '../../infrastructure/read-model/schema/attribute-category.schema';
 import { CategoryRepository } from './Category.repository';
+import { AttributeCategoryRepository } from './attribute-category.repository';
 
 @Module({
-  providers: [CategoryRepository],
-  exports: [CategoryRepository],
+  providers: [CategoryRepository, AttributeCategoryRepository],
+  exports: [CategoryRepository, AttributeCategoryRepository],
   imports: [
     MongooseModule.forFeature([
       {

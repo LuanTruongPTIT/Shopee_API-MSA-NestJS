@@ -5,6 +5,7 @@ import { HelperDateService } from './services/helper.date.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { HelperEncryptionService } from './services/helper.encryption.service';
+import { HelperIdManagementService } from './services/helper.id.management.service';
 @Global()
 @Module({
   imports: [
@@ -25,12 +26,14 @@ import { HelperEncryptionService } from './services/helper.encryption.service';
     HelperHashService,
     HelperDateService,
     HelperEncryptionService,
+    HelperIdManagementService,
   ],
   exports: [
     HelperNumberService,
     HelperHashService,
     HelperDateService,
     HelperEncryptionService,
+    HelperIdManagementService,
   ],
 })
 export class HelperModule {}

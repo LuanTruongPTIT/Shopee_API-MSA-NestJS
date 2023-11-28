@@ -4,7 +4,8 @@ import {
   ENUM_POLICY_ACTION,
   ENUM_POLICY_SUBJECT,
 } from '../constants/policy.enum.constants';
-import { UserPayloadPermissionSerialization } from '../../../../../apps/api-gateway/src/user/serializations/user.payload.serializationn
+import { UserPayloadPermissionSerialization } from '@libs/common/serializations/user.payload.serialization';
+
 export type IPolicySubjectAbility = InferSubjects<ENUM_POLICY_SUBJECT | 'all'>;
 export type IPolicyAbility = MongoAbility<
   [ENUM_POLICY_ACTION, IPolicySubjectAbility]

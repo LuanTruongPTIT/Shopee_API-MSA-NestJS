@@ -5,7 +5,7 @@ import {
   IDatabaseExistOptions,
 } from '@libs/common/database_mongoose/interfaces/database.interface';
 import { DatabaseBaseRepositoryAbstract } from '../../database.base-repository.abstract';
-import { Model, PopulateOptions, ClientSession } from 'mongoose';
+import { Model, PopulateOptions, ClientSession, FilterQuery } from 'mongoose';
 import { DATABASE_DELETED_AT_FIELD_NAME } from '@libs/common/database_mongoose/constants/database.constant';
 export abstract class DatabaseMongoUUIDRepositoryAbstract<
   Entity,
@@ -72,14 +72,14 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
   }
 
   async exists(
-    find: Record<string, any>,
+    find?: Record<string, any>,
     options?: IDatabaseExistOptions<ClientSession>,
   ): Promise<boolean> {
     if (options?.excludeId) {
       find = {
         ...find,
         _id: {
-          $nin: options?.excludeId ?? [],
+          $in: options?.excludeId ?? [],
         },
       };
     }
@@ -111,6 +111,18 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
     }
     const result = await exists;
     return !!result;
+  }
+
+  async existByField(
+    field: string,
+    options?: IDatabaseExistOptions<ClientSession>,
+  ) {
+    const filter: FilterQuery<any> = {
+      [field]: { $in: options?.includeId ?? [] },
+    };
+    const exists = await this._repository.find(filter);
+
+    return !!exists;
   }
 
   async findOneById<T = EntityDocument>(
@@ -151,4 +163,9 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
 
     return findOne.exec() as any;
   }
+
+  async findAll<T = EntityDocument>(
+    find?: Record<string, any>,
+    options?: IDatabaseFindAllOptions<ClientSession>,
+  ) {}
 }

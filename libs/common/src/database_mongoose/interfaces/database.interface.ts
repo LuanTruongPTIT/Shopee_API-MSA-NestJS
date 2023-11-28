@@ -13,4 +13,5 @@ export interface IDatabaseCreateOptions<T = any>
 export interface IDatabaseExistOptions<T = any>
   extends Pick<IDatabaseFindOneOptions<T>, 'session' | 'withDeleted' | 'join'> {
   excludeId?: string[];
+  includeId: Array<string>;
 }

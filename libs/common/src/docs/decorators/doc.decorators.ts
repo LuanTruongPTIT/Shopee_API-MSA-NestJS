@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   IDocAuthOptions,
   IDocDefaultOptions,
   IDocOfOptions,
   IDocOptions,
+  IDocRequestFileOptions,
   IDocResponseOptions,
 } from '../interfaces/doc.interface';
 import {
@@ -17,6 +19,7 @@ import {
   ApiProduces,
   ApiBearerAuth,
   ApiCookieAuth,
+  ApiBody,
 } from '@nestjs/swagger';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 // import { ResponseDefaultInterceptor } from '../../interceptors/response.default.interceptor';
@@ -32,6 +35,7 @@ import {
 } from '../../error/constants/error.enum.constant';
 import { IDocRequestOptions } from '../interfaces/doc.interface';
 import { ENUM_AUTH_STATUS_CODE_ERROR } from 'apps/api-gateway/src/auth/constants/auth.status-code.constant';
+
 export function DocDefault<T>(options: IDocDefaultOptions): MethodDecorator {
   const docs = [];
   const schema: Record<string, any> = {
@@ -259,4 +263,22 @@ export function DocAuth(options?: IDocAuthOptions) {
     ...docs,
     DocOneOf(HttpStatus.UNAUTHORIZED, ...oneOfUnauthorized),
   );
+}
+export function DocRequestFile(options: IDocRequestFileOptions) {
+  const docs: Array<ClassDecorator | MethodDecorator> = [];
+  if (options?.params) {
+    // eslint-disable-next-line array-callback-return
+    const params: MethodDecorator[] = options?.params.map((param) =>
+      ApiParam(param),
+    );
+    docs.push(...params);
+  }
+  if (options?.body) {
+    docs.push(
+      ApiBody({
+        type: options?.body,
+      }),
+    );
+    return applyDecorators(ApiConsumes('multipart/form-data'), ...docs);
+  }
 }

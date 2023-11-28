@@ -20,7 +20,8 @@ export interface IDocDefaultOptions extends IDocOfOptions {
 export interface IDocRequestOptions {
   params?: ApiParamOptions[];
   queries?: ApiQueryOptions[];
-  bodyType: ENUM_DOC_REQUEST_BODY_TYPE;
+  bodyType?: ENUM_DOC_REQUEST_BODY_TYPE;
+  body?: ClassConstructor<any>;
 }
 export interface IDocResponseOptions<T> {
   statusCode?: number;
@@ -34,3 +35,4 @@ export interface IDocAuthOptions {
   apiKey?: boolean;
   google?: boolean;
 }
+export type IDocRequestFileOptions = Omit<IDocRequestOptions, 'bodytype'>;

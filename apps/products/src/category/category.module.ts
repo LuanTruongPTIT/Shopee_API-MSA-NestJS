@@ -6,15 +6,31 @@ import { CategoryController } from './infrastructure/controller/category.control
 import { EventStore } from '@libs/common/core/eventstore/eventstore';
 import { categoryEventHandlers } from './domain/event';
 import { CategoryFactory } from './domain/factory/Category.factory';
-import { CommandBus, CqrsModule, EventBus, EventPublisher } from '@nestjs/cqrs';
+import {
+  CommandBus,
+  CqrsModule,
+  EventBus,
+  EventPublisher,
+  QueryBus,
+} from '@nestjs/cqrs';
 import { CommandHandlers } from './application/handler';
 import { CategoryProviders } from './infrastructure/provider/category.provider';
 import { EventHandlersProjectionCategory } from './infrastructure/read-model/projection';
+import { HelperModule } from '@libs/common/helper/helper.module';
+import { AttributeCategoryFactory } from './domain/factory/Attribute-category.factory';
+import { AtrtributeCategoryProviders } from './infrastructure/provider/attribute-category.provider';
+import { AttributeCategoryService } from './infrastructure/services/attribute-category.service';
 
 @Module({
-  imports: [EventStoreModule.forRoot(), CqrsModule, CategoryRepositoryModule],
+  imports: [
+    EventStoreModule.forRoot(),
+    CqrsModule,
+    CategoryRepositoryModule,
+    HelperModule,
+  ],
   providers: [
     CategoryService,
+    AttributeCategoryService,
     EventPublisher,
     CommandBus,
     EventBus,
@@ -22,6 +38,8 @@ import { EventHandlersProjectionCategory } from './infrastructure/read-model/pro
     ...CategoryProviders,
     CategoryFactory,
     ...EventHandlersProjectionCategory,
+    AttributeCategoryFactory,
+    ...AtrtributeCategoryProviders,
   ],
   controllers: [CategoryController],
 })
@@ -30,6 +48,7 @@ export class CategoryModule implements OnModuleInit {
     private readonly eventStore: EventStore,
     private readonly command$: CommandBus,
     private readonly event$: EventBus,
+    private readonly query$: QueryBus,
   ) {}
 
   async onModuleInit() {

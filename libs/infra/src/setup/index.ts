@@ -14,7 +14,9 @@ import {
 } from '../exception/all-exceptions.filter';
 import session from 'express-session';
 import passport from 'passport';
-export const setUpApplication = (app: INestApplication) => {
+import { NestExpressApplication } from '@nestjs/platform-express';
+import path from 'path';
+export const setUpApplication = (app: NestExpressApplication) => {
   app.setGlobalPrefix('api/v1');
   app.enableCors({
     origin: '',
@@ -71,6 +73,7 @@ export const setUpApplication = (app: INestApplication) => {
       },
     }),
   );
+
   app.use(passport.initialize());
   app.use(passport.session());
   const configService = app.get(ConfigService);

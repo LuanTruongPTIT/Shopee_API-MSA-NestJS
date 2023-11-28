@@ -10,16 +10,17 @@ export class AttributeCategoryEntity extends DatabaseMongoUUIDEntityAbstract {
     ref: CategoryEntity.name,
     index: true,
   })
-  category_id: string;
+  category_id: Array<string>;
 
-  @Prop({
-    required: true,
-    maxlength: 50,
-  })
-  attribute_name: string;
+  // @Prop({
+  //   required: true,
+  //   maxlength: 50,
+  // })
+  // attribute_name: string;
 
-  attribute_value: AttributeCategoryValueSerialization[];
+  attribute_value_list: AttributeCategoryValueSerialization[];
 }
 export const AttributeCateogrySchema = SchemaFactory.createForClass(
   AttributeCategoryEntity,
 );
+export type AttributeCategoryDoc = AttributeCategoryEntity & Document;

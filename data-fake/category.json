@@ -1,6 +1,7 @@
 [
   {
     "category_name": "Electronics",
+
     "isParent": true,
     "subcategories": [
       {
@@ -24,6 +25,7 @@
   },
   {
     "category_name": "Clothing",
+     "image": " https://chat.openai.com/c/13a6679d-562f-4554-b97f-62dfd00b5d90 ",
     "isParent": true,
     "subcategories": [
       {

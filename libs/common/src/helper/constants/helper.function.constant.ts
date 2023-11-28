@@ -1,7 +1,6 @@
 import ms from 'ms';
 
 export function seconds(msValue: string): number {
-  console.log(ms(msValue));
   return ms(msValue) / 1000;
 }
 

@@ -1,3 +1,3 @@
 import { CreateCategoryHandler } from './create-category.handler';
-
-export const CommandHandlers = [CreateCategoryHandler];
+import { CreateAttributeHandler } from './create-attribute.handler';
+export const CommandHandlers = [CreateCategoryHandler, CreateAttributeHandler];
