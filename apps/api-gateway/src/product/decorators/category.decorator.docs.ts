@@ -32,6 +32,7 @@ export function GetCategoryDoc(): MethodDecorator {
     Doc({
       operation: 'modules.category.get.category',
     }),
+    DocResponse('Get category success'),
     DocDefault<GetCategoryResponseSerialization>({
       httpStatus: HttpStatus.OK,
       serialization: GetCategoryResponseSerialization,

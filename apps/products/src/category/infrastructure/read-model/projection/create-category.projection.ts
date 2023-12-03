@@ -10,7 +10,7 @@ export class CreateCategoryProjection
 {
   constructor(private readonly categoryRepo: CategoryRepository) {}
   async handle(event: AddCategoryEvent) {
-    console.log(event);
+    // console.log(event);
     const categoryEntity = new CategoryEntity();
     categoryEntity._id = event._id;
     categoryEntity.category_name = event.category_name;
@@ -20,15 +20,17 @@ export class CreateCategoryProjection
     categoryEntity.isActive = event.isActive;
     categoryEntity.parent = event.parent;
     if (event.parent_id !== null) {
-      categoryEntity.category_parent_id = [];
-      event.parent_id.forEach((result) => {
-        console.log(result);
-        categoryEntity.category_parent_id.push(result);
-      });
+      // categoryEntity.category_parent_id = [];
+      // event.parent_id.forEach((result) => {
+      //   console.log(result);
+      //   categoryEntity.category_parent_id.push(result);
+      // });
+      categoryEntity.category_parent_id = event.parent_id;
+      console.log(categoryEntity.category_parent_id);
     } else {
       categoryEntity.category_parent_id = null;
     }
-
+    console.log(event);
     await this.categoryRepo.create(categoryEntity);
   }
 }

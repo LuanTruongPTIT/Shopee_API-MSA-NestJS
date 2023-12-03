@@ -27,7 +27,6 @@ export class JwtTokenEmailStrategy extends PassportStrategy(
   }
 
   async validate(data: any) {
-    console.log('tokenEMail', data);
     return data;
   }
 }

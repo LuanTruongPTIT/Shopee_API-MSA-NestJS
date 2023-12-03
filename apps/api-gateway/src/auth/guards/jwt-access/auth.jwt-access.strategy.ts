@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CACHE_KEY } from '@libs/common/constants/Key.management';
+import { CACHE_KEY } from '@libs/common/constants/key.management';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -44,12 +44,12 @@ export class AuthJwtAccessStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(data: Record<string, any>) {
-    console.log('data', data);
     const key = `${data.user._id}:${CACHE_KEY.AUTH.ACCESS_TOKEN}`;
     const accesstoken = await this.cacheManager.get(key);
     if (accesstoken) {
       return data;
     }
     return false;
+    // return data;
   }
 }

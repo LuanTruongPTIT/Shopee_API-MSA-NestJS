@@ -3,6 +3,7 @@ import {
   IDatabaseFindOneOptions,
   IDatabaseCreateOptions,
   IDatabaseExistOptions,
+  IDatabaseCreateManyOptions,
 } from '../interfaces/database.interface';
 
 import { ClientSession } from 'mongoose';
@@ -26,4 +27,9 @@ export abstract class DatabaseBaseRepositoryAbstract<Entity> {
     _id: string,
     options?: IDatabaseFindOneOptions,
   ): Promise<T>;
+
+  abstract createMany<Dto>(
+    data: Dto[],
+    options?: IDatabaseCreateManyOptions<any>,
+  ): Promise<boolean>;
 }

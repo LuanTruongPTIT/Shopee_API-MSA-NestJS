@@ -111,7 +111,7 @@ export class ResponseDefaultInterceptor<T>
             };
           }
           response.status(httpStatus);
-
+          console.log(data);
           return {
             statusCode,
             // message,

@@ -19,15 +19,6 @@ export class CategoryChildrenSerialization {
   @IsString()
   category_name_children: string;
 
-  // @ApiProperty({
-  //   type: String,
-  //   required: true,
-  //   nullable: false,
-  // })
-  // @IsNotEmpty()
-  // @IsUUID()
-  // parent_category_id: string;
-
   @ApiProperty({
     type: String,
     required: false,

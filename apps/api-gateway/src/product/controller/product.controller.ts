@@ -20,8 +20,15 @@ import { CreateCategoryDto } from '@libs/common/dto/product/Create.category.dto'
 import { FileRequiredPipe } from '@libs/common/file/pipes/file.required.pipe';
 import { FileUploadSingle } from '@libs/common/file/decorators/file.decorator';
 import { IFile } from '@libs/common/file/interface/file.interface';
-import FormData from 'form-data';
 import { AttributeValueDto } from '@libs/common/dto/product/attribute-value.category.dto';
+import { Response } from '@libs/common/response/decorators/response.decorator';
+import { AuthJwtAdminAccessProtected } from '../../auth/decorators/auth.jwt.decorator';
+import { PolicyAbilityProtected } from '@libs/common/policy/decorators/policy.decorator';
+import {
+  ENUM_POLICY_ACTION,
+  ENUM_POLICY_SUBJECT,
+} from '@libs/common/constants/role.enum.constant';
+import { CreateAttributeCategoryDto } from '@libs/common/dto/product/create-attribute.category.dto';
 @ApiTags('Product')
 @Controller('/product')
 export class ProductController implements OnModuleInit {
@@ -46,17 +53,13 @@ export class ProductController implements OnModuleInit {
 
   @CategoryAddDoc()
   @FileUploadSingle()
+  @Response('Add category success')
   @Post('/add/category')
   async AddCategory(
     @Body() data: CreateCategoryDto,
-    // @GetFileImage()
-    // image: IFile,
     @UploadedFile()
     file: IFile,
   ) {
-    const form = new FormData();
-    form.append('file', file.originalname);
-    console.log(data);
     return firstValueFrom(
       this.clientKafka_product
         .send(
@@ -80,6 +83,7 @@ export class ProductController implements OnModuleInit {
   }
 
   @GetCategoryDoc()
+  @Response('get category success')
   @Get('')
   async GetAllCategory() {
     const message = 'get all category';
@@ -96,7 +100,9 @@ export class ProductController implements OnModuleInit {
   }
 
   @Post('/add/attribute-category')
-  async AddAttributeCategory(@Body() data: AttributeValueDto): Promise<void> {
+  async AddAttributeCategory(
+    @Body() data: CreateAttributeCategoryDto,
+  ): Promise<void> {
     return firstValueFrom(
       this.clientKafka_product
         .send(
@@ -110,4 +116,12 @@ export class ProductController implements OnModuleInit {
         ),
     );
   }
+
+  @PolicyAbilityProtected({
+    subject: ENUM_POLICY_SUBJECT.PRODUCT,
+    action: [ENUM_POLICY_ACTION.WRITE],
+  })
+  @AuthJwtAdminAccessProtected()
+  @Post('/add/product')
+  async GetListProduct() {}
 }

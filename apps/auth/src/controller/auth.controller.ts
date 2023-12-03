@@ -31,7 +31,7 @@ import {
 import { IAuthService } from '../interfaces/auth.service.interface';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { CACHE_KEY } from '@libs/common/constants/Key.management';
+import { CACHE_KEY } from '@libs/common/constants/key.management';
 import { UserVerifyStatus } from '@libs/common/constants/user.enum';
 import {
   ENUM_AUTH_LOGIN_FROM,
@@ -137,6 +137,7 @@ export class AuthController implements OnModuleInit {
         JSON.stringify(user.role),
       ),
     );
+    console.log('role', JSON.stringify(role));
     user.role = role as unknown as string;
     if (!role.isActive) {
       throw new ForbiddenException({
@@ -147,6 +148,7 @@ export class AuthController implements OnModuleInit {
     await this.cache.del(key);
 
     const payload = await this.authService.payloadSerialization(user);
+    console.log('payload', JSON.stringify(payload));
     // const payload = {
     //   _id: user._id,
     //   role: role._id,
@@ -165,7 +167,7 @@ export class AuthController implements OnModuleInit {
         loginDate,
       },
     );
-    console.log(payloadAccessToken);
+    // console.log(JSON.stringify(payloadAccessToken));
     const payloadRefreshToken =
       await this.authService.createPayloadRefreshToken(payload._id, {
         loginWith: ENUM_AUTH_LOGIN_WITH.EMAIL,

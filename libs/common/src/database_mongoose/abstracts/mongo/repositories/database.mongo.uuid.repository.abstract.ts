@@ -3,10 +3,15 @@ import {
   IDatabaseCreateOptions,
   IDatabaseFindOneOptions,
   IDatabaseExistOptions,
+  IDatabaseFindAllOptions,
+  IDatabaseCreateManyOptions,
 } from '@libs/common/database_mongoose/interfaces/database.interface';
 import { DatabaseBaseRepositoryAbstract } from '../../database.base-repository.abstract';
 import { Model, PopulateOptions, ClientSession, FilterQuery } from 'mongoose';
-import { DATABASE_DELETED_AT_FIELD_NAME } from '@libs/common/database_mongoose/constants/database.constant';
+import {
+  DATABASE_DELETED_AT_FIELD_NAME,
+  category_parent_id,
+} from '@libs/common/database_mongoose/constants/database.constant';
 export abstract class DatabaseMongoUUIDRepositoryAbstract<
   Entity,
   EntityDocument,
@@ -113,16 +118,16 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
     return !!result;
   }
 
-  async existByField(
+  async findAllByField<T = EntityDocument>(
     field: string,
     options?: IDatabaseExistOptions<ClientSession>,
-  ) {
+  ): Promise<Array<any>> {
     const filter: FilterQuery<any> = {
       [field]: { $in: options?.includeId ?? [] },
     };
     const exists = await this._repository.find(filter);
 
-    return !!exists;
+    return exists;
   }
 
   async findOneById<T = EntityDocument>(
@@ -167,5 +172,56 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
   async findAll<T = EntityDocument>(
     find?: Record<string, any>,
     options?: IDatabaseFindAllOptions<ClientSession>,
-  ) {}
+  ): Promise<T[]> {
+    const findAll = this._repository.find<T>(find);
+
+    if (options?.withDeleted) {
+      findAll.or([
+        {
+          [DATABASE_DELETED_AT_FIELD_NAME]: { $exists: false },
+        },
+        {
+          [DATABASE_DELETED_AT_FIELD_NAME]: { $exists: true },
+        },
+      ]);
+    } else {
+      findAll.where(DATABASE_DELETED_AT_FIELD_NAME).exists(false);
+    }
+
+    if (options?.select) {
+      findAll.select(options.select);
+    }
+
+    if (options?.paging) {
+      findAll.limit(options.paging.limit).skip(options.paging.offset);
+    }
+
+    if (options?.order) {
+      findAll.sort(options.order);
+    }
+
+    if (options?.join) {
+      findAll.populate(
+        typeof options.join === 'boolean'
+          ? this._joinOnFind
+          : (options.join as PopulateOptions | PopulateOptions[]),
+      );
+    }
+
+    if (options?.session) {
+      findAll.session(options.session);
+    }
+
+    return options?.plainObject ? findAll.lean() : findAll.exec();
+  }
+
+  async createMany<Dto>(
+    data: Dto[],
+    options?: IDatabaseCreateManyOptions<any>,
+  ): Promise<boolean> {
+    const create = this._repository.insertMany(data);
+    const result = await create;
+    console.log('result', result);
+    return true;
+  }
 }

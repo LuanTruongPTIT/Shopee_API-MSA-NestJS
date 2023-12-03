@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { HelperEncryptionService } from './services/helper.encryption.service';
 import { HelperIdManagementService } from './services/helper.id.management.service';
+import { HelperArrayService } from './services/helper.array.service';
 @Global()
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { HelperIdManagementService } from './services/helper.id.management.servi
     HelperDateService,
     HelperEncryptionService,
     HelperIdManagementService,
+    HelperArrayService,
   ],
   exports: [
     HelperNumberService,
@@ -34,6 +36,7 @@ import { HelperIdManagementService } from './services/helper.id.management.servi
     HelperDateService,
     HelperEncryptionService,
     HelperIdManagementService,
+    HelperArrayService,
   ],
 })
 export class HelperModule {}

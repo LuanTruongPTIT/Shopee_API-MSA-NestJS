@@ -5,11 +5,12 @@ import {
   AttributeCategory,
   AttributeCategoryImplement,
 } from '../models/attribute-value';
+import { CategoryAttributeDto } from '@libs/common/dto/product/attribute.category.dto';
 export type AttributeCategoryOptions = Readonly<
   Required<{
     _id: string;
-    category_id: Array<string>;
-    attribute_list: AttributeCategoryValueSerialization[];
+    category_id: string;
+    attribute_list: CategoryAttributeDto[];
   }>
 >;
 export class AttributeCategoryFactory {

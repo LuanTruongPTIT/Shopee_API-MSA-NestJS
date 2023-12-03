@@ -16,13 +16,12 @@ export class CreateAttributeHandler
   ) {}
 
   async execute(command: CreateAttributeCategoryCommand): Promise<void> {
-    const { _id, category_id, attribute_list } = command;
-
-    const exist = await this.attributeCategoryService.checkCategoryAncestors(
-      'category_parent_id',
+    const { _id, attributeCategory } = command;
+    const { category_id, attribute_list } = attributeCategory;
+    const exist = await this.attributeCategoryService.checkCategoryAncestors({
       category_id,
-    );
-
+    });
+    console.log('exist', exist);
     if (exist) {
       throw new RpcException(
         new BadRequestException('category.ancestor.error.isNotExist'),

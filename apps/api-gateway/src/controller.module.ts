@@ -27,6 +27,8 @@ import { AuthJwtRefreshStrategy } from './auth/guards/jwt-refreshtoken/auth.jwt-
 import { GoogleStrategy } from './auth/guards/google-authentication/auth.google-strategry';
 import { SessionSerializer } from './auth/utils/Serializer';
 import { ProductController } from './product/controller/product.controller';
+import { RequestModule } from '@libs/common/request/request.module';
+import { PolicyModule } from '@libs/common/policy/policy.module';
 
 @Module({
   imports: [

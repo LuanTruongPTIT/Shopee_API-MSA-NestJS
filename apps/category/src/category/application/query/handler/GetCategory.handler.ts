@@ -16,7 +16,15 @@ export class GetCategoryHandler
   ) {}
 
   async execute(): Promise<GetCategoryResult[]> {
-    const result = this.categoryQuery.getAllCategory();
-    return result;
+    const primaryCategorys = await this.categoryQuery.getAllCategory();
+    const dataMap = new Map();
+    primaryCategorys.forEach((primary) => {
+      dataMap.set(primary._id, { ...primary, category_children: [] });
+    });
+    const rootCategories: GetCategoryResult[] = [];
+    dataMap.forEach((item, id) => {
+        const children = await this.
+    })
+    return rootCategories;
   }
 }

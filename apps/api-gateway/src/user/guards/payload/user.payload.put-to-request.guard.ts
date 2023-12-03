@@ -15,7 +15,7 @@ import {
   EKafkaMessage,
   EMicroservice,
 } from '@libs/common/interfaces/kafka.interface';
-import { CACHE_KEY } from '@libs/common/constants/Key.management';
+import { CACHE_KEY } from '@libs/common/constants/key.management';
 import ms from 'ms';
 import { AnyBulkWriteOperation } from 'mongodb';
 import { UserResponseFindByIdSerialization } from '@libs/common/serializations/user.response.find-by-id.serialization';

@@ -1,7 +1,9 @@
 import { CATEGORY_PRODUCT_LEVEL } from '@libs/common/constants/category.enum';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-@Schema({ collection: 'CategoryEntity' })
+import { Document } from 'mongoose';
+import { AttributeCategoryEntity } from './attribute-category.schema';
+@Schema({ collection: 'category_entity' })
 export class CategoryEntity extends DatabaseMongoUUIDEntityAbstract {
   @Prop({
     required: true,
@@ -40,17 +42,24 @@ export class CategoryEntity extends DatabaseMongoUUIDEntityAbstract {
   @Prop({
     required: false,
     nullable: true,
-    type: [String, null],
+    // type: [String, null],
   })
   parent: string | null;
 
   @Prop({
-    type: 'Array',
+    // type: 'array',
     nullable: true,
     required: false,
     index: true,
   })
-  category_parent_id: Array<string> | null;
+  category_parent_id: string[] | null;
+
+  @Prop({
+    required: false,
+    nullable: true,
+    ref: AttributeCategoryEntity.name,
+  })
+  attribute_category_id: string[];
 }
 
 export const CatergorySchema = SchemaFactory.createForClass(CategoryEntity);

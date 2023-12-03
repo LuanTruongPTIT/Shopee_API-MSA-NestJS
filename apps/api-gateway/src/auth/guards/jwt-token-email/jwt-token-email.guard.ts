@@ -6,7 +6,6 @@ import { ENUM_AUTH_STATUS_CODE_ERROR } from '../../constants/auth.status-code.co
 @Injectable()
 export class JwtTokenEmail extends AuthGuard('jwtTokenEmail') {
   handleRequest<TUser = any>(err: Error, user: TUser, info: Error): TUser {
-    console.log(user);
     if (err || !user) {
       throw new UnauthorizedException({
         statusCode: ENUM_AUTH_STATUS_CODE_ERROR.JWT_TOKEN_EMAIL_VERIFY,

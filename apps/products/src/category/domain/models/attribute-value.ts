@@ -2,12 +2,13 @@
 import { AttributeCategoryValueSerialization } from '@libs/common/serializations/product/attribute-category.value.serialization';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { AttributeCategoryEvent } from '../event/create-attribute.event';
+import { CategoryAttributeDto } from '@libs/common/dto/product/attribute.category.dto';
 
 export type AttributeCategoryProperties = Readonly<
   Required<{
     _id: string;
-    category_id: Array<string>;
-    attribute_list: AttributeCategoryValueSerialization[];
+    category_id: string;
+    attribute_list: CategoryAttributeDto[];
   }>
 >;
 export interface AttributeCategory {
@@ -19,8 +20,8 @@ export class AttributeCategoryImplement
   implements AttributeCategory
 {
   private readonly _id: string;
-  private readonly category_id: Array<string>;
-  private readonly attribute_list: AttributeCategoryValueSerialization[];
+  private readonly category_id: string;
+  private readonly attribute_list: CategoryAttributeDto[];
 
   constructor(properties: AttributeCategoryProperties) {
     super();

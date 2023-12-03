@@ -3,11 +3,12 @@ export enum ENUM_ROLE_TYPE {
   SHOP = 'SHOP',
   BUYER = 'BUYER',
   ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN',
 }
 export enum ENUM_POLICY_ACTION {
   MANAGE = 'manage',
   READ = 'read',
-  SHOP = 'shop',
+  WRITE = 'write',
   UPDATE = 'update',
   DELETE = 'delete',
 }
@@ -19,6 +20,7 @@ export enum ENUM_POLICY_REQUEST_ACTION {
   DELETE,
   EXPORT,
   IMPORT,
+  WRITE,
 }
 export enum ENUM_POLICY_SUBJECT {
   API_KEY = 'API_KEY',
@@ -26,4 +28,5 @@ export enum ENUM_POLICY_SUBJECT {
   ROLE = 'ROLE',
   USER = 'USER',
   SHOP = 'SHOP',
+  PRODUCT = 'PRODUCT',
 }

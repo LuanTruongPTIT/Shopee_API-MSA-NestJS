@@ -3,22 +3,39 @@ import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/
 import { CategoryEntity } from './category.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AttributeCategoryValueSerialization } from '@libs/common/serializations/product/attribute-category.value.serialization';
-@Schema({ collection: 'AttributeCategoryEntity' })
+import { Document } from 'mongoose';
+import { AttributeCategoryValueEntity } from './attribute-category-value.schema';
+@Schema({ collection: 'attribute_category_entity' })
 export class AttributeCategoryEntity extends DatabaseMongoUUIDEntityAbstract {
   @Prop({
     required: true,
-    ref: CategoryEntity.name,
-    index: true,
+    nullable: false,
+    default: false,
+    type: String,
   })
-  category_id: Array<string>;
+  attribute_name: string;
 
-  // @Prop({
-  //   required: true,
-  //   maxlength: 50,
-  // })
-  // attribute_name: string;
+  @Prop({
+    required: true,
+    nullable: false,
+    type: String,
+  })
+  display_name: string;
 
-  attribute_value_list: AttributeCategoryValueSerialization[];
+  @Prop({
+    required: false,
+    nullable: true,
+    type: Boolean,
+  })
+  mandatory: boolean;
+
+  @Prop({
+    required: false,
+    ref: AttributeCategoryValueEntity.name,
+    index: true,
+    nullable: true,
+  })
+  attribute_value_id: string[];
 }
 export const AttributeCateogrySchema = SchemaFactory.createForClass(
   AttributeCategoryEntity,

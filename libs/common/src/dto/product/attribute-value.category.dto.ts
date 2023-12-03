@@ -1,20 +1,31 @@
-import { AttributeCategoryValueSerialization } from '@libs/common/serializations/product/attribute-category.value.serialization';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class AttributeValueDto {
   @ApiProperty({
-    description: 'Chain categoryID',
-    example: ['43223432', '3423424234234'],
+    required: true,
+    type: String,
   })
-  @IsArray()
-  category_id: Array<string>;
+  @Type(() => String)
+  @IsString()
+  @IsNotEmpty()
+  value_name: string;
 
   @ApiProperty({
-    description: 'Attribute value list ',
-    type: AttributeCategoryValueSerialization,
+    required: true,
+    type: String,
   })
-  @Type(() => AttributeCategoryValueSerialization)
-  attribute_list: AttributeCategoryValueSerialization[];
+  @IsNotEmpty()
+  @Type(() => String)
+  display_name: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Type(() => String)
+  value_unit: string;
 }

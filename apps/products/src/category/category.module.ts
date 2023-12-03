@@ -20,6 +20,7 @@ import { HelperModule } from '@libs/common/helper/helper.module';
 import { AttributeCategoryFactory } from './domain/factory/Attribute-category.factory';
 import { AtrtributeCategoryProviders } from './infrastructure/provider/attribute-category.provider';
 import { AttributeCategoryService } from './infrastructure/services/attribute-category.service';
+import { QueryHandlers } from './application/query/handler';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AttributeCategoryService } from './infrastructure/services/attribute-ca
     ...EventHandlersProjectionCategory,
     AttributeCategoryFactory,
     ...AtrtributeCategoryProviders,
+    ...QueryHandlers,
   ],
   controllers: [CategoryController],
 })
@@ -55,6 +57,7 @@ export class CategoryModule implements OnModuleInit {
     this.command$.register(CommandHandlers);
     this.event$.register(EventHandlersProjectionCategory);
     this.eventStore.addEventHandlers(categoryEventHandlers);
+    this.query$.register(QueryHandlers);
     // await this.eventStore.bridgeEventsTo((this.event$ as any).subject$);
     // this.event$.publisher = this.eventStore;
   }

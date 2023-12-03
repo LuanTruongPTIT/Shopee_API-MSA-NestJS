@@ -16,6 +16,9 @@ import {
   USER_BLOCKED_META_KEY,
 } from '@libs/common/constants/user.enum';
 import { AuthJwtRefreshGuard } from '../guards/jwt-refreshtoken/auth.jwt-refresh.guard';
+import { RolePayloadTypeGuard } from '../../role/guard/role.payload.type.guard';
+import { ROLE_TYPE_META_KEY } from '../../role/constants/role.constants';
+import { ENUM_ROLE_TYPE } from '@libs/common/constants/role.enum.constant';
 
 export const AuthJwtPayload = createParamDecorator(
   <T>(data: string, ctx: ExecutionContext): T => {
@@ -45,5 +48,15 @@ export function UserAuthProtected(): MethodDecorator {
     UseGuards(UserActiveGuard, UserBlockedGuard),
     SetMetadata(USER_ACTIVE_META_KEY, [true]),
     SetMetadata(USER_BLOCKED_META_KEY, [false]),
+  );
+}
+
+export function AuthJwtAdminAccessProtected(): MethodDecorator {
+  return applyDecorators(
+    UseGuards(AuthJwtAccessGuard, RolePayloadTypeGuard),
+    SetMetadata(ROLE_TYPE_META_KEY, [
+      ENUM_ROLE_TYPE.SUPER_ADMIN,
+      ENUM_ROLE_TYPE.BUYER,
+    ]),
   );
 }

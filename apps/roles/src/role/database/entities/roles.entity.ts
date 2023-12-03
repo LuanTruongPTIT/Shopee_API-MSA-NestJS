@@ -1,8 +1,12 @@
-import { ENUM_ROLE_TYPE } from '@libs/common/constants/role.enum.constant';
+import {
+  ENUM_POLICY_SUBJECT,
+  ENUM_ROLE_TYPE,
+} from '@libs/common/constants/role.enum.constant';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { IPolicyRule } from '@libs/common/interfaces/policy.interface';
 import { CallbackWithoutResultAndOptionalError, Document } from 'mongoose';
+
 @Schema({ collection: 'RoleEntity' })
 export class RoleEntity extends DatabaseMongoUUIDEntityAbstract {
   @Prop({
@@ -47,7 +51,7 @@ export class RoleEntity extends DatabaseMongoUUIDEntityAbstract {
       {
         subject: {
           type: String,
-          enum: ENUM_ROLE_TYPE,
+          enum: ENUM_POLICY_SUBJECT,
           required: true,
         },
         action: {

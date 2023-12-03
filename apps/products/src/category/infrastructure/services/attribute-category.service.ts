@@ -9,12 +9,10 @@ export class AttributeCategoryService implements IAttributeCategoryService {
   ) {}
 
   async checkCategoryAncestors(
-    field: string,
-    category_parent_id: Array<string>,
+    category_parent_id: Record<string, any>,
   ): Promise<boolean> {
-    const exist = await this.attributeCategoryRepo.existByField(field, {
-      includeId: category_parent_id,
-    });
-    return exist;
+    const exist = await this.attributeCategoryRepo.findOne(category_parent_id);
+    const result = !!exist;
+    return result;
   }
 }

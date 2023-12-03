@@ -41,7 +41,6 @@ export class UserImplement extends AggregateRoot implements User {
   }
 
   open(): void {
-    console.log('Da vao de chuyen event');
     this.apply(
       new CreateUserSuccessEvent(this.id, this.tokenEmail, this.email),
     );

@@ -7,8 +7,9 @@ import {
   ENUM_POLICY_REQUEST_ACTION,
   ENUM_ROLE_TYPE,
 } from '@libs/common/constants/role.enum.constant';
-import { IPolicyRule } from '@libs/common/interfaces/policy.interface';
+
 import { ENUM_USER_SIGN_UP_FROM } from '@libs/common/constants/user.enum';
+import { IPolicyRule } from '../policy/interfaces/policy.interface';
 // import {} from '';
 export class UserPayloadPermissionSerialization {
   @ApiProperty({
@@ -62,8 +63,11 @@ export class UserPayloadSerialization extends OmitType(
     nullable: false,
   })
   @Transform(({ obj }) => {
+    console.log('obj', obj);
     return obj.role.permissions.map(({ action, subject }: IPolicyRule) => {
+      console.log(action);
       const ac = action.map((l) => ENUM_POLICY_REQUEST_ACTION[l.toUpperCase()]);
+      console.log('ac', ac);
       return {
         subject,
         action: ac.join(','),
