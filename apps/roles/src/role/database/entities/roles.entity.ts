@@ -4,8 +4,8 @@ import {
 } from '@libs/common/constants/role.enum.constant';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
-import { IPolicyRule } from '@libs/common/interfaces/policy.interface';
 import { CallbackWithoutResultAndOptionalError, Document } from 'mongoose';
+import { IPolicyRule } from '@libs/common/policy/interfaces/policy.interface';
 
 @Schema({ collection: 'RoleEntity' })
 export class RoleEntity extends DatabaseMongoUUIDEntityAbstract {

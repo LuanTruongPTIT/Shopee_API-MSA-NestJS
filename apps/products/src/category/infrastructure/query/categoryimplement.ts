@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CategoryQuery } from '../../application/query/categoryquery';
 import { CategoryRepository } from '../../domain/repository/Category.repository';
-import {
-  CategoryDoc,
-  CategoryEntity,
-} from '../read-model/schema/category.schema';
+import { CategoryDoc } from '../read-model/schema/category.schema';
 
 @Injectable()
 export class CategoryQueryImplement implements CategoryQuery {

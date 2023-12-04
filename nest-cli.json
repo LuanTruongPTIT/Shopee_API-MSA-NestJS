@@ -64,6 +64,15 @@
         "tsConfigPath": "apps/products/tsconfig.app.json"
       }
     },
+      "@apps/logistics": {
+      "type": "application",
+      "root": "apps/logistics",
+      "entryFile": "main",
+      "sourceRoot": "apps/logistics/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/logistics/tsconfig.app.json"
+      }
+    },
     "@apps/category": {
       "type": "application",
       "root": "apps/category",

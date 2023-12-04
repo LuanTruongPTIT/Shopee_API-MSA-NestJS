@@ -40,7 +40,7 @@
     "start:dev:products": "yarn start:dev @apps/products",
     "start:debug:products": "yarn start:debug @apps/products",
     "start:dev:category": "yarn start:dev @apps/category",
-    "start:dev:sendmail": "yarn start:dev @apps/sendmail"
+    "start:dev:logistics": "yarn start:dev @apps/logistics"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.456.0",
