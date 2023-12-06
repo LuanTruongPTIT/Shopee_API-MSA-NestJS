@@ -3,7 +3,7 @@ import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { AttributeCategoryEntity } from './attribute-category.schema';
-@Schema({ collection: 'category_entity' })
+@Schema({ collection: 'CategoryEntity' })
 export class CategoryEntity extends DatabaseMongoUUIDEntityAbstract {
   @Prop({
     required: true,

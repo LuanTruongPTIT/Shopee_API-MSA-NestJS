@@ -7,7 +7,7 @@ import {
 } from '../interfaces/database.interface';
 
 import { ClientSession } from 'mongoose';
-export abstract class DatabaseBaseRepositoryAbstract<Entity> {
+export abstract class DatabaseBaseRepositoryAbstract<Entity = any> {
   abstract findOne<T = Entity>(
     find: Record<string, any>,
     options?: IDatabaseFindOneOptions<any>,
@@ -31,5 +31,10 @@ export abstract class DatabaseBaseRepositoryAbstract<Entity> {
   abstract createMany<Dto>(
     data: Dto[],
     options?: IDatabaseCreateManyOptions<any>,
+  ): Promise<Entity[]>;
+
+  abstract findByIdAndUpdate(
+    _id: string,
+    data: Record<string, any>,
   ): Promise<boolean>;
 }

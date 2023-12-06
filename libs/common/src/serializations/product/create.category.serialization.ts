@@ -1,4 +1,4 @@
-import { CreateCategoryDto } from '@libs/common/dto/product/Create.category.dto';
+import { CreateCategoryDto } from '@libs/common/dto/product/create.category.dto';
 import { OmitType } from '@nestjs/swagger';
 
 export class CreateCategorySerilization extends OmitType(CreateCategoryDto, [

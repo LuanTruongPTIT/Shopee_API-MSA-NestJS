@@ -16,7 +16,7 @@ import { CategoryAddDoc } from '../decorators/category.decorator.docs';
 import { GetCategoryDoc } from '../decorators/category.decorator.docs';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { CreateCategoryDto } from '@libs/common/dto/product/Create.category.dto';
+import { CreateCategoryDto } from '@libs/common/dto/product/create.category.dto';
 import { FileRequiredPipe } from '@libs/common/file/pipes/file.required.pipe';
 import { FileUploadSingle } from '@libs/common/file/decorators/file.decorator';
 import { IFile } from '@libs/common/file/interface/file.interface';

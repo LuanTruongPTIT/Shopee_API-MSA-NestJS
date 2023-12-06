@@ -8,7 +8,7 @@ import {
 } from '@libs/common/docs/decorators/doc.decorators';
 import { ENUM_DOC_REQUEST_BODY_TYPE } from '../../../../../libs/common/src/docs/constants/doc.enum.constants';
 import { GetCategoryResponseSerialization } from '../serializations/get-category.response.serialization';
-import { CreateCategoryDto } from '@libs/common/dto/product/Create.category.dto';
+import { CreateCategoryDto } from '@libs/common/dto/product/create.category.dto';
 import { FileSingleDto } from '@libs/common/file/dto/file.single.dto';
 
 // import {} from '';

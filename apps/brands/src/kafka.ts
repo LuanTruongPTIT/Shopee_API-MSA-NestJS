@@ -19,5 +19,5 @@ export default async function (app: NestApplication) {
     },
   });
   await app.startAllMicroservices();
-  Logger.log('Kafka Logistics');
+  Logger.log('Kafka Role');
 }

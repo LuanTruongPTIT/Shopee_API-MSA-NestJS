@@ -31,6 +31,11 @@ const clientKafkaConfig: IClientKafkaConfig[] = [
     clientId: EMicroservice.GATEWAY_ROLE_SERVICE,
     groupId: EKafkaGroup.ROLE_GROUP,
   },
+  {
+    name: EMicroservice.GATEWAY_LOGISTICS_SERVICE,
+    clientId: EMicroservice.GATEWAY_LOGISTICS_SERVICE,
+    groupId: EKafkaGroup.LOGISTICS_GROUP,
+  },
 ];
 export const clientModuleOptions: ClientsModuleOptions = clientKafkaConfig.map(
   (config) => {

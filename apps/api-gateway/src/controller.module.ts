@@ -29,6 +29,7 @@ import { SessionSerializer } from './auth/utils/Serializer';
 import { ProductController } from './product/controller/product.controller';
 import { RequestModule } from '@libs/common/request/request.module';
 import { PolicyModule } from '@libs/common/policy/policy.module';
+import { LogisticsController } from './logistics/controller/logistics.controller';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { PolicyModule } from '@libs/common/policy/policy.module';
     AuthController,
     RoleController,
     ProductController,
+    LogisticsController,
   ],
   providers: [
     UserPayloadPutToRequestGuard,

@@ -22,7 +22,7 @@ export class CreateAttributeHandler
       category_id,
     });
     console.log('exist', exist);
-    if (exist) {
+    if (!exist) {
       throw new RpcException(
         new BadRequestException('category.ancestor.error.isNotExist'),
       );

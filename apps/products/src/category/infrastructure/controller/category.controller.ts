@@ -9,6 +9,8 @@ import { IResponse } from '@libs/common/response/interfaces/response.interface';
 import { AttributeValueDto } from '@libs/common/dto/product/attribute-value.category.dto';
 import { GetCategoryHandler } from '../../application/query/handler/get-category.handler';
 import { GetCategoryQuery } from '../../application/query/impl/get-category.query';
+import { CreateAttributeCategoryCommand } from '../../application/command/create-attribute.command';
+import { CreateAttributeCategoryDto } from '@libs/common/dto/product/create-attribute.category.dto';
 
 @Controller()
 export class CategoryController {
@@ -42,8 +44,12 @@ export class CategoryController {
   }
 
   @MessagePattern(EKafkaMessage.REQUEST_ADD_ATTRIBUTE_CATEGORY)
-  async CreateAttributeCategory(@Body() data: AttributeValueDto) {
-    console.log(data);
+  async CreateAttributeCategory(@Body() data: CreateAttributeCategoryDto) {
+    const _id = this.helperId.generateId();
+
+    const result = await this.commandBus.execute(
+      new CreateAttributeCategoryCommand(_id, data),
+    );
   }
 
   @MessagePattern(EKafkaMessage.REQUEST_GET_ALL_CATEGORY)

@@ -1,4 +1,3 @@
-import { ENUM_SHIPPING_ID } from '@libs/common/constants/logistics.enum';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { ItemMaxDimension } from '@libs/common/serializations/logistics/item-max-dimension.serialization';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -46,11 +45,11 @@ export class ShippingMethodEntity extends DatabaseMongoUUIDEntityAbstract {
   })
   item_min_weight: number;
 
-  @Prop({
-    required: true,
-    nullable: false,
-  })
-  item_max_dimension: ItemMaxDimension;
+  // @Prop({
+  //   required: true,
+  //   nullable: false,
+  // })
+  // item_max_dimension: ItemMaxDimension;
 
   @Prop({
     required: true,
@@ -60,8 +59,8 @@ export class ShippingMethodEntity extends DatabaseMongoUUIDEntityAbstract {
   is_free_shipping_shop_channel: boolean;
 
   @Prop({
-    required: false,
-    nullable: true,
+    required: true,
+    nullable: false,
     type: Boolean,
   })
   is_displayed: boolean;

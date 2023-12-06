@@ -42,8 +42,6 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
           [DATABASE_DELETED_AT_FIELD_NAME]: { $exists: true },
         },
       ]);
-    } else {
-      findOne.where(DATABASE_DELETED_AT_FIELD_NAME).exists(false);
     }
     if (options?.select) {
       findOne.select(options.select);
@@ -218,10 +216,25 @@ export abstract class DatabaseMongoUUIDRepositoryAbstract<
   async createMany<Dto>(
     data: Dto[],
     options?: IDatabaseCreateManyOptions<any>,
+  ): Promise<EntityDocument[]> {
+    const create = (await this._repository.insertMany(
+      data,
+    )) as EntityDocument[];
+    return create;
+  }
+
+  async findByIdAndUpdate<T = EntityDocument>(
+    _id: string,
+    data: Record<string, any>,
   ): Promise<boolean> {
-    const create = this._repository.insertMany(data);
-    const result = await create;
-    console.log('result', result);
+    await this._repository.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        $set: data,
+      },
+    );
     return true;
   }
 }

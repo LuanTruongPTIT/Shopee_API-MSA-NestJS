@@ -17,8 +17,9 @@ export class AttributeCategoryValueEntity {
   display_name: string;
 
   @Prop({
-    required: true,
-    nullable: false,
+    required: false,
+    nullable: true,
+    default: '',
   })
   value_unit: string;
 }

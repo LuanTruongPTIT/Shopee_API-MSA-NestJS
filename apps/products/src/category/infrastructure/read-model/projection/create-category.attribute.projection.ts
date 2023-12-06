@@ -5,6 +5,10 @@ import { AttributeCategoryEntity } from '../schema/attribute-category.schema';
 import { AttributeCategoryRepository } from '../../../domain/repository/attribute-category.repository';
 import { AttributeCategroyValueRepository } from '../../../domain/repository/attribute-value-category.repository';
 import { AttributeCategoryValueEntity } from '../schema/attribute-category-value.schema';
+import { HelperArrayService } from '@libs/common/helper/services/helper.array.service';
+import { HelperIdManagementService } from '@libs/common/helper/services/helper.id.management.service';
+import { CategoryRepository } from '../../../domain/repository/Category.repository';
+import { CategoryEntity } from '../schema/category.schema';
 
 @EventsHandler(AttributeCategoryEvent)
 export class CreateAttributeCategoryProjection
@@ -13,18 +17,43 @@ export class CreateAttributeCategoryProjection
   constructor(
     private readonly attributeCategoryRepo: AttributeCategoryRepository,
     private readonly attributeValueCategoryRepo: AttributeCategroyValueRepository,
+    private readonly categoryRepo: CategoryRepository,
+    private readonly helperArrayService: HelperArrayService,
+    private readonly helperId: HelperIdManagementService,
   ) {}
 
   async handle(event: AttributeCategoryEvent) {
-    console.log(event);
     const { _id, category_id, attribute_list } = event;
-    const attributeCategoryEntity = new AttributeCategoryEntity();
-    const attributeValueCategoryEntity = new AttributeCategoryValueEntity();
-    attribute_list.forEach((item) =>
-      console.log('item.attribute_value_list', item.attribute_value_list),
-    );
-    attributeCategoryEntity._id = event._id;
 
-    // await this.attributeCategoryRepo.create(attributeCategoryEntity);
+    const attribute_category_id = await Promise.all(
+      attribute_list.map(async (item) => {
+        const result = await this.attributeValueCategoryRepo.createMany(
+          item.attribute_value_list,
+        );
+        const idAttributeValue = this.helperArrayService.map(result, '_id');
+
+        const attributeCategoryEntity = new AttributeCategoryEntity();
+        attributeCategoryEntity.attribute_value_id = idAttributeValue;
+        attributeCategoryEntity.attribute_name = item.attribute_name;
+        attributeCategoryEntity.display_name = item.display_name;
+        attributeCategoryEntity.mandatory = item.mandatory;
+        attributeCategoryEntity._id = this.helperId.generateId();
+
+        const dataAttriCategory = await this.attributeCategoryRepo.create(
+          attributeCategoryEntity,
+        );
+        console.log('dataAttriCategory', dataAttriCategory._id);
+
+        return dataAttriCategory._id;
+      }),
+    );
+
+    console.log('attribute_category_id', attribute_category_id);
+
+    const data = {
+      attribute_category_id,
+    };
+
+    await this.categoryRepo.findByIdAndUpdate(category_id, data);
   }
 }

@@ -7,4 +7,8 @@ export class HelperArrayService implements IHelperArrayService {
   includes<T>(a: T[], b: T): boolean {
     return _.includes(a, b);
   }
+
+  map<T>(a: T[], field: string): Array<any> {
+    return _.map(a, field);
+  }
 }
