@@ -28,6 +28,7 @@ import {
   RESPONSE_CACHE_KEY_META_KEY,
   CACHE_MISS_METADATA_KEY,
   TIME_TO_LIVE_CACHE_METADATA_KEY,
+  KEY_REDIS_GET_ALL_CATEGORY,
 } from '../constants/response.constant';
 import {
   ClassConstructor,
@@ -123,9 +124,6 @@ export class ResponseDefaultInterceptor<T>
             }
             httpStatus = _metadata?.customProperty?.httpStatus ?? httpStatus;
             statusCode = _metadata?.customProperty?.statusCode ?? statusCode;
-            // messagePath = _metadata?.customProperty?.message ?? messagePath;
-            // messageProperties =
-            //   _metadata?.customProperty?.messageProperties ?? messageProperties;
 
             delete _metadata?.customProperty;
 
@@ -138,7 +136,6 @@ export class ResponseDefaultInterceptor<T>
 
           return {
             statusCode,
-            // message,
             _metadata: metadata,
             data,
           };

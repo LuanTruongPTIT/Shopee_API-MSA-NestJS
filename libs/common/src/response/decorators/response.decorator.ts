@@ -18,13 +18,5 @@ export function Response<T>(
     SetMetadata(RESPONSE_SERIALIZATION_META_KEY, options?.serialization),
     SetMetadata(RESPONSE_CACHE_KEY_META_KEY, options?.optionsCache?.isCache),
     SetMetadata(TIME_TO_LIVE_CACHE_METADATA_KEY, options?.optionsCache?.ttl),
-    // SetMetadata(
-    //   RESPONSE_MESSAGE_PROPERTIES_META_KEY,
-    //   options?.messageProperties,
-    // ),
   );
-}
-export function Response2<T>(): MethodDecorator {
-  console.log(1);
-  return applyDecorators();
 }

@@ -8,7 +8,6 @@ import {
   OnModuleInit,
   Post,
   Put,
-  Req,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -17,13 +16,12 @@ import { catchError, firstValueFrom, throwError } from 'rxjs';
 import { ApiTags } from '@nestjs/swagger';
 import { CategoryAddDoc } from '../decorators/category.decorator.docs';
 import { GetCategoryDoc } from '../decorators/category.decorator.docs';
-import { CACHE_MANAGER, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { CreateCategoryDto } from '@libs/common/dto/product/create.category.dto';
 import { FileRequiredPipe } from '@libs/common/file/pipes/file.required.pipe';
 import { FileUploadSingle } from '@libs/common/file/decorators/file.decorator';
 import { IFile } from '@libs/common/file/interface/file.interface';
-import { AttributeValueDto } from '@libs/common/dto/product/attribute-value.category.dto';
 import { Response } from '@libs/common/response/decorators/response.decorator';
 import { AuthJwtAdminAccessProtected } from '../../auth/decorators/auth.jwt.decorator';
 import { PolicyAbilityProtected } from '@libs/common/policy/decorators/policy.decorator';
