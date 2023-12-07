@@ -30,6 +30,8 @@ import { ProductController } from './product/controller/product.controller';
 import { RequestModule } from '@libs/common/request/request.module';
 import { PolicyModule } from '@libs/common/policy/policy.module';
 import { LogisticsController } from './logistics/controller/logistics.controller';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CacheInterceptor } from './product/interceptor/cache.interceptor';
 
 @Module({
   imports: [
@@ -70,6 +72,12 @@ import { LogisticsController } from './logistics/controller/logistics.controller
     AuthJwtRefreshStrategy,
     GoogleStrategy,
     SessionSerializer,
+    CacheInterceptor,
+
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: CacheInterceptor,
+    // },
   ],
 })
 export class ControllerModule {}

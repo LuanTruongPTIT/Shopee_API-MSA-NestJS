@@ -22,13 +22,17 @@ export interface IResponseMetadata {
 
 export interface IResponseOptions<T> {
   serialization?: ClassConstructor<T>;
+  optionsCache?: ICacheOptions;
   // messageProperties?: IMessageOptionsProperties;
 }
 export interface IResponsePagingOptions<T>
   extends Omit<IResponseOptions<T>, 'serialization'> {
   serialization: ClassConstructor<T>;
 }
-
+export interface ICacheOptions {
+  isCache: boolean;
+  ttl?: number;
+}
 export interface IResponseFileOptions<T> extends IResponseOptions<T> {
   fileType?: ENUM_HELPER_FILE_TYPE;
 }

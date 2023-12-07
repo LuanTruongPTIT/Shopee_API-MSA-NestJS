@@ -1,16 +1,18 @@
 import { EKafkaMessage } from '@libs/common/interfaces';
-import { Body, Controller } from '@nestjs/common';
+import { Body, Controller, Inject, UseInterceptors } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreateCategoryCommand } from '../../application/command/create-category.command';
 import { CreateCategorySerilization } from '@libs/common/serializations/product/create.category.serialization';
 import { HelperIdManagementService } from '@libs/common/helper/services/helper.id.management.service';
 import { IResponse } from '@libs/common/response/interfaces/response.interface';
-import { AttributeValueDto } from '@libs/common/dto/product/attribute-value.category.dto';
-import { GetCategoryHandler } from '../../application/query/handler/get-category.handler';
 import { GetCategoryQuery } from '../../application/query/impl/get-category.query';
 import { CreateAttributeCategoryCommand } from '../../application/command/create-attribute.command';
 import { CreateAttributeCategoryDto } from '@libs/common/dto/product/create-attribute.category.dto';
+import { HttpCacheInterceptor } from '../interceptor/category.intercept';
+import { RedisCacheService } from '@libs/common/redis/redis.service';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 @Controller()
 export class CategoryController {
@@ -44,16 +46,24 @@ export class CategoryController {
   }
 
   @MessagePattern(EKafkaMessage.REQUEST_ADD_ATTRIBUTE_CATEGORY)
-  async CreateAttributeCategory(@Body() data: CreateAttributeCategoryDto) {
+  async CreateAttributeCategory(
+    @Body() data: CreateAttributeCategoryDto,
+  ): Promise<IResponse> {
     const _id = this.helperId.generateId();
-
-    const result = await this.commandBus.execute(
+    await this.commandBus.execute(
       new CreateAttributeCategoryCommand(_id, data),
     );
+    return {
+      data: {
+        statusCode: 201,
+        message: 'Create attribute catgory success',
+      },
+    };
   }
 
+  @UseInterceptors(HttpCacheInterceptor)
   @MessagePattern(EKafkaMessage.REQUEST_GET_ALL_CATEGORY)
-  async GetCategory(@Body() data: string): Promise<IResponse> {
+  async GetCategory(@Body() data: string) {
     const result = await this.queryBus.execute(new GetCategoryQuery());
     return {
       data: result,

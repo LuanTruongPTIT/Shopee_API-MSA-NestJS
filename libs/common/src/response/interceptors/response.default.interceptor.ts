@@ -7,6 +7,7 @@ import {
   CallHandler,
   ExecutionContext,
   HttpStatus,
+  Inject,
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
@@ -24,6 +25,9 @@ import {
   RESPONSE_SERIALIZATION_META_KEY,
   RESPONSE_MESSAGE_PROPERTIES_META_KEY,
   RESPONSE_SERIALIZATION_OPTIONS_META_KEY,
+  RESPONSE_CACHE_KEY_META_KEY,
+  CACHE_MISS_METADATA_KEY,
+  TIME_TO_LIVE_CACHE_METADATA_KEY,
 } from '../constants/response.constant';
 import {
   ClassConstructor,
@@ -31,12 +35,16 @@ import {
   plainToInstance,
 } from 'class-transformer';
 import { IResponse } from '../interfaces/response.interface';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 @Injectable()
 export class ResponseDefaultInterceptor<T>
   implements NestInterceptor<Promise<T>>
 {
   constructor(
     private readonly reflector: Reflector, // private readonly messageService:
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   async intercept(
@@ -50,20 +58,16 @@ export class ResponseDefaultInterceptor<T>
           const response: Response = ctx.getResponse();
           const request: IRequestApp = ctx.getRequest<IRequestApp>();
 
-          // let messagePath: string = this.reflector.get<string>(
-          //   RESPONSE_MESSAGE_PATH_META_KEY,
-          //   context.getHandler(),
-          // );
           const classSerialization: ClassConstructor<any> = this.reflector.get<
             ClassConstructor<any>
           >(RESPONSE_SERIALIZATION_META_KEY, context.getHandler());
-          console.log(context.getHandler());
+
           const classSerializationOptions: ClassTransformOptions =
             this.reflector.get<ClassTransformOptions>(
               RESPONSE_SERIALIZATION_OPTIONS_META_KEY,
               context.getHandler(),
             );
-          // metadata
+
           const __customLang = request.__customLang;
           const __requestId = request.__id;
           const __path = request.path;
@@ -85,7 +89,27 @@ export class ResponseDefaultInterceptor<T>
             repoVersion: __repoVersion,
           };
           const responseData = (await res) as IResponse;
-          console.log(responseData);
+
+          const isCache = this.reflector.get<boolean>(
+            RESPONSE_CACHE_KEY_META_KEY,
+            context.getHandler(),
+          );
+          if (isCache) {
+            const cacheMiss = this.reflector.get<string>(
+              CACHE_MISS_METADATA_KEY,
+              context.getHandler(),
+            );
+            if (cacheMiss) {
+              const ttl = this.reflector.get<number>(
+                TIME_TO_LIVE_CACHE_METADATA_KEY,
+                context.getHandler(),
+              );
+              const key = request.url;
+
+              await this.cacheManager.set(key, responseData, ttl);
+            }
+          }
+
           if (responseData) {
             const { _metadata } = responseData;
             data = responseData.data;
@@ -111,7 +135,7 @@ export class ResponseDefaultInterceptor<T>
             };
           }
           response.status(httpStatus);
-          console.log(data);
+
           return {
             statusCode,
             // message,

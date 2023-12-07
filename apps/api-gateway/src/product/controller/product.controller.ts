@@ -7,14 +7,17 @@ import {
   Inject,
   OnModuleInit,
   Post,
+  Put,
+  Req,
   UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ClientKafka, RpcException } from '@nestjs/microservices';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
 import { ApiTags } from '@nestjs/swagger';
 import { CategoryAddDoc } from '../decorators/category.decorator.docs';
 import { GetCategoryDoc } from '../decorators/category.decorator.docs';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { CreateCategoryDto } from '@libs/common/dto/product/create.category.dto';
 import { FileRequiredPipe } from '@libs/common/file/pipes/file.required.pipe';
@@ -29,6 +32,8 @@ import {
   ENUM_POLICY_SUBJECT,
 } from '@libs/common/constants/role.enum.constant';
 import { CreateAttributeCategoryDto } from '@libs/common/dto/product/create-attribute.category.dto';
+import { CacheInterceptor } from '../interceptor/cache.interceptor';
+
 @ApiTags('Product')
 @Controller('/product')
 export class ProductController implements OnModuleInit {
@@ -83,11 +88,13 @@ export class ProductController implements OnModuleInit {
   }
 
   @GetCategoryDoc()
-  @Response('get category success')
+  @UseInterceptors(CacheInterceptor)
+  @Response('get category success', {
+    optionsCache: { isCache: true, ttl: 3000 },
+  })
   @Get('')
   async GetAllCategory() {
     const message = 'get all category';
-
     return firstValueFrom(
       this.clientKafka_product
         .send(EKafkaMessage.REQUEST_GET_ALL_CATEGORY, JSON.stringify(message))
@@ -124,4 +131,7 @@ export class ProductController implements OnModuleInit {
   @AuthJwtAdminAccessProtected()
   @Post('/add/product')
   async GetListProduct() {}
+
+  @Put('/update/category-product')
+  async UpdateCategory() {}
 }

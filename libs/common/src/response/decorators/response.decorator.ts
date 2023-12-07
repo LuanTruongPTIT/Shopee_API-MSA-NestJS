@@ -4,6 +4,8 @@ import { IResponseOptions } from '../interfaces/response.interface';
 import {
   RESPONSE_MESSAGE_PATH_META_KEY,
   RESPONSE_SERIALIZATION_META_KEY,
+  RESPONSE_CACHE_KEY_META_KEY,
+  TIME_TO_LIVE_CACHE_METADATA_KEY,
 } from '../constants/response.constant';
 
 export function Response<T>(
@@ -14,9 +16,15 @@ export function Response<T>(
     UseInterceptors(ResponseDefaultInterceptor<T>),
     SetMetadata(RESPONSE_MESSAGE_PATH_META_KEY, messagePath),
     SetMetadata(RESPONSE_SERIALIZATION_META_KEY, options?.serialization),
+    SetMetadata(RESPONSE_CACHE_KEY_META_KEY, options?.optionsCache?.isCache),
+    SetMetadata(TIME_TO_LIVE_CACHE_METADATA_KEY, options?.optionsCache?.ttl),
     // SetMetadata(
     //   RESPONSE_MESSAGE_PROPERTIES_META_KEY,
     //   options?.messageProperties,
     // ),
   );
+}
+export function Response2<T>(): MethodDecorator {
+  console.log(1);
+  return applyDecorators();
 }

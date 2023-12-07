@@ -21,6 +21,9 @@ import { AttributeCategoryFactory } from './domain/factory/Attribute-category.fa
 import { AtrtributeCategoryProviders } from './infrastructure/provider/attribute-category.provider';
 import { AttributeCategoryService } from './infrastructure/services/attribute-category.service';
 import { QueryHandlers } from './application/query/handler';
+import { HttpCacheInterceptor } from './infrastructure/interceptor/category.intercept';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -28,6 +31,7 @@ import { QueryHandlers } from './application/query/handler';
     CqrsModule,
     CategoryRepositoryModule,
     HelperModule,
+    CacheModule.register(),
   ],
   providers: [
     CategoryService,
