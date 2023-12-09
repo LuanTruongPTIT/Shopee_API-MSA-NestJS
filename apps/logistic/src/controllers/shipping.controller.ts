@@ -1,7 +1,4 @@
-import {
-  ENUM_SHIPPING_ID,
-  NAME_SHIPPING_METHOD,
-} from '@libs/common/constants/logistics.enum';
+
 import { CreateShippingMethodDto } from '@libs/common/dto/logistics/create-shipping-method.dto';
 import { EKafkaMessage } from '@libs/common/interfaces';
 import { BadRequestException, Body, Controller, Inject } from '@nestjs/common';

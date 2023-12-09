@@ -2,6 +2,7 @@ import { ENUM_SHIPPING_ID } from '@libs/common/constants/logistics.enum';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { ItemMaxDimension } from '@libs/common/serializations/logistics/item-max-dimension.serialization';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 @Schema({ collection: 'shipping_method_entity' })
 export class ShippingMethodEntity extends DatabaseMongoUUIDEntityAbstract {

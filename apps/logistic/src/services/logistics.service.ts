@@ -1,7 +1,7 @@
 import { CreateShippingMethodSerialization } from '@libs/common/serializations/logistics/create-shipping-method.serialization';
 import { ILogisticServiceInterface } from '../interfaces/logistics.services.interface';
 import { ShippingMethodEntity } from '../database/entites/shipping.entites';
-import { ShippingMethodRepository } from '../database/repositories/logicstics.repository';
+import { ShippingMethodRepository } from '../database/repositories/logistics.repository';
 import { Injectable } from '@nestjs/common';
 import {
   ENUM_SHIPPING_ID,

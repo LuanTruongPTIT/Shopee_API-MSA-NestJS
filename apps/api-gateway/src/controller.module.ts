@@ -32,6 +32,7 @@ import { PolicyModule } from '@libs/common/policy/policy.module';
 import { LogisticsController } from './logistics/controller/logistics.controller';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CacheInterceptor } from './product/interceptor/cache.interceptor';
+import { SellerChannelController } from './seller_channel/controller/seller_channel.controller';
 
 @Module({
   imports: [
@@ -43,11 +44,6 @@ import { CacheInterceptor } from './product/interceptor/cache.interceptor';
     ]),
     ClientsModule.register(clientModuleOptions),
     RedisModule.forRoot(),
-    // AuthModule,
-    // UserModule,
-    // RoleModule,
-    // CategoryModule,
-    // ClientModule.forRoot(),
     PassportModule,
     JwtModule.register({}),
   ],
@@ -58,6 +54,7 @@ import { CacheInterceptor } from './product/interceptor/cache.interceptor';
     RoleController,
     ProductController,
     LogisticsController,
+    SellerChannelController,
   ],
   providers: [
     UserPayloadPutToRequestGuard,
@@ -73,11 +70,6 @@ import { CacheInterceptor } from './product/interceptor/cache.interceptor';
     GoogleStrategy,
     SessionSerializer,
     CacheInterceptor,
-
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: CacheInterceptor,
-    // },
   ],
 })
 export class ControllerModule {}

@@ -13,7 +13,7 @@ export class TasksService {
   @Cron(CronExpression.EVERY_30_MINUTES)
   async handleCronRefreshCacheGetAllCategory() {
     this.logger.debug('Called when the second is 10');
-    const key = '/api/v1/product';
+    // const key = '/api/v1/product';
     // const ttl = await this.cache.ttl();
   }
 }

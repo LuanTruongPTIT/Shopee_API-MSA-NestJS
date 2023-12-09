@@ -8,7 +8,6 @@ import {
 import { UserPayloadPutToRequestGuard } from '../guards/payload/user.payload.put-to-request.guard';
 import { JwtTokenEmail } from '../../auth/guards/jwt-token-email/jwt-token-email.guard';
 import { IRequestApp } from '@libs/common/request/interfaces/request.interface';
-import { UserGetSerialization } from '../serializations/user.get.serialization';
 import { UserNotFoundGuard } from '../guards/user.not-found.guard';
 // export function AuthJwtAccessProtected(): MethodDecorator {
 //   return applyDecorators(UseGuards(TokenPayloadCheckExist, AuthJwtAccessGuard));

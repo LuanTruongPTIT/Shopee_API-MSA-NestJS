@@ -4,7 +4,7 @@ import {
   ShippingMethodEntity,
   ShippingMethodSchema,
 } from './entites/shipping.entites';
-import { ShippingMethodRepository } from './repositories/logicstics.repository';
+import { ShippingMethodRepository } from './repositories/logistics.repository';
 
 @Module({
   providers: [ShippingMethodRepository],

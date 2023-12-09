@@ -14,7 +14,10 @@ import {
 import { ClientKafka, RpcException } from '@nestjs/microservices';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
 import { ApiTags } from '@nestjs/swagger';
-import { CategoryAddDoc } from '../decorators/category.decorator.docs';
+import {
+  CategoryAddDoc,
+  CreateProductDoc,
+} from '../decorators/category.decorator.docs';
 import { GetCategoryDoc } from '../decorators/category.decorator.docs';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
@@ -31,6 +34,7 @@ import {
 } from '@libs/common/constants/role.enum.constant';
 import { CreateAttributeCategoryDto } from '@libs/common/dto/product/create-attribute.category.dto';
 import { CacheInterceptor } from '../interceptor/cache.interceptor';
+import { CreateProductDto } from '@libs/common/dto/product/create-product.dto';
 
 @ApiTags('Product')
 @Controller('/product')
@@ -122,13 +126,17 @@ export class ProductController implements OnModuleInit {
     );
   }
 
-  @PolicyAbilityProtected({
-    subject: ENUM_POLICY_SUBJECT.PRODUCT,
-    action: [ENUM_POLICY_ACTION.WRITE],
-  })
-  @AuthJwtAdminAccessProtected()
+  @CreateProductDoc()
+  // @PolicyAbilityProtected({
+  //   subject: ENUM_POLICY_SUBJECT.PRODUCT,
+  //   action: [ENUM_POLICY_ACTION.WRITE],
+  // })
+  // @AuthJwtAdminAccessProtected()
+  @FileUploadSingle()
   @Post('/add/product')
-  async GetListProduct() {}
+  async CreateProduct(@Body() data: CreateProductDto) {
+    console.log(data);
+  }
 
   @Put('/update/category-product')
   async UpdateCategory() {}

@@ -1,10 +1,7 @@
-import { EventStoreModule } from '@libs/common/core/eventstore/eventstore.module';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { CategoryRepositoryModule } from './domain/repository/Category.repository.module';
 import { CategoryService } from './infrastructure/services/category.service';
 import { CategoryController } from './infrastructure/controller/category.controller';
-import { EventStore } from '@libs/common/core/eventstore/eventstore';
-import { categoryEventHandlers } from './domain/event';
 import { CategoryFactory } from './domain/factory/Category.factory';
 import {
   CommandBus,
@@ -24,7 +21,6 @@ import { QueryHandlers } from './application/query/handler';
 
 @Module({
   imports: [
-    EventStoreModule.forRoot(),
     CqrsModule,
     CategoryRepositoryModule,
     HelperModule,
@@ -48,7 +44,6 @@ import { QueryHandlers } from './application/query/handler';
 })
 export class CategoryModule implements OnModuleInit {
   constructor(
-    private readonly eventStore: EventStore,
     private readonly command$: CommandBus,
     private readonly event$: EventBus,
     private readonly query$: QueryBus,
@@ -57,7 +52,6 @@ export class CategoryModule implements OnModuleInit {
   async onModuleInit() {
     this.command$.register(CommandHandlers);
     this.event$.register(EventHandlersProjectionCategory);
-    this.eventStore.addEventHandlers(categoryEventHandlers);
     this.query$.register(QueryHandlers);
     // await this.eventStore.bridgeEventsTo((this.event$ as any).subject$);
     // this.event$.publisher = this.eventStore;

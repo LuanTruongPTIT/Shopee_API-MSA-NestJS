@@ -1,7 +1,7 @@
 import { CATEGORY_PRODUCT_LEVEL } from '@libs/common/constants/category.enum';
 import { DatabaseMongoUUIDEntityAbstract } from '@libs/common/database_mongoose/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import { Document } from 'mongoose';
 import { AttributeCategoryEntity } from './attribute-category.schema';
 @Schema({ collection: 'CategoryEntity' })
 export class CategoryEntity extends DatabaseMongoUUIDEntityAbstract {

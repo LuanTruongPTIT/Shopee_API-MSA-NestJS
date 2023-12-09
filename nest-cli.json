@@ -6,7 +6,7 @@
     "deleteOutDir": true,
     "webpack": false,
     "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
-},
+  },
   "monorepo": true,
   "root": "apps/api-gateway",
   "projects": {
@@ -25,7 +25,7 @@
       "entryFile": "main",
       "sourceRoot": "apps/users/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/users/tsconfig.app.json"
+        "tsConfigPath": "apps/user/tsconfig.app.json"
       }
     },
     "@apps/tokens": {
@@ -34,7 +34,7 @@
       "entryFile": "main",
       "sourceRoot": "apps/tokens/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/tokens/tsconfig.app.json"
+        "tsConfigPath": "apps/token/tsconfig.app.json"
       }
     },
     "@apps/auth": {
@@ -52,7 +52,7 @@
       "entryFile": "main",
       "sourceRoot": "apps/roles/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/roles/tsconfig.app.json"
+        "tsConfigPath": "apps/role/tsconfig.app.json"
       }
     },
     "@apps/products": {
@@ -61,10 +61,10 @@
       "entryFile": "main",
       "sourceRoot": "apps/products/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/products/tsconfig.app.json"
+        "tsConfigPath": "apps/product/tsconfig.app.json"
       }
     },
-      "@apps/logistics": {
+    "@apps/logistics": {
       "type": "application",
       "root": "apps/logistics",
       "entryFile": "main",
@@ -89,7 +89,25 @@
       "sourceRoot": "apps/sendmail/src",
       "compilerOptions": {
         "tsConfigPath": "apps/sendmail/tsconfig.app.json"
-    }
+      }
+    },
+    "@apps/seller_channel": {
+      "type": "application",
+      "root": "apps/seller_channel",
+      "entryFile": "main",
+      "sourceRoot": "apps/seller_channel/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/seller_channel/tsconfig.app.json"
+      }
+    },
+    "@apps/upload_file": {
+      "type": "application",
+      "root": "apps/upload_file",
+      "entryFile": "main",
+      "sourceRoot": "apps/upload_file/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/upload_file/tsconfig.app.json"
+      }
     },
     "@libs/infra": {
       "type": "library",

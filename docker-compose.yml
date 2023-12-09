@@ -6,62 +6,62 @@ networks:
 
 services:
   # services
-  users:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.users
-    command: yarn start:dev:users
-    env_file:
-      - ./apps/users/.env.docker
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - '8001:8001'
-    depends_on:
-      - 'db_user'
-      - kafka
-    networks:
-      - app-net
+  # users:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile.users
+  #   command: yarn start:dev:users
+  #   env_file:
+  #     - ./apps/users/.env.docker
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   ports:
+  #     - '8001:8001'
+  #   depends_on:
+  #     - 'db_user'
+  #     - kafka
+  #   networks:
+  #     - app-net
 
-  tokens:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.tokens
-    command: yarn start:dev:tokens
-    env_file:
-      - ./apps/tokens/.env.docker
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+  # tokens:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile.tokens
+  #   command: yarn start:dev:tokens
+  #   env_file:
+  #     - ./apps/tokens/.env.docker
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
 
-    ports:
-      - '8002:8002'
-    networks:
-      - app-net
-  api-gateway:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.api_gateway
-    command: yarn start:dev:apigateway
-    env_file:
-      - ./apps/tokens/.env.docker
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - kafka
-    ports:
-      - '8000:8000'
-    networks:
-      - app-net
-  adminer:
-    image: adminer:standalone
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - app-net
+  #   ports:
+  #     - '8002:8002'
+  #   networks:
+  #     - app-net
+  # api-gateway:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile.api_gateway
+  #   command: yarn start:dev:apigateway
+  #   env_file:
+  #     - ./apps/tokens/.env.docker
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     - kafka
+  #   ports:
+  #     - '8000:8000'
+  #   networks:
+  #     - app-net
+  # adminer:
+  #   image: adminer:standalone
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - app-net
 
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.8.1
@@ -233,6 +233,29 @@ services:
       - type: volume
         source: eventstore-volume-logs
         target: /var/log/eventstore
+    networks:
+      - app-net
+  nginx-proxy:
+    # pull image from docker hub
+    image: jwilder/nginx-proxy:alpine
+    # container name
+    container_name: nginx-proxy
+    # always restart, except that when the container is stopped
+    restart: unless-stopped
+    # docker run -t is allow
+    tty: true
+    # web server port default 81 and ssl run in port 443
+    ports:
+      - '81:81'
+      - '443:443'
+    # save (persist) data and also to share data between containers
+    volumes:
+      - ./:/var/www/nest-demo
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    # web server rely on application running
+    # depends_on:
+    #   - demoapp
+    # application network, each container for a service joins this network
     networks:
       - app-net
 volumes:

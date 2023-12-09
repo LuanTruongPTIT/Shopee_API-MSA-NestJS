@@ -10,6 +10,7 @@ import { ENUM_DOC_REQUEST_BODY_TYPE } from '../../../../../libs/common/src/docs/
 import { GetCategoryResponseSerialization } from '../serializations/get-category.response.serialization';
 import { CreateCategoryDto } from '@libs/common/dto/product/create.category.dto';
 import { FileSingleDto } from '@libs/common/file/dto/file.single.dto';
+import { CreateProductDto } from '@libs/common/dto/product/create-product.dto';
 
 // import {} from '';
 export function CategoryAddDoc(): MethodDecorator {
@@ -40,4 +41,8 @@ export function GetCategoryDoc(): MethodDecorator {
       messagePath: 'Get category success',
     }),
   );
+}
+
+export function CreateProductDoc(): MethodDecorator {
+  return applyDecorators(DocRequestFile({ body: CreateProductDto }));
 }

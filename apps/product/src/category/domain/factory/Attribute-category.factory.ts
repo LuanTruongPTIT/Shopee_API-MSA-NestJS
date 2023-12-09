@@ -1,4 +1,3 @@
-import { AttributeCategoryValueSerialization } from '@libs/common/serializations/product/attribute-category.value.serialization';
 import { Inject } from '@nestjs/common';
 import { EventPublisher } from '@nestjs/cqrs';
 import {

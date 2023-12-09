@@ -71,7 +71,7 @@ export class AuthController implements OnModuleInit {
     const user = await firstValueFrom<UserResponseKafkaSerialization>(
       this.clientKafka_user.send(
         EKafkaMessage.REQUEST_FIND_BY_EMAIL,
-        JSON.stringify(data.email),
+        JSON.stringify(email),
       ),
     );
 
@@ -149,12 +149,7 @@ export class AuthController implements OnModuleInit {
 
     const payload = await this.authService.payloadSerialization(user);
     console.log('payload', JSON.stringify(payload));
-    // const payload = {
-    //   _id: user._id,
-    //   role: role._id,
-    //   type: role.type,
-    //   permissions: role.perrmissions,
-    // };
+
     const tokenType = await this.authService.getTokenType();
 
     const loginDate = await this.authService.getLoginDate();
@@ -167,7 +162,7 @@ export class AuthController implements OnModuleInit {
         loginDate,
       },
     );
-    // console.log(JSON.stringify(payloadAccessToken));
+
     const payloadRefreshToken =
       await this.authService.createPayloadRefreshToken(payload._id, {
         loginWith: ENUM_AUTH_LOGIN_WITH.EMAIL,
@@ -198,7 +193,7 @@ export class AuthController implements OnModuleInit {
       refreshToken,
       userId: user._id,
     });
-    console.log('expirationRefreshToken', expirationRefreshToken, '');
+
     return {
       data: {
         expirationAccessToken: expirationIn,
@@ -213,7 +208,7 @@ export class AuthController implements OnModuleInit {
   @MessagePattern(EKafkaMessage.REQUEST_REFRESH_TOKEN)
   async refresh(@Body() data: AuthRefreshTokenDto): Promise<IResponse> {
     console.log(data);
-    const { refreshToken, refreshPayload, user } = data;
+    const { refreshToken, user } = data;
 
     const role = await firstValueFrom<RoleGetSerialization>(
       this.clientKafka_role.send(
@@ -239,7 +234,7 @@ export class AuthController implements OnModuleInit {
         loginDate: user.loginDate,
       },
     );
-    console.log(payloadAccessToken);
+
     const expirationIn = await this.authService.getAccessTokenExpirationTime();
     const accessToken = await this.authService.createAccessToken(
       payloadAccessToken,

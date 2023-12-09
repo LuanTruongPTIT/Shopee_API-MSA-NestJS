@@ -1,5 +1,5 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { LogisticsModule } from './logistics.module';
+import { LogisticsModule } from './brand.module';
 import kafkaInit from './kafka';
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(LogisticsModule);

@@ -59,6 +59,7 @@ export class CategoryController {
 
   @MessagePattern(EKafkaMessage.REQUEST_GET_ALL_CATEGORY)
   async GetCategory(@Body() data: string) {
+    console.log(data);
     const result = await this.queryBus.execute(new GetCategoryQuery());
     return {
       data: result,

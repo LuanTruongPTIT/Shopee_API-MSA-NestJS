@@ -1,12 +1,7 @@
-import { faker } from '@faker-js/faker';
 import { CATEGORY_PRODUCT_LEVEL } from '@libs/common/constants/category.enum';
 import { IFile } from '@libs/common/file/interface/file.interface';
-import { FileRequiredPipe } from '@libs/common/file/pipes/file.required.pipe';
-import { CategoryChildrenSerialization } from '@libs/common/serializations/product/category.children.serialization';
-import { UploadedFile } from '@nestjs/common';
-import { ApiHeader, ApiHideProperty, ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateCategoryDto {
   @ApiProperty({
