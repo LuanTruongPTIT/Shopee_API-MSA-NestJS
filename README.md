@@ -11,8 +11,8 @@ The Shopee app is built using the following technologies:
 - Redis
 - TypeScript
 - Microservices with Kafka
-- Json Web Token
-- S3, SES
+- Json Web Token(JWT)
+- S3, SES AWS
 - Swagger
 - Docker & Docker Compose
 
