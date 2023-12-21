@@ -27,6 +27,6 @@ The shopee app follows a NestJS monorepo architecture and follows a Command Quer
 5. **Seller channel service** - Provider seller manage product.
 6. **Product service** - Use cqrs and DDD to create category.
    
-## System Design
+## System Design By Luan Truong
 
 ![systemdesign](https://github.com/LuanTruongPTIT/Shopee_API-MSA-NestJS/assets/107544734/1a20094d-57e7-45fb-874f-532be02dd7b1)
