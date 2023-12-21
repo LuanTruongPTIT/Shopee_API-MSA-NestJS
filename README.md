@@ -26,6 +26,7 @@ The shopee app follows a NestJS monorepo architecture and follows a Command Quer
 4. **Role service** - Role based access controll with @casl/ability.
 5. **Seller channel service** - Provider seller manage product.
 6. **Product service** - Use cqrs and DDD to create category.
+   !!Update ....
    
 ## System Design By Luan Truong
 
