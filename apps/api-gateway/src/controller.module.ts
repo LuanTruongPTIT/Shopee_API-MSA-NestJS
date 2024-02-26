@@ -3,8 +3,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { RedisModule } from '@libs/common/redis/redis.module';
-import { CategoryModule } from './product/category.module';
-import { RoleModule } from './role/role.module';
 import { AppController } from './app/controller/app.controller';
 import { UserController } from './user/controller/user.controller';
 import { UserPayloadPutToRequestGuard } from './user/guards/payload/user.payload.put-to-request.guard';
@@ -33,6 +31,8 @@ import { LogisticsController } from './logistics/controller/logistics.controller
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CacheInterceptor } from './product/interceptor/cache.interceptor';
 import { SellerChannelController } from './seller_channel/controller/seller_channel.controller';
+import { UploadFileController } from './file/controller/file.controller';
+import { ApiKeyController } from './auth/controller/api-key.controller';
 
 @Module({
   imports: [
@@ -55,6 +55,8 @@ import { SellerChannelController } from './seller_channel/controller/seller_chan
     ProductController,
     LogisticsController,
     SellerChannelController,
+    UploadFileController,
+    ApiKeyController,
   ],
   providers: [
     UserPayloadPutToRequestGuard,

@@ -35,4 +35,12 @@ export class HelperDateService implements IHelperDateService {
   format(date?: Date, options?: IHelperDateOptionsFormat): string {
     return moment(date).format(options?.format ?? ENUM_HELPER_DATE_FORMAT.DATE);
   }
+
+  startOfDay(date?: Date): Date {
+    return moment(date).startOf('day').toDate();
+  }
+
+  hello() {
+    console.log('Da vao day');
+  }
 }

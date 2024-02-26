@@ -25,3 +25,8 @@ export interface IHelperGooglePayload {
 export interface IHelperGoogleRefresh {
   accessToken: string;
 }
+export interface IHelperStringRandomOptions {
+  upperCase?: boolean;
+  safe?: boolean;
+  prefix?: string;
+}

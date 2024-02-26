@@ -9,6 +9,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { RequestMiddlewareModule } from './middleware/request.middleware.module';
 import { MobileNumberAllowedConstraint } from './validations/request.mobile-number-allowed.validation';
+import { GreaterThanEqualConstraint } from './validations/request.greater-than-equal.validation';
+import { DateGreaterThanEqualToDayConstraint } from './validations/request.date-greater-than-equal-today.validation';
+import { HelperDateService } from '../helper/services/helper.date.service';
 @Module({
   controllers: [],
   providers: [
@@ -17,6 +20,9 @@ import { MobileNumberAllowedConstraint } from './validations/request.mobile-numb
       useClass: ThrottlerGuard,
     },
     MobileNumberAllowedConstraint,
+    GreaterThanEqualConstraint,
+    DateGreaterThanEqualToDayConstraint,
+    HelperDateService,
   ],
   imports: [
     RequestMiddlewareModule,

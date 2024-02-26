@@ -17,6 +17,7 @@ import { ApiTags } from '@nestjs/swagger';
 import {
   CategoryAddDoc,
   CreateProductDoc,
+  FileUploadDoc,
 } from '../decorators/category.decorator.docs';
 import { GetCategoryDoc } from '../decorators/category.decorator.docs';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -140,4 +141,14 @@ export class ProductController implements OnModuleInit {
 
   @Put('/update/category-product')
   async UpdateCategory() {}
+
+  @FileUploadDoc()
+  @FileUploadSingle()
+  @Post('/upload-file')
+  async UpLoadFileEndPoint(
+    @UploadedFile()
+    file: IFile,
+  ) {
+    console.log(file);
+  }
 }

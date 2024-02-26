@@ -6,12 +6,10 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import path from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useStaticAssets(
-    path.join(__dirname, '../../../../../../apps/api-gateway/uploads'),
-  );
-  console.log(
-    path.join(__dirname, '../../../../../../apps/api-gateway/uploads'),
-  );
+  // app.useStaticAssets(
+  //   path.join(__dirname, '../../../../../../apps/api-gateway/uploads'),
+  // );
+
   const { port, logInfo } = setUpApplication(app);
   const config = new DocumentBuilder()
     .setTitle('API for Shopee')

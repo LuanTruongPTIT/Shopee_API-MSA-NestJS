@@ -1,5 +1,5 @@
 import { ENUM_ROLE_TYPE } from '@libs/common/constants/role.enum.constant';
-import { IPolicyRule } from '@libs/common/interfaces/policy.interface';
+import { IPolicyRule } from '@libs/common/policy/interfaces/policy.interface';
 
 export class RoleResponse {
   readonly _id: string;

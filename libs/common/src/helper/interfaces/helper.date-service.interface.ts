@@ -8,4 +8,5 @@ export interface IHelperDateService {
     options?: IHelperDateOptionsCreate,
   ): Date;
   forwardInSeconds(seconds: number, options?: IHelperDateOptionsForward): Date;
+  startOfDay(date?: Date): Date;
 }

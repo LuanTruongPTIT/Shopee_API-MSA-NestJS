@@ -13,7 +13,7 @@ import { AuthAccessPayloadSerialization } from '@libs/common/serializations/auth
 import { IAuthPayloadOptions } from '@libs/common/interfaces/auth.interface';
 import { AuthRefreshPayloadSerialization } from '@libs/common/serializations/auth/auth.refresh-payload.serialization';
 import { TokenEntity } from '../database/entites/token.entites';
-import { AuthRepository } from '../database/repositories/Auth.repository';
+import { AuthRepository } from '../database/repositories/auth.repository';
 import { UserPayloadAccessToken } from '@libs/common/serializations/user.payload.accesstoken';
 
 @Injectable()

@@ -7,6 +7,7 @@ import { ConfigService, ConfigModule } from '@nestjs/config';
 import { HelperEncryptionService } from './services/helper.encryption.service';
 import { HelperIdManagementService } from './services/helper.id.management.service';
 import { HelperArrayService } from './services/helper.array.service';
+import { HelperStringService } from './services/helper.string.service';
 @Global()
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { HelperArrayService } from './services/helper.array.service';
     HelperEncryptionService,
     HelperIdManagementService,
     HelperArrayService,
+    HelperStringService,
   ],
   exports: [
     HelperNumberService,
@@ -37,6 +39,7 @@ import { HelperArrayService } from './services/helper.array.service';
     HelperEncryptionService,
     HelperIdManagementService,
     HelperArrayService,
+    HelperStringService,
   ],
 })
 export class HelperModule {}

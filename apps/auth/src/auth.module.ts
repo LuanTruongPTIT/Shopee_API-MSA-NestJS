@@ -20,13 +20,18 @@ import { RedisClientOptions } from 'redis';
 import { HelperModule } from '@libs/common/helper/helper.module';
 import { HelperDateService } from '@libs/common/helper/services/helper.date.service';
 import { HelperEncryptionService } from '@libs/common/helper/services/helper.encryption.service';
+import appConfig from '@libs/common/configs/app.config';
+import { ApiKeyRepositoryModule } from './database/api-key.repository.module';
+import { IApiKeyService } from './interfaces/api-key.service.interface';
+import { ApiKeyService } from './services/api-key.service';
+import { ApiKeyController } from './controller/api-key.controller';
 @Module({
   imports: [
     // JwtModule.register(config.JWT),
     ConfigModule.forRoot({
       isGlobal: true,
       validate,
-      load: [databaseConfig, authConfig],
+      load: [databaseConfig, authConfig, appConfig],
     }),
     CacheModule.register<RedisClientOptions>({
       store: redisStore,
@@ -42,13 +47,18 @@ import { HelperEncryptionService } from '@libs/common/helper/services/helper.enc
       },
     }),
     AuthRepositoryModule,
+    ApiKeyRepositoryModule,
     HelperModule,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, ApiKeyController],
   providers: [
     {
       provide: IAuthService,
       useClass: AuthService,
+    },
+    {
+      provide: IApiKeyService,
+      useClass: ApiKeyService,
     },
     HelperDateService,
     HelperEncryptionService,

@@ -11,11 +11,6 @@ import { validate } from './config/index';
       isGlobal: true,
       validate,
     }),
-    // ClientsModule.register(clientModuleOptions),
-    /**
-     * Database Config
-     */
-
     MongooseModule.forRootAsync({
       imports: [DatabaseOptionModule],
       inject: [DatabaseOptionsService],

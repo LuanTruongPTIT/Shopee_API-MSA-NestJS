@@ -41,6 +41,11 @@ const clientKafkaConfig: IClientKafkaConfig[] = [
     clientId: EMicroservice.GATEWAY_SELLER_CHANNEL_SERVICE,
     groupId: EKafkaGroup.SELLER_CHANNEL_GROUP,
   },
+  {
+    name: EMicroservice.GATEWAY_UPLOAD_FILE_SERVICE,
+    clientId: EMicroservice.GATEWAY_UPLOAD_FILE_SERVICE,
+    groupId: EKafkaGroup.UPLOAD_FILE_GROUP,
+  },
 ];
 export const clientModuleOptions: ClientsModuleOptions = clientKafkaConfig.map(
   (config) => {
