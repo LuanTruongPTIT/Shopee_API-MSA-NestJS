@@ -75,7 +75,7 @@ services:
       - app-net
 
   kafka:
-    image: bitnami/kafka:3.4.0
+    image: soldevelo/kafka:3.4.1
     ports:
       - 9092:9092
       - 9094:9094
